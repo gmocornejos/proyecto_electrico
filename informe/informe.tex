@@ -24,8 +24,10 @@
 \usepackage{float}
 \usepackage{SIunits}
 \usepackage{geometry}
+\usepackage{natbib}
 
 \bibliographystyle{apalike_es}
+\setcounter{secnumdepth}{1} % Solo numera capítulos y secciones
 
 % ==== Inicio del informe ==== 
 \begin{document}
@@ -50,8 +52,8 @@
     \large{Julio 2016}
 \end{center}
 \newpage\null\thispagestyle{empty}\newpage
+
 % ---- Aprobación ----
-%\newpage
 \thispagestyle{empty}
 \begin{center}
     \LARGE\bfseries{Desarrollo de un \emph{software} para el análisis de variables cinemáticas y espacio-temporales de la marcha} \\
@@ -79,22 +81,34 @@
 \end{center}
 
 \restoregeometry
+
 % ---- Resument ----
 \include{resumen}
 
 % ---- Índices ----
-%{\let \cleardoublepage \clearpage
 \tableofcontents
 \listoffigures
 \listoftables
-%}
+
 % ---- Cuerpo del trabajo ----
 \mainmatter
 \pagestyle{fancy}
 
 \include{introduccion}
 
+\include{generalidades}
+
+\include{variables}
+
+\include{tecnicas}
+
+\include{solucion_propuesta}
+
+\include{eval_solucion}
+
+\include{conclusiones}
+
 % ---- Bibliografía ----
-\bibliography{referencias.bib}
+\bibliography{referencias}
 
 \end{document}
