@@ -1,62 +1,100 @@
 % Universidad de Costa Rica
-% Escuela de IngenierÌa ElÈctrica
-% IE0499: Proyecto elÈctrico. I-2016
-% TÌtulo: Desarrollo de un software para el an·lisis de variables cinem·ticas y espacio-temporales de la marcha
-% Autor: Luis Guillermo Cornejo Su·rez. 
+% Escuela de Ingenier√≠a El√©ctrica
+% IE0499: Proyecto El√©ctrico. 
+% Primer semestre, 2016
+
+% T√≠tulo: Desarrollo de un software para el an√°lisis de variables cinem√°ticas y espacio-temprales de la marcha
+% Autor: Luis Guillermo Cornejo Su√°rez luis.cornejo@ucr.ac.cr
 % Supervisores: Dr. rer. nat. Francisco Siles Canales francisco.siles@ucr.ac.cr
-%               Ing. AndrÈs Mora Z˙Òiga. amora@eie.ucr.ac.cr
-%               Bach. Ana MarÌa Gomez Granados
+%               Ing. Andr√©s Mora Z√∫√±iga amora@eie.ucr.ac.cr
+%               Bach. Ana Mar√≠a Gomez Granados
 
-% Documento basado en la clase eieproyecto.cls del profesor V. M. Alfaro, Escuela de IngenierÌa ElÈctrica, Universidad de Costa Rica.
+% ==== Preambulo ====
 
-% -- Pre·mbulo
+\documentclass[11pt, letterpaper, twoside, openright]{book}
 
-%usar para el informe final
-\documentclass{eieproyecto}
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{SIunits}
+\usepackage{geometry}
 
-%usar para los informes preliminares (en ``borrador'')
-%\documentclass[borrador]{eieproyecto}
+\bibliographystyle{apalike_es}
 
-%inicio del informe
+% ==== Inicio del informe ==== 
 \begin{document}
 \frontmatter
+\pagestyle{plain}
 
-%InformaciÛn de autor y supervisores
-\title{Desarrollo de un \emph{software} para el an·lisis de variables cinem·ticas y espacio temporales de la marcha}
-\autor{Luis guillermo Cornejo Su·rez}
-\date{Mes de aÒo}
+% ---- Portada ----
+\thispagestyle{empty}
+\newgeometry{margin=2cm}
+\begin{center}
+     \Large\textsc{Universidad de Costa Rica \\ Facultad de Ingenier√≠a \\ Escuela de Ingenier√≠a El√©ctrica} \\
+    \vspace{6cm}
+    \LARGE\bfseries{Desarrollo de un \emph{software} para el an√°lisis de variables cinem√°ticas y espacio-temporales de la marcha} \\
+    \vspace{2cm}
+    \large\normalfont{Por:} \\
+    \vspace{0.5cm}
+    \Large\normalfont{Luis Guillermo Cornejo Su√°rez} \\
+%    \vspace{9cm}
+    \vfill
+    \large{Ciudad Universitaria Rodrigo Facio Brenes}\\
+    \vspace{0.5cm}
+    \large{Julio 2016}
+\end{center}
+\newpage\null\thispagestyle{empty}\newpage
+% ---- Aprobaci√≥n ----
+%\newpage
+\thispagestyle{empty}
+\begin{center}
+    \LARGE\bfseries{Desarrollo de un \emph{software} para el an√°lisis de variables cinem√°ticas y espacio-temporales de la marcha} \\
+    \vspace{2cm}
+    \large\normalfont{Por:} \\
+    \vspace{0.5cm}
+    \Large\normalfont{Luis Guillermo Cornejo Su√°rez} \\
+    \vfill
+    \large\bfseries{IE0499 - Proyecto El√©ctrico} \\
+    \vspace{0.5cm}
+    \large\normalfont{Aprobado por el Tribunal:} \\
+    \vspace{4cm}
+    \rule{6cm}{0.1pt}\\
+    \normalfont\large{Dr. rer. nat. Francisco Siles Canales} \\
+    \normalfont\large{Profesor gu√≠a} \\
+    \vspace{2cm} 
+    \begin{table}[!h]
+        \centering
+        \begin{tabular}{cc}
+            \rule{6cm}{0.1pt}  & \rule{6cm}{0.1pt} \\
+            Andr√©s Mora Z√∫√±iga & Ana Mar√≠a Gomez Granados \\
+            Profesor lector    & Profesor lector \\
+        \end{tabular}
+    \end{table}
+\end{center}
 
-\dca{Dr. rer. nat. Francisco Siles Canales}
-
-\maca{Ing. AndrÈs Mora Z˙Òiga}
-\mbca{Bach. Ana MarÌa Gomez Granados}
-
-% Genera portada y hoja de aprobaciÛn
-\eietitlepage \cleardoublepage 
-\eieaprovalpage \cleardoublepage
-
-% -- Resumen
+\restoregeometry
+% ---- Resument ----
 \include{resumen}
-\cleardoublepage
 
-% -- Õndice de contenidos, figuras y tablas
-\tableofcontents*  
-
-\clearpage
-\listoffigures  %Ìndice de figuras
-
-\clearpage
-\listoftables   %Ìndice de cuadros
-\cleardoublepage
-
-%-- Inicio cuerpo del trabajo
+% ---- √çndices ----
+%{\let \cleardoublepage \clearpage
+\tableofcontents
+\listoffigures
+\listoftables
+%}
+% ---- Cuerpo del trabajo ----
 \mainmatter
-\pagestyle{eieheadings}
+\pagestyle{fancy}
 
-hola
+\include{introduccion}
 
-%-- BibliografÌa
+% ---- Bibliograf√≠a ----
 \bibliography{referencias.bib}
-\cleardoublepage
 
 \end{document}
