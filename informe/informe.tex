@@ -28,6 +28,7 @@
 
 \bibliographystyle{apalike_es}
 \setcounter{secnumdepth}{1} % Solo numera capítulos y secciones
+\newcommand{\newchap}[1]{\include{#1} \clearpage{\pagestyle{empty}\cleardoublepage}}
 
 % ==== Inicio del informe ==== 
 \begin{document}
@@ -94,19 +95,19 @@
 \mainmatter
 \pagestyle{fancy}
 
-\include{introduccion}
+\newchap{introduccion}
 
-\include{generalidades}
+\newchap{generalidades}
 
-\include{variables}
+\newchap{variables}
 
-\include{tecnicas}
+\newchap{tecnicas}
 
-\include{solucion_propuesta}
+\newchap{solucion_propuesta}
 
-\include{eval_solucion}
+\newchap{eval_solucion}
 
-\include{conclusiones}
+\newchap{conclusiones}
 
 % ---- Bibliografía ----
 \bibliography{referencias}

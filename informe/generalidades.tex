@@ -8,7 +8,8 @@ Por \emph{marcha} se entiende el acto de desplazarse utilizando las extremidades
 
 Es posible utilizar la física clásica para estudiar la marcha. Se puede describir la cinemática de la marcha al determinar las velocidades y aceleraciones de los segmentos rígidos del cuerpo; también se puede describir la dinámica de la marcha al determinar las fuerzas que actúan sobre los segmentos rígidos. Así, la marcha se estudia de dos maneras principales: el vector de fuerza recíproca generado por el suelo al soportar el peso del cuerpo y las velocidades y aceleraciones de las principales uniones involucradas en la marcha. \citep{perry}
 
-Ambas descripciones, cinemática y dinámica, se pueden utilizar para segmentar el ciclo de la marcha. \citep{perry} lo divide según se muestra en la tabla \ref{tab:ciclo_marcha}, además la figura \ref{fig:ciclo_marcha} muestra imágenes tomadas del mismo autor. 
+Ambas descripciones, cinemática y dinámica, se pueden utilizar para segmentar el ciclo de la marcha. \cite{perry} lo divide según se muestra en la tabla \ref{tab:ciclo_marcha}, además la figura \ref{fig:ciclo_marcha} muestra imágenes tomadas del mismo autor. A pesar del posible significado \emph{psicológico} de las fases detalladas en la tabla \ref{tab:ciclo_marcha} y la figura \ref{fig:ciclo_marcha}, si es posible encontrar un significado físico en el ciclo de la marcha. Considere la figura \ref{fig:menz_acc_ver}, tomada de \citep{menz}.
+
 
 \begin{table}
     \centering
@@ -38,7 +39,6 @@ Ambas descripciones, cinemática y dinámica, se pueden utilizar para segmentar 
 \end{figure}
 
 
-A pesar del posible significado \emph{psicológico} de las fases detalladas en la tabla \ref{tab:ciclo_marcha} y la figura \ref{fig:ciclo_marcha}, si es posible encontrar un significado físico en el ciclo de la marcha. Considere la figura \ref{fig:menz_acc_ver}, tomada de \citep{menz}.
 
 \begin{figure}
     \centering
@@ -74,7 +74,7 @@ Como estudio de caso, \cite{arif} plantea la hipótesis de que la edad afecta la
 
 Ahora bien, la edad no es el único factor que podría afectar la estabilidad de la marcha y su cadencia. Personas que sufren de enfermedades degenerativas, como esclerosis, Alzheimer, traumatismos cerebrales, entre otros, sufren de marcha inestable. Un estudio integral de la marcha, considerando otras variables, podría ayudar en el diagnóstico de enfermedades, cuantificar su afectación y proponer medidas para mejorar la calidad de vida del paciente. 
 
-El análisis de marcha también puede ayudar a mejorar el rendimiento deportivo. Tal como señala \cite{perry}, los atletas empujar el funcionamiento normal del cuerpo hasta sus límites, esto se evidencia en el patrón de la marcha, generando mayores fuerzas en las articulaciones y arcos de movimiento más amplios. Entender cómo la práctica deportiva afecta los patrones de movimiento podría ayudar a disminuir el riesgo de lesiones y mejorar el desempeño.  
+El análisis de marcha también puede ayudar a mejorar el rendimiento deportivo. Tal como señala \cite{perry}, los atletas empujan el funcionamiento normal del cuerpo hasta sus límites, esto se evidencia en el patrón de la marcha, generando mayores fuerzas en las articulaciones y arcos de movimiento más amplios. Entender cómo la práctica deportiva afecta los patrones de movimiento podría ayudar a disminuir el riesgo de lesiones y mejorar el desempeño.  
 
 
 
@@ -83,13 +83,13 @@ El análisis de marcha también puede ayudar a mejorar el rendimiento deportivo.
 
 \section[Métodos de recolección]{Métodos de recolección de datos}
 
-En el estado del arte, se pueden identificar los siguientes grupos de métodos para la recolección de datos: dispositivos \emph{wearables}, dispositivos ópticos de cámaras, marcadores activos y marcadores pasivos. El primer grupo tiene como ventaja ser dispositivos baratos y pequeños, el paciente bajo estudio puede llevarlos sobre sí y continuar con sus actividades diarias, como desventaja se pierde toda información sobre la localización del paciente. El segundo grupo tiene como desventaja necesitar un espacio físico muy limitado para realizar la prueba, el equipo es caro, pero suele ser muy preciso y su principal ventaja: permite conocer la posición, velocidad y aceleración de cada segmento del cuerpo. 
+En el estado del arte, se pueden identificar los siguientes grupos de métodos para la recolección de datos: dispositivos \emph{wearables} y dispositivos ópticos con cámaras, marcadores activos ó marcadores pasivos. El primer grupo tiene como ventaja ser dispositivos baratos y pequeños, el paciente bajo estudio puede llevarlos sobre sí y continuar con sus actividades diarias, como desventaja se pierde toda información sobre la localización del paciente. El segundo grupo tiene como desventaja necesitar un espacio físico muy limitado para realizar la prueba, el equipo es caro, pero suele ser muy preciso y su principal ventaja: permite conocer la posición, velocidad y aceleración de cada segmento del cuerpo. 
 
 \subsection{Dispositivos \emph{wearables}}
 
-Tradicionalmente, consisten de acelerómetros y (opcional) giroscopios, los cuales son manejados por un micro-controlador, los datos se almacenan internamente o son transmitidos a un computador por algún medio.
+Tradicionalmente, consisten de acelerómetros y (opcionalmente) giroscopios, los cuales son manejados por un micro-controlador, los datos se almacenan internamente o son transmitidos a un computador por algún medio.
 
-\cite{krigslund} desarrolló un método para conocer la orientación de segmentos rígidos utilizado un dispositivo RFID con antenas bipolares, al ser pasivos, estos dispositivos podrían utilizarse por largo tiempo, sin embargo se necesita equipo alrededor para recolectar los datos. 
+\cite{krigslund} desarrolló un método para conocer la orientación de segmentos rígidos utilizado un dispositivo RFID con antenas bipolares. Al ser pasivos, estos dispositivos podrían utilizarse por largo tiempo, sin embargo se necesita equipo alrededor para recolectar los datos. 
 
 \cite{yuan} presenta un método con el cual se puede conocer la posición del usuario, utilizando un arreglo de 8 IMUs (acelerometro+giroscopio) colocados sobre el cuerpo, esto amplía significativamente la utilidad de estos métodos de recolección de datos. 
 
@@ -119,6 +119,6 @@ En muchos casos, los estudios sobre la marcha se realizan con software específi
 
 En un ambiente clínico, existen programas especializados en ayudar al practicante en el diagnóstico y seguimiento de las dificultades motoras. Por ejemplo se tiene 3D Gait, TEMPLO Contemplas, Medical Motion Pro-Trainer Motion analysis, Motion Monitor Gait Analysis, entre otros.  
 
-Hasta el momento, no se ha encontrado un software libre que permita realizar estudios de la marcha. 
+Hasta el momento, no se ha encontrado un software libre que permita realizar estudios de la marcha de manera integra, es decir, desde la recolección de los datos hasta su análisis y presentación de resultados. 
 
 
