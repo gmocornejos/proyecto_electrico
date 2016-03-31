@@ -4,7 +4,7 @@ El siguiente capítulo pretende introducir al lector los conceptos fundamentales
 
 \section{¿Qué es la marcha?}
 
-Por \emph{marcha} se entiende el acto de desplazarse utilizando las extremidades corporales. Según \cite{menz} la marcha consiste de cuatro tareas: (1) inicio y terminación de los movimientos locomotores, (2) generación de movimientos continuos para desplazarse hacia adelante, (3) mantenimiento del equilibrio y (4) adapatabilidad al ambiente. Para \cite{perry} al caminar se utiliza una secuencia de movimientos de las extremidades, con el fin de mover el cuerpo hacia adelante y mantener la estabilidad. Cada uno de estos ciclos (de la secuencia) involucra la interacción de las dos extremidades inferiores, compuestas de varios segmentos, y la masa total del cuerpo. El estudio de la marcha consiste en la identificación de patrones de movimiento generados en la marcha y la segmentación del ciclo.
+Por \emph{marcha} se entiende el acto de desplazarse utilizando las extremidades corporales. Según \cite{menz} la marcha consiste de cuatro tareas: (1) inicio y terminación de los movimientos locomotores, (2) generación de movimientos continuos para desplazarse hacia adelante, (3) mantenimiento del equilibrio y (4) adaptabilidad al ambiente. Para \cite{perry} al caminar se utiliza una secuencia de movimientos de las extremidades, con el fin de mover el cuerpo hacia adelante y mantener la estabilidad. Cada uno de estos ciclos (de la secuencia) involucra la interacción de las dos extremidades inferiores, compuestas de varios segmentos, y la masa total del cuerpo. El estudio de la marcha consiste en la identificación de patrones de movimiento generados en la marcha y la segmentación del ciclo.
 
 Es posible utilizar la física clásica para estudiar la marcha. Se puede describir la cinemática de la marcha al determinar las velocidades y aceleraciones de los segmentos rígidos del cuerpo; también se puede describir la dinámica de la marcha al determinar las fuerzas que actúan sobre los segmentos rígidos. Así, la marcha se estudia de dos maneras principales: el vector de fuerza recíproca generado por el suelo al soportar el peso del cuerpo y las velocidades y aceleraciones de las principales uniones involucradas en la marcha. \citep{perry}
 
@@ -95,29 +95,20 @@ Los pacientes de parálisis cerebral suelen sufrir dificultades en la locomoció
 
 \section[Métodos de recolección]{Métodos de recolección de datos}
 
-En el estado del arte, se pueden identificar los siguientes grupos de métodos para la recolección de datos: dispositivos \emph{wearables} y dispositivos ópticos con cámaras, marcadores activos ó marcadores pasivos. El primer grupo tiene como ventaja ser dispositivos baratos y pequeños, el paciente bajo estudio puede llevarlos sobre sí y continuar con sus actividades diarias, como desventaja se pierde toda información sobre la localización del paciente. El segundo grupo tiene como desventaja necesitar un espacio físico muy limitado para realizar la prueba, el equipo es caro, pero suele ser muy preciso y su principal ventaja: permite conocer la posición, velocidad y aceleración de cada segmento del cuerpo. 
+Los métodos de recolección de datos se puede clasificar según su portabilidad en portables y no-portables (\emph{wearable} y \emph{non-wearable}) y según su tecnología en procesamiento de imagen, sensores de fuerza, sensores de inercia y electromiogramas. \citep{muro}
 
-\subsection{Dispositivos \emph{wearables}}
+Los sistemas de captura de movimiento no portables tienen la ventaja de ser muy precisos y permiten medir directamente las variables buscadas. Al estar instalados en ambientes controlados, como laboratorios o salas de mediciones clínicas y conducidas por profesionales, las mediciones realizadas son menos propensas a sufrir ruido, perturbaciones y son repetibles. También, al estar conectados a la red eléctrica, el consumo de potencia no es una limitación. Como desventaja, al ser un ambiente controlado y generalmente pequeño, el patrón natural de la marcha se puede ver afectado y el equipo es muy costoso. \citep{muro}
 
-Tradicionalmente, consisten de acelerómetros y (opcionalmente) giroscopios, los cuales son manejados por un micro-controlador, los datos se almacenan internamente o son transmitidos a un computador por algún medio.
+Los sistemas de captura de movimiento portables tiene la ventaja de permitir recolectar datos durante las actividades diarias normales del paciente, son mucho más baratos que los sistemas no portables y no necesitan de personal para controlar el uso del dispositivo. Como desventaja, el consumo de potencia es una preocupación importante, pues deben funcionar de manera independiente a la red. Son muy suceptibles al ruido y las interferencias externas y al medir las variables deseadas de manera indirecta, se necesitan algoritmos complejos para recuperar los datos deseados. \citep{muro}
 
-\cite{krigslund} desarrolló un método para conocer la orientación de segmentos rígidos utilizado un dispositivo RFID con antenas bipolares. Al ser pasivos, estos dispositivos podrían utilizarse por largo tiempo, sin embargo se necesita equipo alrededor para recolectar los datos. 
+\subsection{Procesamiento de imagen}
 
-\cite{yuan} presenta un método con el cual se puede conocer la posición del usuario, utilizando un arreglo de 8 IMUs (acelerometro+giroscopio) colocados sobre el cuerpo, esto amplía significativamente la utilidad de estos métodos de recolección de datos. 
+Está conformado por una o varias cámaras, estas pueden ser cámaras digitales comunes RGB, basadas en el tiempo de eco para generar un mapa de profundidad (como kinect de Microsoft) o utilizar escáner láser. Algunos sistemas pueden necesitar marcadores y estos pueden ser activos o pasivos, ejemplos son \cite{prakash}, \cite{yang2}. \citep{muro}
 
-A pesar de estos avances, en el estado actual, los sistemas de captura de movimiento con dispositivos \emph{wearable} pierden mucha información importante sobre el ciclo de la marcha, esto podría cambiar con el desarrollo de dispositivos integrados en la ropa del paciente, tal como propone \cite{menguc}.
+Debido al bajo costo de las cámaras digitales y software robusto para el análisis de imágenes, esta tecnología es muy utilizada. Como ejemplo se puede mencionar a \cite{hoang}, donde dos cámaras se colocan antiparalelas viendo una superficie de caminado y \cite{li} y \cite{mrozowski} donde se colocan las cámaras de manera perpendicular. 
 
-\subsection{Cámaras digitales} 
+Como ejemplo de sistemas ópticos con marcadores, la figura \ref{fig:pris_mocap} muestra el sistema de captura óptica de movimiento  del Pris-Lab, Escuela de Ingeniería Eléctrica, Universidad de Costa Rica. Consiste en cámaras infrarrojas y un traje con marcadores pasivos muy reflectivos en el rango de frecuencia de las cámaras. 
 
-Al ser dispositivos muy baratos y de procesamiento accesible, son muy utilizadas. Se suelen colocar varias cámaras en diversas configuraciones, por ejemplo \cite{hoang} las coloca viendo el mismo objeto una al lado izquierdo y otra al derecho, mientras tanto \cite{li} y \cite{Mrozowski} las coloca ortogonalmente. 
-
-A pesar de su bajo costo y sencillez, estos dispositivos tiene menor precisión que los basados en marcadores.
-
-\subsection{Sistemas ópticos}
-
-Este método es muy utilizado en animación digital. Dispositivos ópticos (Algún tipo de cámara) se colocan cubriendo todo un espacio, al paciente se le colocan sobre el cuerpo un conjunto de \emph{marcadores}, pueden ser activos o pasivos. Las dispositivos debe colocarse de manera que ningún marcados quede oculto, sin importar la pose del paciente. La figura \ref{fig:pris_mocap} muestra el sistema de captura óptica del movimiento (MoCap) del Pris-Lab, Escuela de Ingeniería Eléctrica, Universidad de Costa Rica. 
-
-Comúnmente, estos métodos son muy costosos y necesitan de software privativo especializado para renderizar un esqueleto a partir de los marcadores, sin embargo tienen la ventaja de ser muy precisos. 
 %\begin{figure}
 %    \centering
 %    \includegraphics[width = 0.6\textwidth]{images/pris_mocap}
@@ -125,9 +116,30 @@ Comúnmente, estos métodos son muy costosos y necesitan de software privativo e
 %    \label{fig:pris_mocap}
 %\end{figure}
 
+\subsection{Sensores de presión y fuerza}
+
+Comúnmente consiste en alfombras de sensores o plantillas que se ajustan al calzado. Permiten medir el vector de fuerza transmitido al piso \footnote{Según la Tercera Ley de Newton} producido al caminar sobre la superficie. Además de permitir cálculos sobre las variables espacio temporales de la marcha y segmentar el ciclo de marcha, permiten, utilizando cinemática inversa y en combinación con algún otro sistema de captura de movimiento, calcular las fuerzas y torques en articulaciones, por ejemplo \cite{mizoguchi}.
+
+\subsection{Sensores de inercia}
+
+Consisten de acelerómetros y giroscopios (IMU) colocados en diversos puntos del cuerpo del paciente, conectados a un microcontrolador. Ejemplos se encuentran en \cite{menz}, \cite{arif}, \cite{senanayake}, \cite{latt}, \cite{mazza}, \cite{hu}, entro otros. Son muy sencillos y por eso resulta práctico utilizarlos, sin embargo solo pueden reportar unas pocas variables cinemáticas y se pierde toda información sobre la posición del paciente.
+
+\cite{yuan} presenta un método con el cual se puede conocer la posición del usuario y muchas de las variables cinemáticas, para esto utiliza 8 IMUs colocados sobre el cuerpo.
+
+\subsection{Electromiografía}
+
+La electromiografía es la recolección de los pequeños impulsos eléctrico generados por los músculos al contraerse. Se utilizan electrodos no invasivos colocados sobre la piel para poder recolectar estas señales. Se suelen utilizar en combinación con algún otro método de captura del movimiento, para asociar el patrón de la marcha con la activación del los músculos. \cite{muro}
+
+\subsection{Otros medios de recolección}
+
+\cite{krigslund} desarrolló un método para conocer la orientación de segmentos rígidos utilizado un dispositivo RFID con antenas bipolares. Al ser pasivos, estos dispositivos podrían utilizarse por largo tiempo, sin embargo se necesita equipo alrededor para recolectar los datos. 
+
+También se utilizan galgas de compresión, sensores piezoeléctricos y sensores capacitivos, para intentar estimar la posición de las articulaciones. \citep{muro}
+
+
 \section[Software disponible]{Software disponible para estudios sobre la marcha}
 
-En muchos casos, los estudios sobre la marcha se realizan con software específico para el experimento, desarrollado en alguna plataforma como Matlab (este es el caso de la mayoría de trabajos analizados). Por ejemplo \cite{menz} utiliza SPSS, un software de análisis estadístico predictivo. \cite{takahiro}, por ejemplo, utiliza nMotion Musculous de NAC Image Technology, con lo cual calcula la fuerza de activación de cada músculo y después hace un análisis estadístico, no especifica en cual plataforma, pero podría ser incluso en una hoja de cálculo. 
+En muchos casos, los estudios sobre la marcha se realizan con software específico para el experimento, desarrollado en alguna plataforma como Matlab (este es el caso de la mayoría de trabajos analizados). Por ejemplo \cite{menz} utiliza SPSS, un software de análisis estadístico predictivo. \cite{mizoguchi}, por ejemplo, utiliza nMotion Musculous de NAC Image Technology, con lo cual calcula la fuerza de activación de cada músculo y después hace un análisis estadístico, no especifica en cual plataforma, pero podría ser incluso en una hoja de cálculo. 
 
 En un ambiente clínico, existen programas especializados en ayudar al practicante en el diagnóstico y seguimiento de las dificultades motoras. Por ejemplo se tiene 3D Gait, TEMPLO Contemplas, Medical Motion Pro-Trainer Motion analysis, Motion Monitor Gait Analysis, entre otros. Desde la ingeniería, han existido propuestas de software para facilitar el estudio clínico, por ejemplo \cite{hayla} y \cite{senanayake}, sin embargo no parecen tener mucho éxito, principalmente debido a la dificultada de validar dicho software e incluir una cantidad suficiente de \emph{feautures} para hacerlo atractivo en el ámbito clínico. Desde la estrategia de generar un modelo sobre la marcha para utilizarlo como referencia, \cite{vieira} entrena una red neuronal para facilitar el análisis clínico de la marcha.
 
