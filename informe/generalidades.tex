@@ -4,7 +4,7 @@ El siguiente capítulo pretende introducir al lector los conceptos fundamentales
 
 \section{¿Qué es la marcha?}
 
-Por \emph{marcha} se entiende el acto de desplazarse utilizando las extremidades corporales. Para \cite{perry} al caminar se utiliza una secuencia de movimientos de las extremidades, con el fin de mover el cuerpo hacia adelante y mantener la estabilidad. Cada uno de estos ciclos (de la secuencia) involucra la interacción de las dos extremidades inferiores, compuestas de varios segmentos, y la masa total del cuerpo. El estudio de la marcha consiste en la identificación de patrones de movimiento generados en la marcha y la segmentación del ciclo.
+Por \emph{marcha} se entiende el acto de desplazarse utilizando las extremidades corporales. Según \cite{menz} la marcha consiste de cuatro tareas: (1) inicio y terminación de los movimientos locomotores, (2) generación de movimientos continuos para desplazarse hacia adelante, (3) mantenimiento del equilibrio y (4) adapatabilidad al ambiente. Para \cite{perry} al caminar se utiliza una secuencia de movimientos de las extremidades, con el fin de mover el cuerpo hacia adelante y mantener la estabilidad. Cada uno de estos ciclos (de la secuencia) involucra la interacción de las dos extremidades inferiores, compuestas de varios segmentos, y la masa total del cuerpo. El estudio de la marcha consiste en la identificación de patrones de movimiento generados en la marcha y la segmentación del ciclo.
 
 Es posible utilizar la física clásica para estudiar la marcha. Se puede describir la cinemática de la marcha al determinar las velocidades y aceleraciones de los segmentos rígidos del cuerpo; también se puede describir la dinámica de la marcha al determinar las fuerzas que actúan sobre los segmentos rígidos. Así, la marcha se estudia de dos maneras principales: el vector de fuerza recíproca generado por el suelo al soportar el peso del cuerpo y las velocidades y aceleraciones de las principales uniones involucradas en la marcha. \citep{perry}
 
@@ -51,7 +51,7 @@ A grandes rasgos, el pico de mayor tamaño representan el momento donde se trans
 
 Al utilizar sensores para recolectar datos de la marcha, se puede aplicar gran cantidad de herramientas matemáticas para caracterizar el movimiento e intentar encontrar \emph{patrones} útiles al diagnosticar condiciones clínicas. 
 
-
+Otra estrategia al estudiar la marcha no solo consiste en obtener una descripción del ciclo, sino intentar modelar el mecanismo que la genera. \cite{dejnabadi} considera la marcha como un proceso automático, controlado por el \emph{sistema nervioso central}, el cual reduce la complejidad de planar el movimiento al artificalmente disminuir los grados de libertad del cuerpo. En el modelo propuesto, se regenerar un patron el moviento al seleccionar los parámetros cadencia y logitud del paso, todas las velocidades se pueden obtener como una combinación de estos parámetros. La ventaja de contar con un modelo de la causa del patrón de la marcha es poder caracterizar y estudiar la desviaciones de este modelo para identificar afectaciones. 
 
 
 
@@ -59,7 +59,7 @@ Al utilizar sensores para recolectar datos de la marcha, se puede aplicar gran c
 
 Tal como se menciona en la sección anterior, la marcha produce una serie de patrones, tanto en las variables cinemáticas como dinámicas. El análisis de dichos patrones puede utilizarse como herramienta de diagnostico. Tome por ejemplo un daño en los músculos pretibiales, principales encargados de elevar el piel al final de la fase de balanceo (figura \ref{fig:heel_rocker}). Sin la acción de este músculo la punta del pie, y no el talón, es el primero en hacer contacto con el piso, esto impide una transferencia de carga efectiva y aumenta el esfuerzo de la marcha.
 
-Para compensar la función de los músculos pretibiales, el patrón de la marcha se ve modificado, un ejemplo es la marcha del personaje \emph{el vagabundo} de Charles Chaplin \footnote{En \url{https://www.youtube.com/watch?v=L277pNm3Y4w} se puede encontrar un extracto de Charles Chaplin interpretando al \emph{vagabundo}}. En este caso los cuadriceps hacen un esfuerzo extra para aumentar el ángulo de la rodilla, generando un pequeño latigazo, que permite un contacto inicial con la planta del pie (horizontal).
+Para compensar la función de los músculos pretibiales, el patrón de la marcha se ve modificado, un ejemplo es la marcha del personaje \emph{el vagabundo} de Charles Chaplin \footnote{En \url{https://www.youtube.com/watch?v=L277pNm3Y4w} se puede encontrar un extracto de Charles Chaplin interpretando al \emph{vagabundo}}. En este caso los cuadriceps hacen un esfuerzo extra para aumentar el ángulo de la rodilla, generando un pequeño latigazo, que permite un contacto inicial con la planta del pie (horizontal), evitando así arrastrar la punta del pie.
 
 El patrón de la marcha de el personaje \emph{el vagabundo} parece ser una combinación de varias afectaciones, sin embargo su análisis permitiría encontrarlas y aplicar tratamientos correctivos: ejercicios, calzado ortopédico, operaciones. 
 
@@ -70,15 +70,27 @@ El patrón de la marcha de el personaje \emph{el vagabundo} parece ser una combi
     \label{fig:heel_rocker}
 \end{figure}
 
-Como estudio de caso, \cite{arif} plantea la hipótesis de que la edad afecta la estabilidad de marcha y propone analizar la entropía de la señal de aceleración, generada por un sensor colocado en la zona lumbar, para cuantificar la estabilidad de la marcha. Los resultados siguieren que la entropía de la marcha aumenta según la edad. Pero en general la entropía aumenta según la velocidad de la marcha, para compensar este hecho, las personas intentan optimizar la estabilidad al disminuir velocidad de la marcha. En general las personas mayores desarrollan una cadencia\footnote{Cadencia: cantidad de pasos por unidad de tiempo} menor que las personas jóvenes. 
+Los siguientes son casos concretos encontrados en la literatura, donde se utiliza el estudio de la marcha junto con análisis por computadora para detectar afectaciones especificas.
 
-Ahora bien, la edad no es el único factor que podría afectar la estabilidad de la marcha y su cadencia. Personas que sufren de enfermedades degenerativas, como esclerosis, Alzheimer, traumatismos cerebrales, entre otros, sufren de marcha inestable. Un estudio integral de la marcha, considerando otras variables, podría ayudar en el diagnóstico de enfermedades, cuantificar su afectación y proponer medidas para mejorar la calidad de vida del paciente. 
+\subsection{Enfermedades neurodegenerativas}
+
+\cite{arif} plantea la hipótesis de que la edad afecta la estabilidad de marcha y propone analizar la entropía de la señal de aceleración, generada por un sensor colocado en la zona lumbar, para cuantificar la estabilidad de la marcha. Los resultados siguieren que la entropía de la marcha aumenta según la edad. Pero en general la entropía aumenta según la velocidad de la marcha, para compensar este hecho, las personas intentan optimizar la estabilidad al disminuir velocidad de la marcha. En general las personas mayores desarrollan una cadencia\footnote{Cadencia: cantidad de pasos por unidad de tiempo} menor que las personas jóvenes. 
+
+Ahora bien, la edad no es el único factor que podría afectar la estabilidad de la marcha y su cadencia. Personas que sufren de enfermedades degenerativas, como esclerosis, Alzheimer, traumatismos cerebrales, entre otros, sufren de marcha inestable, por ejemplo \cite{ren} y \cite{wu} analizan la fluctuaciones el el ritmo de la marcha, con lo cual logra identificar, a través del estudio de la marcha, a personas con padecimientos neurodegenerativos y de esta forma proponer acciones para mejorar su calidad de vida. \cite{Yang} realiza un aporte semejante, pero estudiando la rotación axial y estabilidad de la marcha al dar la vuela.  
+
+\subsection{Daños en ligamentos}
+
+\cite{christian} muestra como el patrón característico de la marcha se ve afectado por daños en ligamentos de las extremidades inferiores, específicamente se estudió el ligamento cruzado anterior de la rodilla. Una reducción con PCA \footnote{\emph{Principal Component Analysis}} y una máquina de soporte vectorial permitió identificar aquellas personas con una lesión en dicho ligamento. 
 
 El análisis de marcha también puede ayudar a mejorar el rendimiento deportivo. Tal como señala \cite{perry}, los atletas empujan el funcionamiento normal del cuerpo hasta sus límites, esto se evidencia en el patrón de la marcha, generando mayores fuerzas en las articulaciones y arcos de movimiento más amplios. Entender cómo la práctica deportiva afecta los patrones de movimiento podría ayudar a disminuir el riesgo de lesiones y mejorar el desempeño.  
 
+\subsection{Atrofia por hemofilia}
 
+\cite{forneris} presenta un estudio pionero en el campo, donde analiza los patrones de la marcha de pacientes de hemofilia entre los 4 y 18 años. Sus resultados logran caracterizar el progreso causado por la enfermedad y esta información podría utilizarse para diagnosticar de manera temprana daños en articulaciones y atrofia por hemofilia, además de permitir desarrollar terapias personalizadas. 
 
+\subsection{Parálisis cerebral}
 
+Los pacientes de parálisis cerebral suelen sufrir dificultades en la locomoción, el análisis de marcha permite identificar estas dificultades y permite planear tratamientos efectivos para evitar la atrofia y mejorar la calidad de vida del paciente. \cite{sangeux} lista las desviaciones más comunes encontradas en el patrón de la marcha para articulaciones específicas, lo cual permite encontrar el origen de dicha desviación y personalizar la terapia.
 
 
 \section[Métodos de recolección]{Métodos de recolección de datos}
@@ -97,7 +109,7 @@ A pesar de estos avances, en el estado actual, los sistemas de captura de movimi
 
 \subsection{Cámaras digitales} 
 
-Al ser dispositivos muy baratos y de procesamiento accesible, son muy utilizadas. Se suelen colocar varias cámaras en diversas configuraciones, por ejemplo \cite{hoang} las coloca viendo el mismo objeto una al lado izquierdo y otra al derecho, mientras tanto \cite{li} las coloca ortogonalmente. 
+Al ser dispositivos muy baratos y de procesamiento accesible, son muy utilizadas. Se suelen colocar varias cámaras en diversas configuraciones, por ejemplo \cite{hoang} las coloca viendo el mismo objeto una al lado izquierdo y otra al derecho, mientras tanto \cite{li} y \cite{Mrozowski} las coloca ortogonalmente. 
 
 A pesar de su bajo costo y sencillez, estos dispositivos tiene menor precisión que los basados en marcadores.
 
@@ -115,9 +127,11 @@ Comúnmente, estos métodos son muy costosos y necesitan de software privativo e
 
 \section[Software disponible]{Software disponible para estudios sobre la marcha}
 
-En muchos casos, los estudios sobre la marcha se realizan con software específico para el experimento, desarrollado en alguna plataforma como Matlab (este es el caso de la mayoría de trabajos analisados). Por ejemplo \cite{menz} utiliza SPSS, un software de análisis estadístico predictivo. \cite{takahiro}, por ejemplo, utiliza nMotion Musculous de NAC Image Technology, con lo cual calcula la fuerza de activación de cada músculo y después hace un análisis estadístico, no especifica en cual plataforma, pero podría ser incluso en una hoja de cálculo. 
+En muchos casos, los estudios sobre la marcha se realizan con software específico para el experimento, desarrollado en alguna plataforma como Matlab (este es el caso de la mayoría de trabajos analizados). Por ejemplo \cite{menz} utiliza SPSS, un software de análisis estadístico predictivo. \cite{takahiro}, por ejemplo, utiliza nMotion Musculous de NAC Image Technology, con lo cual calcula la fuerza de activación de cada músculo y después hace un análisis estadístico, no especifica en cual plataforma, pero podría ser incluso en una hoja de cálculo. 
 
-En un ambiente clínico, existen programas especializados en ayudar al practicante en el diagnóstico y seguimiento de las dificultades motoras. Por ejemplo se tiene 3D Gait, TEMPLO Contemplas, Medical Motion Pro-Trainer Motion analysis, Motion Monitor Gait Analysis, entre otros.  
+En un ambiente clínico, existen programas especializados en ayudar al practicante en el diagnóstico y seguimiento de las dificultades motoras. Por ejemplo se tiene 3D Gait, TEMPLO Contemplas, Medical Motion Pro-Trainer Motion analysis, Motion Monitor Gait Analysis, entre otros. Desde la ingeniería, han existido propuestas de software para facilitar el estudio clínico, por ejemplo \cite{hayla} y \cite{senanayake}, sin embargo no parecen tener mucho éxito, principalmente debido a la dificultada de validar dicho software e incluir una cantidad suficiente de \emph{feautures} para hacerlo atractivo en el ámbito clínico. Desde la estrategia de generar un modelo sobre la marcha para utilizarlo como referencia, \cite{vieira} entrena una red neuronal para facilitar el análisis clínico de la marcha.
+
+Alrededor del estudio de la marcha, existen pequeños paquetes de software con funciones muy específicas, por ejemplo \cite{eskinazi} presenta SCMT, un paquete para simular la interacción musculo esquelética en las articulaciones, utilizando datos reales.
 
 Hasta el momento, no se ha encontrado un software libre que permita realizar estudios de la marcha de manera integra, es decir, desde la recolección de los datos hasta su análisis y presentación de resultados. 
 
