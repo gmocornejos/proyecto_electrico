@@ -1,0 +1,119 @@
+\chapter[Variables y técnicas]{Variables cinemáticas, espacio-temporales y técnicas de análisis de la marcha}
+
+En el contexto del presente trabajo, se entiende por \emph{variable} un dato que describe algún aspecto del movimiento, pero no permite concluir características sobre el patrón de la marcha. Las variables se pueden dividir en \emph{cinemáticas} las cuales corresponden a una serie de datos sobre la posición, velocidad o aceleración de una unión o segmento del cuerpo y \emph{espacio-temporales} las cuales son un valor que describe la marcha de manera global. 
+
+Las \emph{técnicas de análisis} son cálculos realizados sobre las variables, con el objetivo de concluir características sobre el patrón de la marcha. Se pueden dividir en \emph{específicas} cuando solo tienen sentido en el contexto de la marcha, por ejemplo: segmentar el ciclo o detectar pasos y \emph{generales} cuando son técnicas matemáticas desarrolladas en el contexto de estadística o análisis de sistemas, por ejemplo: modelado gaussiano, principal component analysis, exponentes de Lyapunov.
+
+
+El objetivo de este capítulo es determinar las variables cinemáticas y espacio-temporales, así como las técnicas de análisis, más utilizadas al estudiar la marcha, con el fin de incluir por defecto en la solución propuesta, métodos automáticos de extracción de estas variables e implementaciones de estas técnicas. 
+
+\section[Variables]{Variables cinemáticas y espacio-temporales}
+
+Según la mecánica clásica, el movimiento de un cuerpo se puede estudiar desde dos puntos de vista: la \emph{cinemática} describe el movimiento del cuerpo (posición, velocidad, aceleración) y la \emph{dinámica} estudia la fuerza y las causas que provocan que el objeto se mueva. \citep{giancoli} 
+
+El presente trabajo se centra en la cinemática de la marcha y para su estudio se modelará el cuerpo humano como un \emph{cuerpo articulado}: un conjunto de segmentos rígidos con uniones de 2 grados de libertad. En la práctica, se suele registrar las variables cinemáticas de las uniones del cuerpo, por ejemplo \cite{menz} reporta la aceleración de la cabeza y la pelvis para estudiar la estabilidad de la marcha. Al utilizar un sistema de captura óptica del movimiento, como el mostrado en la figura \ref{fig:pris-mocap} se puede conocer las variables cinemáticas de todas las uniones del cuerpo articulado modelado por el sistema. Las variables espacio-temporales describen el movimiento del cuerpo como un todo y pretenden describir la marcha de manera global. 
+
+La tabla \ref{tab:cinematicas} muestra las variables cinemáticas encontradas en la literatura y la referencia para cada una. Considere el caso de dos personas, una considerablemente más alta que la otra, caminando a la misma velocidad. Las variables cinemáticas de, por ejemplo, la rodilla de estas personas, pueden ser muy distintas, sin embargo el ángulo que forma la articulación debe ser comparable. Estudiar el patrón de la marcha a través de los ángulos formados por las articulaciones es una estrategia común, pues tiene como ventaja ser invariable a la estatura del sujeto. Por este es importante incluir facilidades para calcular ángulos de articulaciones y proyecciones de estos ángulos en los tres planos principales: sagital, frontal y transversal.
+
+La tabla \ref{tab:espacio-temp} muestra las variables espacio-temporales encontradas en la literatura y su referencia.
+
+\begin{table}
+    \centering
+    \caption{Variables cinemáticas}
+    \label{tab:cinematicas}
+    \begin{tabular}{ll}
+        \toprule
+        Variable & Referencias \\
+        \midrule
+        Aceleración & \cite{yang, menz, dejnabadi} \\
+                    & \cite{arif, senanayake, latt} \\
+                    & \cite{punt, mazza}      \\
+        Velocidad   & \cite{yang, menz, cuaya} \\
+                    & \cite{franklin, forneris, muro} \\
+                    & \cite{lei, prakash, latt} \\
+                    & \cite{punt, mazza, bruijn} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{Variables espacio-temporales}
+    \label{tab:espacio-temp}
+    \begin{tabular}{ll}
+        \toprule
+        Variable & Referencias \\
+        \midrule
+        Cadencia & \cite{menz, cuaya, franklin} \\
+                 & \cite{muro, lei, prakash} \\
+                 & \cite{flora, latt, mazza} \\
+        Longitud del paso & \cite{menz,franklin, mizoguchi} \\
+                   & \cite{forneris, lei, yang2} \\
+                   & \cite{prakash, latt, punt} \\
+                   & \cite{bruijn} \\
+         Distancia recorrida & \cite{cuaya, muro}  \\
+         Número de pasos & \cite{cuaya} \\
+         Duración del paso & \cite{cuaya, forneris} \\
+         Ancho del paso & \cite{muro, yang2, flora} \\
+                        & \cite{punt, choi} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section[Técnicas]{Técnicas de análisis de la marcha}
+
+La tabla \ref{tab:tec-especificas} muestra técnicas específicas para el análisis de la marcha. Son métodos propuestos para detectar características de la señales cinemáticas. La tabla \ref{tab:tec-generales} muestra técnicas generales, que provienen de otras áreas del conocimiento pero son aplicadas en el análisis de la marcha. Además, deben incluirse pruebas estadísticas de hipótesis, como ANOVA y t-student, pues son ampliamente usadas en los estudios.
+
+\begin{table}
+    \centering
+    \caption{Técnicas específicas de análisis}
+    \label{tab:tec-especificas}
+    \begin{tabular}{lll}
+        \toprule
+        Técnica & Descripción & Referencias \\
+        \midrule
+        Razón del caminar & longitud del paso / cadencia & \cite{menz} \\
+        Razón armónica    & razón armónicos pares e impares & \cite{menz} \\
+                          & & \cite{latt} \\
+        Segmentación      & de las fases de la marcha       & \cite{cuaya} \\
+                          & & \cite{franklin} \\
+                          & & \cite{wu} \\
+                          & & \cite{forneris} \\
+                          & & \cite{muro} \\
+                          & & \cite{senanayake} \\
+                          & & \cite{prakash} \\
+                          & & \cite{gong} \\
+                          & & \cite{hu} \\
+        Área de soporte   & Polígono formado por los pies & \cite{mrozowski} \\
+        Centro de gravedad & & \cite{mrozowski} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+\begin{table}
+    \centering
+    \caption{Técnicas generales de análisis}
+    \label{tab:tec-generales}
+    \begin{tabular}{ll}
+        \toprule
+        Técnica & Referencias \\
+        \midrule
+        Media aritmética & \cite{menz, hong} \\
+                         & \cite{latt, punt} \\
+                         & \cite{bruijn} \\
+        Desviación estándar & \cite{menz, hong} \\
+                            & \cite{latt, punt} \\
+                            & \cite{bruijn} \\
+        Transformada rápida de Fourier & \cite{menz, hong} \\
+                                       & \cite{flora, punt} \\
+        Principal Component Analysis & \cite{hong, razali} \\
+                                     & \cite{flora, choi} \\
+        Valor raíz cuadrático medio & \cite{dejnabadi, menz}\\
+                                    & \cite{latt, mazza} \\
+        Entropía aproximada         & \cite{arif} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+

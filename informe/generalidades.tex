@@ -1,4 +1,4 @@
-\chapter[Generalidades]{Generalidades sobre la marcha}
+2015\chapter[Generalidades]{Generalidades sobre la marcha}
 
 El siguiente capítulo pretende introducir al lector los conceptos fundamentales relacionados a la marcha y su estudio. Además de los avances tecnológicos en el área y el estado de estos.
 
@@ -76,7 +76,7 @@ Los siguientes son casos concretos encontrados en la literatura, donde se utiliz
 
 \cite{arif} plantea la hipótesis de que la edad afecta la estabilidad de marcha y propone analizar la entropía de la señal de aceleración, generada por un sensor colocado en la zona lumbar, para cuantificar la estabilidad de la marcha. Los resultados siguieren que la entropía de la marcha aumenta según la edad. Pero en general la entropía aumenta según la velocidad de la marcha, para compensar este hecho, las personas intentan optimizar la estabilidad al disminuir velocidad de la marcha. En general las personas mayores desarrollan una cadencia\footnote{Cadencia: cantidad de pasos por unidad de tiempo} menor que las personas jóvenes. 
 
-Ahora bien, la edad no es el único factor que podría afectar la estabilidad de la marcha y su cadencia. Personas que sufren de enfermedades degenerativas, como esclerosis, Alzheimer, traumatismos cerebrales, entre otros, sufren de marcha inestable, por ejemplo \cite{ren} y \cite{wu} analizan la fluctuaciones el el ritmo de la marcha, con lo cual logra identificar, a través del estudio de la marcha, a personas con padecimientos neurodegenerativos y de esta forma proponer acciones para mejorar su calidad de vida. \cite{Yang} realiza un aporte semejante, pero estudiando la rotación axial y estabilidad de la marcha al dar la vuela.  
+Ahora bien, la edad no es el único factor que podría afectar la estabilidad de la marcha y su cadencia. Personas que sufren de enfermedades degenerativas, como esclerosis, Alzheimer, traumatismos cerebrales, entre otros, sufren de marcha inestable, por ejemplo \cite{ren} y \cite{wu} analizan la fluctuaciones el el ritmo de la marcha, con lo cual logra identificar, a través del estudio de la marcha, a personas con padecimientos neurodegenerativos y de esta forma proponer acciones para mejorar su calidad de vida. \cite{yang} realiza un aporte semejante, pero estudiando la rotación axial y estabilidad de la marcha al dar la vuela.  
 
 \subsection{Daños en ligamentos}
 
@@ -103,7 +103,7 @@ Los sistemas de captura de movimiento portables tiene la ventaja de permitir rec
 
 \subsection{Procesamiento de imagen}
 
-Está conformado por una o varias cámaras, estas pueden ser cámaras digitales comunes RGB, basadas en el tiempo de eco para generar un mapa de profundidad (como kinect de Microsoft) o utilizar escáner láser. Algunos sistemas pueden necesitar marcadores y estos pueden ser activos o pasivos, ejemplos son \cite{prakash}, \cite{yang2}. \citep{muro}
+Está conformado por una o varias cámaras, estas pueden ser cámaras digitales comunes RGB, basadas en el tiempo de eco para generar un mapa de profundidad (como kinect de Microsoft) o utilizar escáner láser. Algunos sistemas pueden necesitar marcadores y estos pueden ser activos o pasivos, ejemplos son \cite{prakash, yang2}. \citep{muro}
 
 Debido al bajo costo de las cámaras digitales y software robusto para el análisis de imágenes, esta tecnología es muy utilizada. Como ejemplo se puede mencionar a \cite{hoang}, donde dos cámaras se colocan antiparalelas viendo una superficie de caminado y \cite{li} y \cite{mrozowski} donde se colocan las cámaras de manera perpendicular. 
 
@@ -139,9 +139,9 @@ También se utilizan galgas de compresión, sensores piezoeléctricos y sensores
 
 \section[Software disponible]{Software disponible para estudios sobre la marcha}
 
-En muchos casos, los estudios sobre la marcha se realizan con software específico para el experimento, desarrollado en alguna plataforma como Matlab (este es el caso de la mayoría de trabajos analizados). Por ejemplo \cite{menz} utiliza SPSS, un software de análisis estadístico predictivo. \cite{mizoguchi}, por ejemplo, utiliza nMotion Musculous de NAC Image Technology, con lo cual calcula la fuerza de activación de cada músculo y después hace un análisis estadístico, no especifica en cual plataforma, pero podría ser incluso en una hoja de cálculo. 
+En muchos casos, los estudios sobre la marcha se realizan con software específico para el experimento, desarrollado en alguna plataforma como Matlab (este es el caso de la mayoría de trabajos analizados) \citep{cuaya, mrozowski, eskinazi, senanayake, prakash, punt, menguc, bruijn}. Por ejemplo \cite{menz} utiliza SPSS, un software de análisis estadístico predictivo. \cite{mizoguchi}, por ejemplo, utiliza nMotion Musculous de NAC Image Technology, con lo cual calcula la fuerza de activación de cada músculo y después hace un análisis estadístico, no especifica en cual plataforma, pero podría ser incluso en una hoja de cálculo. 
 
-En un ambiente clínico, existen programas especializados en ayudar al practicante en el diagnóstico y seguimiento de las dificultades motoras. Por ejemplo se tiene 3D Gait, TEMPLO Contemplas, Medical Motion Pro-Trainer Motion analysis, Motion Monitor Gait Analysis, entre otros. Desde la ingeniería, han existido propuestas de software para facilitar el estudio clínico, por ejemplo \cite{hayla} y \cite{senanayake}, sin embargo no parecen tener mucho éxito, principalmente debido a la dificultada de validar dicho software e incluir una cantidad suficiente de \emph{feautures} para hacerlo atractivo en el ámbito clínico. Desde la estrategia de generar un modelo sobre la marcha para utilizarlo como referencia, \cite{vieira} entrena una red neuronal para facilitar el análisis clínico de la marcha.
+En un ambiente clínico, existen programas especializados en ayudar al practicante en el diagnóstico y seguimiento de las dificultades motoras. Por ejemplo se tiene 3D Gait, EliteClinic Systems, TEMPLO Contemplas, Medical Motion Pro-Trainer Motion analysis, Motion Monitor Gait Analysis, entre otros. Desde la ingeniería, han existido propuestas de software para facilitar el estudio clínico, por ejemplo \cite{hayla} y \cite{senanayake}, sin embargo no parecen tener mucho éxito, principalmente debido a la dificultada de validar dicho software e incluir una cantidad suficiente de \emph{feautures} para hacerlo atractivo en el ámbito clínico. Desde la estrategia de generar un modelo sobre la marcha para utilizarlo como referencia, \cite{vieira} entrena una red neuronal para facilitar el análisis clínico de la marcha.
 
 Alrededor del estudio de la marcha, existen pequeños paquetes de software con funciones muy específicas, por ejemplo \cite{eskinazi} presenta SCMT, un paquete para simular la interacción musculo esquelética en las articulaciones, utilizando datos reales.
 
