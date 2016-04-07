@@ -27,10 +27,12 @@
 \usepackage{natbib}
 \usepackage{longtable}
 
+\usepackage{color}
+
 \bibliographystyle{apalike_es}
 \setcounter{secnumdepth}{1} % Solo numera capítulos y secciones
 \newcommand{\newchap}[1]{\include{#1} \clearpage{\pagestyle{empty}\cleardoublepage}}
-
+\newcommand{\comentario}[1]{{\color{red} #1}}
 % ==== Inicio del informe ==== 
 \begin{document}
 \frontmatter

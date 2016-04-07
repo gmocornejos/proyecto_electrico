@@ -1,4 +1,4 @@
-2015\chapter[Generalidades]{Generalidades sobre la marcha}
+\chapter[Generalidades]{Generalidades sobre la marcha}
 
 El siguiente capítulo pretende introducir al lector los conceptos fundamentales relacionados a la marcha y su estudio. Además de los avances tecnológicos en el área y el estado de estos.
 
@@ -51,7 +51,7 @@ A grandes rasgos, el pico de mayor tamaño representan el momento donde se trans
 
 Al utilizar sensores para recolectar datos de la marcha, se puede aplicar gran cantidad de herramientas matemáticas para caracterizar el movimiento e intentar encontrar \emph{patrones} útiles al diagnosticar condiciones clínicas. 
 
-Otra estrategia al estudiar la marcha no solo consiste en obtener una descripción del ciclo, sino intentar modelar el mecanismo que la genera. \cite{dejnabadi} considera la marcha como un proceso automático, controlado por el \emph{sistema nervioso central}, el cual reduce la complejidad de planar el movimiento al artificalmente disminuir los grados de libertad del cuerpo. En el modelo propuesto, se regenerar un patron el moviento al seleccionar los parámetros cadencia y logitud del paso, todas las velocidades se pueden obtener como una combinación de estos parámetros. La ventaja de contar con un modelo de la causa del patrón de la marcha es poder caracterizar y estudiar la desviaciones de este modelo para identificar afectaciones. 
+Otra estrategia al estudiar la marcha no solo consiste en obtener una descripción del ciclo, sino intentar modelar el mecanismo que la genera. \cite{dejnabadi} considera la marcha como un proceso automático, controlado por el \emph{sistema nervioso central}, el cual reduce la complejidad de planear el movimiento al artificalmente reducir los grados de libertad del cuerpo. En el modelo propuesto, puede generar un patron el moviento al seleccionar los parámetros cadencia y logitud del paso, todas las velocidades se pueden obtener como una combinación de estos parámetros. La ventaja de contar con un modelo de la causa del patrón de la marcha es poder caracterizar y estudiar la desviaciones respecto a este modelo para identificar afectaciones. 
 
 
 
@@ -70,13 +70,13 @@ El patrón de la marcha de el personaje \emph{el vagabundo} parece ser una combi
     \label{fig:heel_rocker}
 \end{figure}
 
-Los siguientes son casos concretos encontrados en la literatura, donde se utiliza el estudio de la marcha junto con análisis por computadora para detectar afectaciones especificas.
+Los siguientes son casos concretos encontrados en la literatura, donde se utiliza el estudio de la marcha junto con análisis por computadora para detectar o cuantificar afectaciones especificas.
 
 \subsection{Enfermedades neurodegenerativas}
 
-\cite{arif} plantea la hipótesis de que la edad afecta la estabilidad de marcha y propone analizar la entropía de la señal de aceleración, generada por un sensor colocado en la zona lumbar, para cuantificar la estabilidad de la marcha. Los resultados siguieren que la entropía de la marcha aumenta según la edad. Pero en general la entropía aumenta según la velocidad de la marcha, para compensar este hecho, las personas intentan optimizar la estabilidad al disminuir velocidad de la marcha. En general las personas mayores desarrollan una cadencia\footnote{Cadencia: cantidad de pasos por unidad de tiempo} menor que las personas jóvenes. 
+\cite{arif} plantea la hipótesis de que la estabilidad de la marcha disminuye con la edad y propone analizar la entropía de la señal de aceleración, generada por un sensor colocado en la zona lumbar, para cuantificar la estabilidad de la marcha. Los resultados siguieren que la entropía de la marcha aumenta según la edad. Pero en general la entropía aumenta según la velocidad de la marcha, para compensar este hecho, las personas intentan optimizar la estabilidad al disminuir velocidad de la marcha. En general las personas mayores desarrollan una cadencia\footnote{Cadencia: cantidad de pasos por unidad de tiempo} menor que las personas jóvenes. 
 
-Ahora bien, la edad no es el único factor que podría afectar la estabilidad de la marcha y su cadencia. Personas que sufren de enfermedades degenerativas, como esclerosis, Alzheimer, traumatismos cerebrales, entre otros, sufren de marcha inestable, por ejemplo \cite{ren} y \cite{wu} analizan la fluctuaciones el el ritmo de la marcha, con lo cual logra identificar, a través del estudio de la marcha, a personas con padecimientos neurodegenerativos y de esta forma proponer acciones para mejorar su calidad de vida. \cite{yang} realiza un aporte semejante, pero estudiando la rotación axial y estabilidad de la marcha al dar la vuela.  
+Ahora bien, la edad no es el único factor que podría afectar la estabilidad de la marcha y su cadencia. Personas que sufren de enfermedades degenerativas, como esclerosis, Alzheimer, traumatismos cerebrales, entre otros, sufren de marcha inestable, por ejemplo \cite{ren, wu} analizan la fluctuaciones en el ritmo de la marcha, con lo cual logra identificar, a través del estudio de la marcha, a personas con padecimientos neurodegenerativos y de esta forma proponer acciones para mejorar su calidad de vida. \cite{yang} realiza un aporte semejante, pero estudiando la rotación axial y estabilidad de la marcha al dar la vuela.  
 
 \subsection{Daños en ligamentos}
 
@@ -95,7 +95,7 @@ Los pacientes de parálisis cerebral suelen sufrir dificultades en la locomoció
 
 \section[Métodos de recolección]{Métodos de recolección de datos}
 
-Los métodos de recolección de datos se puede clasificar según su portabilidad en portables y no-portables (\emph{wearable} y \emph{non-wearable}) y según su tecnología en procesamiento de imagen, sensores de fuerza, sensores de inercia y electromiogramas. \citep{muro}
+Además del ojo entrenado, resulta útil contar con la ayuda de algoritmos computacionales para analizar la marcha, es necesario entonces contar con sensores apropiados para recolectar información sobre la marcha. Los métodos de recolección de datos se puede clasificar según su portabilidad en portables y no-portables (\emph{wearable} y \emph{non-wearable}) y según su tecnología en procesamiento de imagen, sensores de fuerza, sensores de inercia y electromiogramas. \citep{muro}
 
 Los sistemas de captura de movimiento no portables tienen la ventaja de ser muy precisos y permiten medir directamente las variables buscadas. Al estar instalados en ambientes controlados, como laboratorios o salas de mediciones clínicas y conducidas por profesionales, las mediciones realizadas son menos propensas a sufrir ruido, perturbaciones y son repetibles. También, al estar conectados a la red eléctrica, el consumo de potencia no es una limitación. Como desventaja, al ser un ambiente controlado y generalmente pequeño, el patrón natural de la marcha se puede ver afectado y el equipo es muy costoso. \citep{muro}
 
@@ -109,12 +109,12 @@ Debido al bajo costo de las cámaras digitales y software robusto para el análi
 
 Como ejemplo de sistemas ópticos con marcadores, la figura \ref{fig:pris_mocap} muestra el sistema de captura óptica de movimiento  del Pris-Lab, Escuela de Ingeniería Eléctrica, Universidad de Costa Rica. Consiste en cámaras infrarrojas y un traje con marcadores pasivos muy reflectivos en el rango de frecuencia de las cámaras. 
 
-%\begin{figure}
-%    \centering
-%    \includegraphics[width = 0.6\textwidth]{images/pris_mocap}
-%    \caption{Sistema MoCap del Pris-Lab, UCR}
-%    \label{fig:pris_mocap}
-%\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width = 0.8\textwidth]{imagenes/pris_mocap}
+    \caption{Colaboradores del Pris-Lab hacen una demostración con el sistema MoCap}
+    \label{fig:pris_mocap}
+\end{figure}
 
 \subsection{Sensores de presión y fuerza}
 
@@ -122,13 +122,13 @@ Comúnmente consiste en alfombras de sensores o plantillas que se ajustan al cal
 
 \subsection{Sensores de inercia}
 
-Consisten de acelerómetros y giroscopios (IMU) colocados en diversos puntos del cuerpo del paciente, conectados a un microcontrolador. Ejemplos se encuentran en \cite{menz}, \cite{arif}, \cite{senanayake}, \cite{latt}, \cite{mazza}, \cite{hu}, entro otros. Son muy sencillos y por eso resulta práctico utilizarlos, sin embargo solo pueden reportar unas pocas variables cinemáticas y se pierde toda información sobre la posición del paciente.
+Consisten de acelerómetros y giroscopios (IMU) colocados en diversos puntos del cuerpo del paciente, conectados a un microcontrolador. Ejemplos se encuentran en \cite{menz, arif, senanayake, latt, mazza, hu}. Son muy sencillos y por eso resulta práctico utilizarlos, sin embargo solo pueden reportar unas pocas variables cinemáticas y se pierde toda información sobre la posición del paciente.
 
 \cite{yuan} presenta un método con el cual se puede conocer la posición del usuario y muchas de las variables cinemáticas, para esto utiliza 8 IMUs colocados sobre el cuerpo.
 
 \subsection{Electromiografía}
 
-La electromiografía es la recolección de los pequeños impulsos eléctrico generados por los músculos al contraerse. Se utilizan electrodos no invasivos colocados sobre la piel para poder recolectar estas señales. Se suelen utilizar en combinación con algún otro método de captura del movimiento, para asociar el patrón de la marcha con la activación del los músculos. \cite{muro}
+La electromiografía es la recolección de los pequeños impulsos eléctrico generados por los músculos al contraerse. Se utilizan electrodos no invasivos colocados sobre la piel para poder recolectar estas señales. Se suelen utilizar en combinación con algún otro método de captura del movimiento, para asociar el patrón de la marcha con la activación del los músculos. \citep{muro}
 
 \subsection{Otros medios de recolección}
 
@@ -139,12 +139,12 @@ También se utilizan galgas de compresión, sensores piezoeléctricos y sensores
 
 \section[Software disponible]{Software disponible para estudios sobre la marcha}
 
-En muchos casos, los estudios sobre la marcha se realizan con software específico para el experimento, desarrollado en alguna plataforma como Matlab (este es el caso de la mayoría de trabajos analizados) \citep{cuaya, mrozowski, eskinazi, senanayake, prakash, punt, menguc, bruijn}. Por ejemplo \cite{menz} utiliza SPSS, un software de análisis estadístico predictivo. \cite{mizoguchi}, por ejemplo, utiliza nMotion Musculous de NAC Image Technology, con lo cual calcula la fuerza de activación de cada músculo y después hace un análisis estadístico, no especifica en cual plataforma, pero podría ser incluso en una hoja de cálculo. 
+En muchos casos, los estudios sobre la marcha se realizan con software específico para el experimento, desarrollado en alguna plataforma como Matlab (este es el caso de la mayoría de trabajos analizados) \citep{cuaya, mrozowski, eskinazi, senanayake, prakash, punt, menguc, bruijn}. Por ejemplo \cite{menz} utiliza SPSS, un software de análisis estadístico predictivo. \cite{mizoguchi} utiliza nMotion Musculous de NAC Image Technology, con lo cual calcula la fuerza de activación de cada músculo y después hace un análisis estadístico, no especifica en cual plataforma, pero podría ser incluso en una hoja de cálculo. 
 
 En un ambiente clínico, existen programas especializados en ayudar al practicante en el diagnóstico y seguimiento de las dificultades motoras. Por ejemplo se tiene 3D Gait, EliteClinic Systems, TEMPLO Contemplas, Medical Motion Pro-Trainer Motion analysis, Motion Monitor Gait Analysis, entre otros. Desde la ingeniería, han existido propuestas de software para facilitar el estudio clínico, por ejemplo \cite{hayla} y \cite{senanayake}, sin embargo no parecen tener mucho éxito, principalmente debido a la dificultada de validar dicho software e incluir una cantidad suficiente de \emph{feautures} para hacerlo atractivo en el ámbito clínico. Desde la estrategia de generar un modelo sobre la marcha para utilizarlo como referencia, \cite{vieira} entrena una red neuronal para facilitar el análisis clínico de la marcha.
 
 Alrededor del estudio de la marcha, existen pequeños paquetes de software con funciones muy específicas, por ejemplo \cite{eskinazi} presenta SCMT, un paquete para simular la interacción musculo esquelética en las articulaciones, utilizando datos reales.
 
-Hasta el momento, no se ha encontrado un software libre que permita realizar estudios de la marcha de manera integra, es decir, desde la recolección de los datos hasta su análisis y presentación de resultados. 
+Hasta el momento, no se ha encontrado un software libre que permita realizar estudios de la marcha de manera integral, es decir, desde la recolección de los datos hasta su análisis y presentación de resultados. El presente proyecto pretende cubrir tal necesidad, enfocado en la investigación de la marcha.  
 
 
