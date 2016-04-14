@@ -64,44 +64,74 @@ void Joint::calculate_local_matrix(){
     local_matrix(2,2) = a*c;
 }
 
-size_t string_split(std::string &input, std::string delimiter, std::vector<std::string> &output){
+std::vector<std::string>::iterator string_split(std::string & input, const std::string & token, std::vector<std::string> & output){
     size_t current;
     size_t next = -1;
     
     output.clear();
     do{
         current = next + 1;
-        next = input.find_first_of(delimiter, current);
+        next = input.find_first_of(" ", current);
         output.push_back(input.substr(current, next - current));
     } while(next != std::string::npos);
+
+    return find(output.begin(), output.end(), token);
 }
 
-int find_in_line(std::string &line, const std::string &s){
-    size_t found;
-    found = line.find(s);
-    return found != std::string::npos ? 1 : 0;
+inline int find_in_line(std::string &line, const std::string &s){
+    return line.find(s) != std::string::npos ? 1 : 0;
+}
+
+// In C++11 exists a functions stod, which converts strings to doubles. My current version of g++ 4.8.4 does not supports it. 
+
+inline double convertToDouble(const std::string & s){
+    std::istringstream i(s);
+    double x;
+    if(!(i >> x))
+        std::cout << "Wrong convertion to double for " << s << std::endl;
+    return x;
 }
 
 int load_bvh_file(std::ifstream &f, motion *m){
 
-    std::vector<Joint> parents;
+    std::vector<Joint *> parents;
     std::vector<Joint> joints;
     std::string line;
-    std::string delimiter = " ";
     std::vector<std::string> line_splited;
     std::vector<std::string>::iterator index;
 
+    // This loop loads joints structure in memory
     while(!f.eof()){
         std::getline(f, line);
         if( find_in_line(line, "ROOT") ){
-            string_split(line, delimiter, line_splited);
-            index = find(line_splited.begin(), line_splited.end(), "ROOT");
-            Joint TmpJoint(*++index, 1, 0, 0); // name=root, isRoot = 1, isEnd = 0, parent -> void
+            index = string_split(line, "ROOT", line_splited);
+            // name, isRoot = 1, isEnd = 0, parent -> void
+            Joint TmpJoint(*++index, 1, 0, 0); 
             joints.push_back(TmpJoint);
+        }else if( find_in_line(line, "JOINT") ){
+            index = string_split(line, "JOINT", line_splited);
+            // name, isRoot = 0, isEnd = 0, parent -> last parent
+            Joint TmpJoint(*++index, 0, 0, parents.back() );
+            joints.push_back(TmpJoint);
+        }else if( find_in_line(line, "End") ){
+            index = string_split(line, "End", line_splited);
+            // name, isRoot = 0, isEnd = 1, parent -> last parent 
+            Joint TmpJoint(*++index, 0, 1, parents.back() );
+            joints.push_back(TmpJoint);
+        }else if( find_in_line(line, "{") ){
+            parents.push_back( &joints.back() );
+        }else if( find_in_line(line, "}") ){
+            parents.pop_back();
+        }else if( find_in_line(line, "OFFSET") ){
+            index = string_split(line, "OFFSET", line_splited);
+            Joint * last = &joints.back();
+            (last -> local_matrix) (0, 3) = convertToDouble(*++index);
+            (last -> local_matrix) (1, 3) = convertToDouble(*++index);
+            (last -> local_matrix) (2, 3) = convertToDouble(*++index);
         }
     }
     
-    std::cout << "Root name: " << joints.back().name << std::endl;
+    std::cout << "Root local matrix  " << joints.front().local_matrix << std::endl;
 
     return 1;
 }
