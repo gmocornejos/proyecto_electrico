@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include <bvh_header.h>
 
 double * multiply_position_matrix(double * m1, double * m2){
@@ -45,6 +47,10 @@ void Joint_calculate_local_matrix(Joint *self){
 Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
     Joint * j = malloc( sizeof(Joint) );
 
+    int len = strlen(name) - 2;
+    j -> name = malloc( sizeof(char) * len );
+    memcpy(j -> name, name, len);
+
     if(! isRoot){ // Root needs no global matrix
         j -> global_matrix = calloc(16, sizeof(double) );
         (j -> global_matrix)[15] = 1;
@@ -52,7 +58,6 @@ Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
     j -> local_matrix = calloc(16, sizeof(double) );
     (j -> local_matrix)[15] = 1;
 
-    j -> name = name;
     j -> isRoot = isRoot;
     j -> isEnd = isEnd;
     j -> parent = parent;
