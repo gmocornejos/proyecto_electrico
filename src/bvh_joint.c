@@ -47,9 +47,10 @@ void Joint_calculate_local_matrix(Joint *self){
 Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
     Joint * j = malloc( sizeof(Joint) );
 
-    int len = strlen(name) - 2;
+
+    int len = isEnd ? strlen(name) : strlen(name) - 2;
     j -> name = malloc( sizeof(char) * len );
-    memcpy(j -> name, name, len);
+    strncpy(j -> name, name, len);
 
     if(! isRoot){ // Root needs no global matrix
         j -> global_matrix = calloc(16, sizeof(double) );
@@ -73,6 +74,7 @@ void Joint_free(Joint * j){
     if(! j -> isRoot )
         free(j -> global_matrix);
     free(j -> local_matrix);
+    free(j -> name);
     free(j);
 }
 

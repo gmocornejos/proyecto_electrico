@@ -14,6 +14,7 @@
         type * end; \
         int (*append) (name *, type); \
         int (*pop) (name *); \
+        type * (*last) (name *); \
         type * (*search) (name *, type, int (*comp)(type, type) );\
         void (*clean) (name *); \
         void (*destroy) (name *); \
@@ -33,12 +34,16 @@
     int name ## _pop(name * vector){ \
         --(vector -> end); \
         --(vector -> length); \
-        if( (vector -> length) < 0.6 * (vector -> capacity) ){ \
+        if( (vector -> length) < 0.6 * (vector -> capacity) && 0.6 * (vector -> capacity) >= 1){ \
             vector -> capacity *= 0.6; \
             vector -> begin = realloc(vector -> begin, (vector -> type_size) * (vector -> capacity) ); \
             vector -> end = vector -> begin + vector -> length; \
         } \
         return (vector -> begin) != NULL ? 1 : 0; \
+    } \
+    \
+    type * name ## _last(name * vector){ \
+        return (vector -> end) - 1; \
     } \
     \
     type * name ## _search(name * vector, type value, int (*comp) (type, type) ){ \
@@ -69,6 +74,7 @@
         vector -> end = vector -> begin; \
         vector -> append = name ## _append; \
         vector -> pop = name ## _pop; \
+        vector -> last = name ## _last; \
         vector -> search = name ## _search; \
         vector -> clean = name ## _clean; \
         vector -> destroy = name ## _destroy; \
