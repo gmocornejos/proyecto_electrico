@@ -2,27 +2,24 @@
 
 #include <bvh_header.h>
 
-double * multiply_position_matrix(double * m1, double * m2){
-    double * m3 = calloc(16, sizeof(double) );
+void multiply_position_matrix(double * m1, double * m2, double * m3){
+
     int i, j, k;
+
+    for(i = 0; i != 16; ++i)
+        m3[i] = 0;
 
     for(i = 0; i != 4; ++i)
         for(j = 0; j != 4; ++j)
             for(k = 0; k != 4; ++k)
                 m3[4*i + j] += m1[4*i + k] * m2[4*k + j];
-    
-    free(m1);
-
-    return m3;
 }
 
 void Joint_calculate_position(Joint *self){
     if(! self -> isEnd)
         self -> calculate_local_matrix(self);
-    if(self -> isRoot)
-        self -> global_matrix = self -> local_matrix;
-    else
-        self -> global_matrix = multiply_position_matrix(self -> parent -> global_matrix, self -> local_matrix);
+    if(! self -> isRoot)
+        multiply_position_matrix( (self -> parent) -> global_matrix, self -> local_matrix, self -> global_matrix);
 }
 
 void Joint_calculate_local_matrix(Joint *self){
@@ -47,17 +44,19 @@ void Joint_calculate_local_matrix(Joint *self){
 Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
     Joint * j = malloc( sizeof(Joint) );
 
-
     int len = isEnd ? strlen(name) : strlen(name) - 2;
     j -> name = malloc( sizeof(char) * len );
     strncpy(j -> name, name, len);
 
-    if(! isRoot){ // Root needs no global matrix
+    j -> local_matrix = calloc(16, sizeof(double) );
+    (j -> local_matrix)[15] = 1;
+  
+    if(isRoot) // Root needs no global matrix
+        j -> global_matrix = j -> local_matrix;
+    else{
         j -> global_matrix = calloc(16, sizeof(double) );
         (j -> global_matrix)[15] = 1;
     }
-    j -> local_matrix = calloc(16, sizeof(double) );
-    (j -> local_matrix)[15] = 1;
 
     j -> isRoot = isRoot;
     j -> isEnd = isEnd;

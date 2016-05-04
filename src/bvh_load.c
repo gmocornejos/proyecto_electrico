@@ -3,7 +3,7 @@
 #include <vector.h>
 #include <bvh_header.h>
 
-#define MAX_LINE 1000
+#define MAX_LINE 2000
 
 VECTOR_DEFINE(Joint *, Joint_vector);
 VECTOR_DEFINE(char *, string_vector);
@@ -62,12 +62,52 @@ void load_bvh_data(FILE *f){
             parents.append(&parents, *joints.last(&joints) );
         else if( strstr(line, "}") )
             parents.pop(&parents);
-        else if( strstr(line, "MOTION") )
+        else if( strstr(line, "OFFSET") ){
+            string_split(line, " ", &line_split);
+            index = line_split.search(&line_split, "OFFSET", string_cmp);
+            ((*joints.last(&joints)) -> local_matrix)[3] = atof(*++index);
+            ((*joints.last(&joints)) -> local_matrix)[7] = atof(*++index);
+            ((*joints.last(&joints)) -> local_matrix)[11] = atof(*++index);
+        } else if( strstr(line, "MOTION") )
             break;
     }
     
 //    for(j = joints.begin; j != joints.end; ++j)
 //        printf("%s, string length: %ld\n", (*j) -> name, strlen( (*j) -> name) );
 
+    fgets(line, MAX_LINE, f);
+    string_split(line, "\t", &line_split);
+    index = line_split.search(&line_split, "Frames:", string_cmp);
+    printf("Number of frames: %d\n", atoi(*++index) );
+
+    fgets(line, MAX_LINE, f);
+    string_split(line, "\t", &line_split);
+    index = line_split.search(&line_split, "Frame Time:", string_cmp);
+    printf("Time of frames: %f\n", atof(*++index) );
+
+    while( fgets(line, MAX_LINE, f) ){
+        string_split(line, " ", &line_split);
+        index = line_split.begin;
+
+        for(j = joints.begin; j != joints.end; ++j){
+            if( (*j) -> isRoot ){
+                ( (*j) -> local_matrix )[3]  = atof(*index);
+                ( (*j) -> local_matrix )[7]  = atof(*++index);
+                ( (*j) -> local_matrix )[11] = atof(*++index);
+            }
+            if( ! (*j) -> isEnd ){
+                ( (*j) -> rotation)[0] = atof(*++index);
+                ( (*j) -> rotation)[1] = atof(*++index);
+                ( (*j) -> rotation)[2] = atof(*++index);
+            }
+            (*j) -> calculate_position( (*j) );
+            printf("%f %f %f ", ((*j) -> global_matrix)[3], ((*j) -> global_matrix)[7], ((*j) -> global_matrix)[11] );
+        }
+        printf("\n");
+    }
 
 }
+
+
+
+

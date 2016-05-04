@@ -170,16 +170,15 @@ int load_bvh_file(std::ifstream &f, motion *m){
                 (*j) -> rotation(2, 0) = convertToDouble( *++index );
             }
             (*j) -> calculate_position();
-            std::cout << (*j) -> name << "\n" << (*j) -> global_matrix << std::endl;
-            break;
             
             // Stores information in motion object.
             tmp_position.v1 = (*j) -> global_matrix(0,3);
             tmp_position.v2 = (*j) -> global_matrix(1,3);
             tmp_position.v3 = (*j) -> global_matrix(2,3);
             (m -> data)[(*j) -> name].push_back(tmp_position);
+            std::cout << tmp_position.v1 << " " << tmp_position.v2 << " " << tmp_position.v3 << " ";
         }
-        break;
+        std::cout << std::endl;
     }
 
     // Deallocates all Joints
@@ -196,8 +195,7 @@ int main(int argc, char *argv[]){
     
     load_bvh_file(file, &user1);
 
-    std::vector<data3D> tmp = user1.data["Hips"];
-    std::cout << tmp[0].v1 << std::endl;
+//    std::vector<data3D> tmp = user1.data["Hips"];
 //    std::cout << tmp[0].v1 << std::endl;
 
 //    std::cout << tmp.v1 << " " << tmp.v2 << " " << tmp.v3 << std::endl;
