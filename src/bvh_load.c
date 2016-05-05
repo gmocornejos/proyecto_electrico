@@ -5,8 +5,8 @@
 
 #define MAX_LINE 2000
 
-VECTOR_DEFINE(Joint *, Joint_vector);
-VECTOR_DEFINE(char *, string_vector);
+VECTOR_LOCAL_DEFINE(Joint *, Joint_vector);
+VECTOR_LOCAL_DEFINE(char *, string_vector);
 
 int string_split(char * s, const char * token, string_vector * v){
 

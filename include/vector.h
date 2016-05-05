@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#define VECTOR_DEFINE(type, name) \
+#define VECTOR_DECLARE(type, name) \
     typedef struct name name; \
                               \
     struct name{ \
@@ -19,7 +19,8 @@
         void (*clean) (name *); \
         void (*destroy) (name *); \
     }; \
-    \
+
+#define VECTOR_DEFINE(type, name) \
     int name ## _append(name * vector, type value){ \
         *(vector -> end)++ = value; \
         ++(vector -> length); \
@@ -82,4 +83,8 @@
     } 
 
 #endif 
+
+#define VECTOR_LOCAL_DEFINE(type, name) \
+    VECTOR_DECLARE(type, name) \
+    VECTOR_DEFINE(type, name)
 

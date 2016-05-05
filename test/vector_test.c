@@ -2,7 +2,7 @@
 
 #include <vector.h>
 
-VECTOR_DEFINE(double, double_vector);
+VECTOR_LOCAL_DEFINE(double, double_vector);
 
 int comp_double(double v1, double v2){
     return (v1 == v2);
