@@ -165,7 +165,7 @@ int load_bvh_file(std::ifstream &f, motion *m){
                 (*j) -> local_matrix(2, 3) = convertToDouble( *++index);
             }
             if( ! (*j) -> isEnd ){
-                (*j) -> rotation(0, 0) = convertToDouble( *index );
+                (*j) -> rotation(0, 0) = convertToDouble( *++index );
                 (*j) -> rotation(1, 0) = convertToDouble( *++index );
                 (*j) -> rotation(2, 0) = convertToDouble( *++index );
             }
@@ -176,9 +176,7 @@ int load_bvh_file(std::ifstream &f, motion *m){
             tmp_position.v2 = (*j) -> global_matrix(1,3);
             tmp_position.v3 = (*j) -> global_matrix(2,3);
             (m -> data)[(*j) -> name].push_back(tmp_position);
-            std::cout << tmp_position.v1 << " " << tmp_position.v2 << " " << tmp_position.v3 << " ";
         }
-        std::cout << std::endl;
     }
 
     // Deallocates all Joints
@@ -195,29 +193,14 @@ int main(int argc, char *argv[]){
     
     load_bvh_file(file, &user1);
 
-//    std::vector<data3D> tmp = user1.data["Hips"];
-//    std::cout << tmp[0].v1 << std::endl;
 
-//    std::cout << tmp.v1 << " " << tmp.v2 << " " << tmp.v3 << std::endl;
-/*
     for(int i = 0; i < user1.data["Hips"].size(); ++i){
         for(std::map<std::string, std::vector<data3D> >::iterator j = user1.data.begin(); j != user1.data.end(); ++j)
             std::cout << (j -> second)[i].v1 << " " << (j -> second)[i].v2 << " " << (j -> second)[i].v3 << " ";
 
         std::cout << std::endl;
     }
-*/
+
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
 
