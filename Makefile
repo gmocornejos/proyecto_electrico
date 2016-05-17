@@ -7,7 +7,7 @@ LIBS = -lm
 CC = gcc
 
 _SRC_OBJ = bvh_joint.o bvh_load.o
-_SRC_DEPS = vector.h bvh_header.h
+_SRC_DEPS = vector.h bvh_header.h dictionary.h
 
 SRC_OBJ = $(patsubst %, $(SRC)/%, $(_SRC_OBJ))
 SRC_DEPS = $(patsubst %, $(INCLUDE)/%, $(_SRC_DEPS))
@@ -16,6 +16,9 @@ $(SRC)/%.o : $(SRC)/%.c $(SRC_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)	
 
 vector_test: $(TEST)/vector_test.o $(INCLUDE)/vector.h
+	$(CC) -o $@ $^ $(CFLAGS)
+
+dic_test: $(TEST)/dictionary_test.o $(INCLUDE)/dictionary.h
 	$(CC) -o $@ $^ $(CFLAGS)
 
 bvh_test : $(SRC_OBJ) $(TEST)/bvh_test.o

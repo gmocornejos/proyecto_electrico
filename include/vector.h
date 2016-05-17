@@ -18,7 +18,7 @@
         type * (*search) (name *, type, int (*comp)(type, type) );\
         void (*clean) (name *); \
         void (*destroy) (name *); \
-    }; \
+    }; 
 
 #define VECTOR_DEFINE(type, name) \
     int name ## _append(name * vector, type value){ \
@@ -82,9 +82,8 @@
         return (vector -> begin) != NULL ? 1 : 0; \
     } 
 
-#endif 
-
 #define VECTOR_LOCAL_DEFINE(type, name) \
     VECTOR_DECLARE(type, name) \
     VECTOR_DEFINE(type, name)
 
+#endif 
