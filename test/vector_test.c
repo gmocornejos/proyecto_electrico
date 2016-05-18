@@ -15,7 +15,7 @@ int main(int argc, char * argv[]){
     double_vector my_vec;
     double_vector_init(&my_vec, 30);
 
-    for(i = 6; i < 50; ++i)
+    for(i = 6; i < 100; ++i)
         my_vec.append(&my_vec, i);
 
     for(j = my_vec.begin; j != my_vec.end; ++j)

@@ -1,15 +1,30 @@
 #include <stdio.h>
+#include <string.h>
 
 #include <dictionary.h>
 
-DICTIONARY_DECLARE(char *, double, dic_type);
-DICTIONARY_DEFINE(char *, double, dic_type);
+DICTIONARY_DECLARE(char *, int, dic_type);
+DICTIONARY_DEFINE(char *, int, dic_type);
 
 int main(int argc, char * argv[]){
 
-    dic_type dic_test;
+    char * names[] = {"cero", "uno", "dos", "tres", "cuatro", "cinco"};
+    int i;
+    dic_type my_dic;
+    dic_type_entry *j;
 
-    dic_type_init( & dic_test );
+    dic_type_init( &my_dic, strcmp);
+
+    for(i = 1; i != 6; ++i)
+        my_dic.insert(&my_dic, names[i], i);
+
+    for(j = my_dic.begin; j != my_dic.end; ++j)
+        printf("%d es %s\n", j -> value, j -> key);
+
+    my_dic.insert(&my_dic, "cuatro", 9);
+    printf("cuatro es %d\n", *(my_dic.get(&my_dic, "cuatro")) );
+
+    my_dic.remove(&my_dic; )
     
     return 0;
 }
