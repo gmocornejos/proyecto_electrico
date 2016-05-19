@@ -19,6 +19,7 @@
         name ## _entry * end; \
         int (*cmp) (const key_type, const key_type); \
         int (*insert) (name *, key_type, value_type); \
+        int (*remove) (name *, key_type); \
         value_type * (*get) (name*, key_type); \
     };
 
@@ -34,22 +35,18 @@ value_type * name ## _get(name * _dic, key_type _key){ \
 } \
 \
 int name ## _remove(name * _dic, key_type _key){ \
-    name ## _entry *p, tmp; \
+    name ## _entry *p, *i; \
     for(p = _dic -> begin; p != _dic -> end; ++p) \
-        if( (_dic -> cmp) (_key, p -> key) == 0) \
+        if( (_dic -> cmp) (_key, p -> key) == 0 ) \
             break; \
-    if( p == _dic -> end) \
-        return 1; \
+    if( p == _dic -> end ) \
+        return 0; /* key not found */ \
+    for(i = _dic -> begin; i != p; ++i); \
+    for(; i != _dic -> end; ++i) \
+        *i = *(i+1); \
     --(_dic -> length); \
-    tmp.key = p -> key; \
-    tmp.value = p -> value; \
-    _dic -> begin = realloc( _dic -> begin, (_dic -> entry_size) * (_dic -> length + 1) ); \
-    for(p = _dic -> begin; p != _dic -> end; ++p) \
-        if( (_dic -> cmp) (_key, p -> key) == 0){ \
-            p -> key = tmp.key; \
-            p -> value = tmp.value; \
-            break; \
-        } \
+    _dic -> begin = realloc(_dic -> begin, (_dic -> entry_size) * (_dic -> length + 1) ); \
+    _dic -> end = _dic -> begin + _dic -> length; \
     return (_dic -> begin) != NULL ? 0 : 1; \
 }\
 \
@@ -75,6 +72,7 @@ int name ## _init(name * _dic, int (*_cmp) (const key_type, const key_type) ){ \
     _dic -> cmp = _cmp; \
     _dic -> get = name ## _get; \
     _dic -> insert = name ## _insert; \
+    _dic -> remove = name ## _remove; \
     return (_dic -> begin) != NULL ? 0 : 1; \
 }
 #endif

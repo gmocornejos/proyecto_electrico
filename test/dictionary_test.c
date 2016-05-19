@@ -15,7 +15,7 @@ int main(int argc, char * argv[]){
 
     dic_type_init( &my_dic, strcmp);
 
-    for(i = 1; i != 6; ++i)
+    for(i = 0; i != 6; ++i)
         my_dic.insert(&my_dic, names[i], i);
 
     for(j = my_dic.begin; j != my_dic.end; ++j)
@@ -24,7 +24,10 @@ int main(int argc, char * argv[]){
     my_dic.insert(&my_dic, "cuatro", 9);
     printf("cuatro es %d\n", *(my_dic.get(&my_dic, "cuatro")) );
 
-    my_dic.remove(&my_dic; )
-    
+    my_dic.remove(&my_dic, "dos");
+
+    for(j = my_dic.begin; j != my_dic.end; ++j)
+        printf("%d es %s\n", j -> value, j -> key);
+
     return 0;
 }
