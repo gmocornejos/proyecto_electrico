@@ -28,7 +28,9 @@ int string_cmp(char * v1, char * v2){
 }
 
 void load_bvh_data(FILE *f){
-    
+
+    char * bug; // :P read line 82
+
     char line[MAX_LINE];
     char ** index;
     Joint_vector joints, parents;
@@ -51,6 +53,8 @@ void load_bvh_data(FILE *f){
             index = line_split.search(&line_split, "JOINT", string_cmp);
             Joint * tmp = Joint_alloc(*++index, 0, 0, *parents.last(&parents) );
             joints.append(&joints, tmp);
+            if( strstr(tmp -> name, "LeftUpLeg") )
+                bug = tmp -> name;
         } else if( strstr(line, "End") ){
             int len = strlen( (*parents.last(&parents)) -> name);
             char tmp_name[len + 3];
@@ -70,10 +74,13 @@ void load_bvh_data(FILE *f){
             ((*joints.last(&joints)) -> local_matrix)[11] = atof(*++index);
         } else if( strstr(line, "MOTION") )
             break;
+/*    for(j = joints.begin; j != joints.end; ++j)
+        printf("%s, %p\n", (*j) -> name, (*j) -> name );
+    printf("\n\n\n");*/
     }
-    
-//    for(j = joints.begin; j != joints.end; ++j)
-//        printf("%s, string length: %ld\n", (*j) -> name, strlen( (*j) -> name) );
+
+    /* Quick and dirty bug fix. Weird memory leak, someone is writing in LeftUpLeg name address, this restores the name */
+    strcpy(bug, "LeftUpLeg");
 
     fgets(line, MAX_LINE, f);
     string_split(line, "\t", &line_split);
@@ -101,9 +108,9 @@ void load_bvh_data(FILE *f){
                 ( (*j) -> rotation)[2] = atof(*++index);
             }
             (*j) -> calculate_position( (*j) );
-            printf("%f %f %f ", ((*j) -> global_matrix)[3], ((*j) -> global_matrix)[7], ((*j) -> global_matrix)[11] );
+//            printf("%f %f %f ", ((*j) -> global_matrix)[3], ((*j) -> global_matrix)[7], ((*j) -> global_matrix)[11] );
         }
-        printf("\n");
+//        printf("\n");
     }
 
 }

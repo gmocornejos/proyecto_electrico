@@ -44,9 +44,10 @@ void Joint_calculate_local_matrix(Joint *self){
 Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
     Joint * j = malloc( sizeof(Joint) );
 
-    int len = isEnd ? strlen(name) : strlen(name) - 2;
+    int len = isEnd ? strlen(name) + 1 : strlen(name) - 1;
     j -> name = malloc( sizeof(char) * len );
     strncpy(j -> name, name, len);
+    (j -> name)[len-1] = 0;
 
     j -> local_matrix = calloc(16, sizeof(double) );
     (j -> local_matrix)[15] = 1;
@@ -64,6 +65,8 @@ Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
 
     j -> calculate_position = Joint_calculate_position;
     j -> calculate_local_matrix = Joint_calculate_local_matrix;
+
+//    printf("%s\n", j -> name);
 
     return j;
 }

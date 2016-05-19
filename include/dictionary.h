@@ -78,4 +78,9 @@ name ## _entry * name ## _init(name * _dic, int (*cmp) (const key_type, const ke
     _dic -> remove = name ## _remove; \
     return _dic -> begin; \
 }
+
+#define DICTIONARY_LOCAL_DEFINE(key_type, value_type, name) \
+    DICTIONARY_DECLARE(key_type, value_type, name) \
+    DICTIONARY_DEFINE(key_type, value_type, name)
+    
 #endif

@@ -33,7 +33,7 @@ type * name ## _append(name * _vec, type value){ \
         _vec -> begin = realloc(_vec -> begin, (_vec -> type_size) * (_vec -> capacity) ); \
         _vec -> end = _vec -> begin + _vec -> length; \
     } \
-    return _vec -> begin \
+    return _vec -> begin; \
 } \
 \
 type * name ## _pop(name * _vec){ \
