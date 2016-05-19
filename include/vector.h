@@ -12,78 +12,82 @@
         size_t capacity; \
         type * begin; \
         type * end; \
-        int (*append) (name *, type); \
-        int (*pop) (name *); \
+        type * (*append) (name *, type); \
+        type * (*pop) (name *); \
         type * (*last) (name *); \
         type * (*search) (name *, type, int (*comp)(type, type) );\
         void (*clean) (name *); \
         void (*destroy) (name *); \
-    }; 
+    }; \
+    \
+    type * name ## _init(name * _vec, int size); \
+
 
 #define VECTOR_DEFINE(type, name) \
-    int name ## _append(name * vector, type value){ \
-        *(vector -> end)++ = value; \
-        ++(vector -> length); \
-        if( (vector -> length) == (vector -> capacity) ){ \
-            vector -> capacity *= 1.2; \
-            vector -> begin = realloc(vector -> begin, (vector -> type_size) * (vector -> capacity) ); \
-            vector -> end = vector -> begin + vector -> length; \
-        } \
-        return (vector -> begin) != NULL ? 1 : 0; \
+\
+type * name ## _append(name * _vec, type value){ \
+    *(_vec -> end)++ = value; \
+    ++(_vec -> length); \
+    if( (_vec -> length) == (_vec -> capacity) ){ \
+        _vec -> capacity *= 1.2; \
+        _vec -> begin = realloc(_vec -> begin, (_vec -> type_size) * (_vec -> capacity) ); \
+        _vec -> end = _vec -> begin + _vec -> length; \
     } \
-    \
-    int name ## _pop(name * vector){ \
-        --(vector -> end); \
-        --(vector -> length); \
-        if( (vector -> length) < 0.6 * (vector -> capacity) && 0.6 * (vector -> capacity) >= 1){ \
-            vector -> capacity *= 0.6; \
-            vector -> begin = realloc(vector -> begin, (vector -> type_size) * (vector -> capacity) ); \
-            vector -> end = vector -> begin + vector -> length; \
-        } \
-        return (vector -> begin) != NULL ? 1 : 0; \
+    return _vec -> begin \
+} \
+\
+type * name ## _pop(name * _vec){ \
+    --(_vec -> end); \
+    --(_vec -> length); \
+    if( (_vec -> length) < 0.8 * (_vec -> capacity) && 0.8 * (_vec -> capacity) >= 1){ \
+        _vec -> capacity *= 0.8; \
+        _vec -> begin = realloc(_vec -> begin, (_vec -> type_size) * (_vec -> capacity) ); \
+        _vec -> end = _vec -> begin + _vec -> length; \
     } \
-    \
-    type * name ## _last(name * vector){ \
-        return (vector -> end) - 1; \
-    } \
-    \
-    type * name ## _search(name * vector, type value, int (*comp) (type, type) ){ \
-        type * i; \
-        for(i = vector -> begin; i != vector -> end; ++i) \
-            if( comp(*i, value) ) \
-                return i; \
-        return NULL; \
-    } \
-    \
-    void name ## _clean(name * vector){ \
-        vector -> length = 0; \
-        vector -> end = vector -> begin; \
-    } \
-    \
-    void name ## _destroy(name * vector){ \
-        vector -> length = 0; \
-        vector -> capacity = 0; \
-        free(vector -> begin); \
-        vector -> end = NULL; \
-    } \
-    \
-    int name ## _init(name * vector, int size){ \
-        vector -> type_size = sizeof(type); \
-        vector -> length = 0; \
-        vector -> capacity = size; \
-        vector -> begin = malloc(size * (vector -> type_size) ); \
-        vector -> end = vector -> begin; \
-        vector -> append = name ## _append; \
-        vector -> pop = name ## _pop; \
-        vector -> last = name ## _last; \
-        vector -> search = name ## _search; \
-        vector -> clean = name ## _clean; \
-        vector -> destroy = name ## _destroy; \
-        return (vector -> begin) != NULL ? 1 : 0; \
-    } 
+    return _vec -> begin; \
+} \
+\
+type * name ## _last(name * _vec){ \
+    return (_vec -> end) - 1; \
+} \
+\
+type * name ## _search(name * _vec, type value, int (*comp) (type, type) ){ \
+    type * i; \
+    for(i = _vec -> begin; i != _vec -> end; ++i) \
+        if( comp(*i, value) ) \
+            return i; \
+    return NULL; \
+} \
+\
+void name ## _clean(name * _vec){ \
+    _vec -> length = 0; \
+    _vec -> end = _vec -> begin; \
+} \
+\
+void name ## _destroy(name * _vec){ \
+    _vec -> length = 0; \
+    _vec -> capacity = 0; \
+    free(_vec -> begin); \
+    _vec -> end = NULL; \
+} \
+\
+type * name ## _init(name * _vec, int size){ \
+    _vec -> type_size = sizeof(type); \
+    _vec -> length = 0; \
+    _vec -> capacity = size; \
+    _vec -> begin = malloc(size * (_vec -> type_size) ); \
+    _vec -> end = _vec -> begin; \
+    _vec -> append = name ## _append; \
+    _vec -> pop = name ## _pop; \
+    _vec -> last = name ## _last; \
+    _vec -> search = name ## _search; \
+    _vec -> clean = name ## _clean; \
+    _vec -> destroy = name ## _destroy; \
+    return _vec -> begin; \
+} 
 
 #define VECTOR_LOCAL_DEFINE(type, name) \
-    VECTOR_DECLARE(type, name) \
-    VECTOR_DEFINE(type, name)
+VECTOR_DECLARE(type, name) \
+VECTOR_DEFINE(type, name)
 
 #endif 
