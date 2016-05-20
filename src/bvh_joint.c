@@ -41,6 +41,17 @@ void Joint_calculate_local_matrix(Joint *self){
     (self -> local_matrix)[10] = a*c;
 }
 
+void Joint_free(Joint * j, int free_name){
+    /* WARNING OF MEMORY LEAK */
+    /* Name is keeped in memory to be used un motion data structure, if you want to release name memory, set free_name = 1 */
+    if(! j -> isRoot )
+        free(j -> global_matrix);
+    free(j -> local_matrix);
+    if( free_name )
+        free(j -> name);
+    free(j);
+}
+
 Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
     Joint * j = malloc( sizeof(Joint) );
 
@@ -65,18 +76,7 @@ Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
 
     j -> calculate_position = Joint_calculate_position;
     j -> calculate_local_matrix = Joint_calculate_local_matrix;
-
-//    printf("%s\n", j -> name);
+    j -> free = Joint_free;
 
     return j;
 }
-
-void Joint_free(Joint * j){
-
-    if(! j -> isRoot )
-        free(j -> global_matrix);
-    free(j -> local_matrix);
-    free(j -> name);
-    free(j);
-}
-

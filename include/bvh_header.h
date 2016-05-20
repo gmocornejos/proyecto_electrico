@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <motion.h>
+
 /*** Joint data structures ***/ 
 typedef struct Joint Joint;
 struct Joint{
@@ -18,12 +20,12 @@ struct Joint{
 
     void (*calculate_position) (Joint *);
     void (*calculate_local_matrix) (Joint *);
+    void (*free) (Joint *, int);
 };
 /*** Joint functions ***/
 Joint * Joint_alloc(char *, int, int, Joint *);
-void Joint_free(Joint *);
 
 /*** bvh parser functions ***/
-void load_bvh_data(FILE *);
+void load_bvh_data(FILE *, motion *);
 
 #endif

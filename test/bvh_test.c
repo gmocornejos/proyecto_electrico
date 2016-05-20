@@ -14,7 +14,12 @@ int main(int argc, char * argv[]){
         exit(EXIT_FAILURE);    
     }
 
-    load_bvh_data(input);
+    load_bvh_data(input, &m);
+    motion_parameters_entry * j;
+    for(j = m.parameters.begin; j != m.parameters.end; ++j)
+        printf("%s\n", j -> key);
+
+    printf("data size %ld\n", m.data.length);
 
     return 0;
 }

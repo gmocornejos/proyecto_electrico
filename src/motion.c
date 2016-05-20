@@ -15,6 +15,9 @@ int motion_init(motion * m){
     if( motion_parameters_init( &(m -> parameters), strcmp ) == NULL )
         return 0;
 
+    m -> data_ptr  = &(m -> data);
+    m -> param_ptr = &(m -> parameters);
+
     return 1;
 }
 

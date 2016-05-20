@@ -27,10 +27,10 @@ int string_cmp(char * v1, char * v2){
     return ! strcmp(v1, v2);
 }
 
-void load_bvh_data(FILE *f){
+void load_bvh_data(FILE *f, motion * m){
 
-    char * bug; // :P read line 82
-
+    char * bug; // read line 82 :P
+    char * param_name;
     char line[MAX_LINE];
     char ** index;
     Joint_vector joints, parents;
@@ -74,9 +74,9 @@ void load_bvh_data(FILE *f){
             ((*joints.last(&joints)) -> local_matrix)[11] = atof(*++index);
         } else if( strstr(line, "MOTION") )
             break;
-/*    for(j = joints.begin; j != joints.end; ++j)
-        printf("%s, %p\n", (*j) -> name, (*j) -> name );
-    printf("\n\n\n");*/
+//    for(j = joints.begin; j != joints.end; ++j)
+//        printf("%s, %p\n", (*j) -> name, (*j) -> name );
+//    printf("\n\n\n");
     }
 
     /* Quick and dirty bug fix. Weird memory leak, someone is writing in LeftUpLeg name address, this restores the name */
@@ -85,12 +85,22 @@ void load_bvh_data(FILE *f){
     fgets(line, MAX_LINE, f);
     string_split(line, "\t", &line_split);
     index = line_split.search(&line_split, "Frames:", string_cmp);
-    printf("Number of frames: %d\n", atoi(*++index) );
+    param_name = malloc( sizeof(char) * (strlen(*index)) );
+    strcpy(param_name, "Frames");
+    (m -> parameters).insert(&(m -> parameters), param_name, atof(*++index));
 
     fgets(line, MAX_LINE, f);
     string_split(line, "\t", &line_split);
     index = line_split.search(&line_split, "Frame Time:", string_cmp);
-    printf("Time of frames: %f\n", atof(*++index) );
+    param_name = malloc( sizeof(char) * (strlen(*index)-1) );
+    strcpy(param_name, "FrameTime");
+    (m -> parameters).insert(m -> param_ptr, param_name, atof(*++index));
+
+    for(j = joints.begin; j != joints.end; ++j){
+        time_series tmp;
+        time_series_init(&tmp, *(m -> parameters).get(m -> param_ptr, "Frames") );
+        (m -> data).insert(m -> data_ptr, (*j) -> name, tmp);
+    }
 
     while( fgets(line, MAX_LINE, f) ){
         string_split(line, " ", &line_split);
@@ -112,7 +122,6 @@ void load_bvh_data(FILE *f){
         }
 //        printf("\n");
     }
-
 }
 
 
