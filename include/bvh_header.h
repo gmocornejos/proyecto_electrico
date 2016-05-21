@@ -20,7 +20,7 @@ struct Joint{
 
     void (*calculate_position) (Joint *);
     void (*calculate_local_matrix) (Joint *);
-    void (*free) (Joint *, int);
+    void (*dealloc) (Joint *, int);
 };
 /*** Joint functions ***/
 Joint * Joint_alloc(char *, int, int, Joint *);

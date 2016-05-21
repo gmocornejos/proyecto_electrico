@@ -1,5 +1,7 @@
 #include <string.h>
 
+#include <stdlib.h>
+
 #include <vector.h>
 #include <bvh_header.h>
 
@@ -82,6 +84,7 @@ void load_bvh_data(FILE *f, motion * m){
     /* Quick and dirty bug fix. Weird memory leak, someone is writing in LeftUpLeg name address, this restores the name */
     strcpy(bug, "LeftUpLeg");
 
+    // stores Frames parameter
     fgets(line, MAX_LINE, f);
     string_split(line, "\t", &line_split);
     index = line_split.search(&line_split, "Frames:", string_cmp);
@@ -89,6 +92,7 @@ void load_bvh_data(FILE *f, motion * m){
     strcpy(param_name, "Frames");
     (m -> parameters).insert(&(m -> parameters), param_name, atof(*++index));
 
+    // Stores Frame Time parameter
     fgets(line, MAX_LINE, f);
     string_split(line, "\t", &line_split);
     index = line_split.search(&line_split, "Frame Time:", string_cmp);
@@ -96,6 +100,7 @@ void load_bvh_data(FILE *f, motion * m){
     strcpy(param_name, "FrameTime");
     (m -> parameters).insert(m -> param_ptr, param_name, atof(*++index));
 
+    // Creates dictionary entries for every joints
     for(j = joints.begin; j != joints.end; ++j){
         time_series tmp;
         time_series_init(&tmp, *(m -> parameters).get(m -> param_ptr, "Frames") );
@@ -106,6 +111,7 @@ void load_bvh_data(FILE *f, motion * m){
         string_split(line, " ", &line_split);
         index = line_split.begin;
 
+        time_series * ts_tmp;
         for(j = joints.begin; j != joints.end; ++j){
             if( (*j) -> isRoot ){
                 ( (*j) -> local_matrix )[3]  = atof(*index);
@@ -118,12 +124,24 @@ void load_bvh_data(FILE *f, motion * m){
                 ( (*j) -> rotation)[2] = atof(*++index);
             }
             (*j) -> calculate_position( (*j) );
-//            printf("%f %f %f ", ((*j) -> global_matrix)[3], ((*j) -> global_matrix)[7], ((*j) -> global_matrix)[11] );
+
+            vector vec_tmp = { ((*j) -> global_matrix)[3], ((*j) -> global_matrix)[7], ((*j) -> global_matrix)[11] };
+            ts_tmp = (m -> data).get(m -> data_ptr, (*j) -> name);
+            ts_tmp -> append(ts_tmp, vec_tmp);
         }
-//        printf("\n");
     }
+
+    printf("%s\n", joints.begin[17] -> name);
+
+    // free memory
+    for(j = joints.begin; j != joints.end; ++j){
+        printf("%p ", (*j));
+        (*j) -> dealloc( (*j), 0 );
+    }
+
+//    joints.destroy( & joints );
+//    parents.destroy( & parents );
+//    free( parents.begin );
+    line_split.destroy( & line_split );
 }
-
-
-
 

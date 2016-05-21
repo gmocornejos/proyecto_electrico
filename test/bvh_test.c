@@ -15,11 +15,20 @@ int main(int argc, char * argv[]){
     }
 
     load_bvh_data(input, &m);
-    motion_parameters_entry * j;
-    for(j = m.parameters.begin; j != m.parameters.end; ++j)
-        printf("%s\n", j -> key);
 
+/*    // prints all joints names and data size
+    motion_data_entry * j;
+    for(j = m.data.begin; j != m.data.end; ++j)
+        printf("%s\n", j -> key);
     printf("data size %ld\n", m.data.length);
+*/
+
+/*    // prints Hips time series
+    time_series * tmp = m.data.get( &m.data, "Hips");
+    vector *v;
+    for(v = tmp -> begin; v != tmp -> end; ++v)
+        printf("%f %f %f \n", v -> x, v -> y, v -> z);
+*/
 
     return 0;
 }
