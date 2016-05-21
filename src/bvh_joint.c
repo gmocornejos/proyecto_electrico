@@ -44,23 +44,23 @@ void Joint_calculate_local_matrix(Joint *self){
 void Joint_dealloc(Joint * j, int free_name){
     /* WARNING OF MEMORY LEAK */
     /* name is keeped in memory in order to be used un motion data structure, if you want to release name memory, set free_name parameter = 1 */
-    printf("%p\n", j);
     if(! j -> isRoot )
         free(j -> global_matrix);
-/*    free(j -> local_matrix);
+    free(j -> local_matrix);
     if( free_name )
         free(j -> name);
     free(j);
-    */
 }
 
 Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
+
+    int len;
     Joint * j = malloc( sizeof(Joint) );
 
-    int len = isEnd ? strlen(name) + 1 : strlen(name) - 1;
+    len = isEnd ? strlen(name) + 1 : strlen(name) - 1;
     j -> name = malloc( sizeof(char) * len );
     strncpy(j -> name, name, len);
-    (j -> name)[len-1] = 0;
+    (j -> name)[len-1] = '\0';
 
     j -> local_matrix = calloc(16, sizeof(double) );
     (j -> local_matrix)[15] = 1;

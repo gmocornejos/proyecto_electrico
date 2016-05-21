@@ -21,6 +21,7 @@
         name ## _entry * (*insert) (name *, key_type, value_type); \
         name ## _entry * (*remove) (name *, key_type); \
         value_type * (*get) (name*, key_type); \
+        void (*destroy) (name *); \
     }; \
     \
     name ## _entry * name ## _init(name * _dic, int (*cmp) (const key_type, const key_type) ); 
@@ -67,6 +68,12 @@ name ## _entry * name ## _insert(name * _dic, key_type _key, value_type _value){
     return _dic -> begin; \
 } \
 \
+void name ## _destroy(name * _dic){ \
+    _dic -> length = 0; \
+    free(_dic -> begin); \
+    _dic -> end = NULL; \
+} \
+\
 name ## _entry * name ## _init(name * _dic, int (*cmp) (const key_type, const key_type) ){ \
     _dic -> entry_size = sizeof(name ## _entry); \
     _dic -> length = 0; \
@@ -76,6 +83,7 @@ name ## _entry * name ## _init(name * _dic, int (*cmp) (const key_type, const ke
     _dic -> get = name ## _get; \
     _dic -> insert = name ## _insert; \
     _dic -> remove = name ## _remove; \
+    _dic -> destroy = name ## _destroy; \
     return _dic -> begin; \
 }
 

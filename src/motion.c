@@ -21,3 +21,20 @@ int motion_init(motion * m){
     return 1;
 }
 
+void motion_dealloc(motion * m, int free_data_key, int free_param_key){
+    motion_data_entry * d;
+    motion_parameters_entry * p;
+
+    for(d = (m -> data).begin; d != (m -> data).end; ++d ){
+        (d -> value).destroy( &(d -> value) );
+        if( free_data_key )
+            free( d -> key );
+    }
+
+    if( free_param_key )
+        for(p = (m -> parameters).begin; p != (m -> parameters).end; ++p )
+            free( p -> key);
+
+    (m -> data).destroy(m -> data_ptr);
+    (m -> parameters).destroy(m -> param_ptr);
+}

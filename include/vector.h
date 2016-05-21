@@ -29,6 +29,7 @@ type * name ## _append(name * _vec, type value){ \
     *(_vec -> end)++ = value; \
     ++(_vec -> length); \
     if( (_vec -> length) == (_vec -> capacity) ){ \
+        ++(_vec -> capacity); \
         _vec -> capacity *= 1.2; \
         _vec -> begin = realloc(_vec -> begin, (_vec -> type_size) * (_vec -> capacity) ); \
         _vec -> end = _vec -> begin + _vec -> length; \
@@ -37,10 +38,12 @@ type * name ## _append(name * _vec, type value){ \
 } \
 \
 type * name ## _pop(name * _vec){ \
+    if( _vec -> length == 0 ) \
+        return _vec -> begin; \
     --(_vec -> end); \
     --(_vec -> length); \
-    if( (_vec -> length) < 0.8 * (_vec -> capacity) && 0.8 * (_vec -> capacity) >= 1){ \
-        _vec -> capacity *= 0.8; \
+    if( 1.2 * (_vec -> length) < _vec -> capacity ){ \
+        _vec -> capacity = 1.2 * (_vec -> length + 1); \
         _vec -> begin = realloc(_vec -> begin, (_vec -> type_size) * (_vec -> capacity) ); \
         _vec -> end = _vec -> begin + _vec -> length; \
     } \

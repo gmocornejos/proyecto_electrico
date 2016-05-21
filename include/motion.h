@@ -20,5 +20,6 @@ typedef struct {
 } motion;
 
 int motion_init(motion *);
+void motion_dealloc(motion *, int, int);
 
 #endif

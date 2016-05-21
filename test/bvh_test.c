@@ -30,5 +30,9 @@ int main(int argc, char * argv[]){
         printf("%f %f %f \n", v -> x, v -> y, v -> z);
 */
 
+    motion_dealloc( &m, 1, 1);
+
+    fclose(input);
+
     return 0;
 }
