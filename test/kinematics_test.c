@@ -4,22 +4,30 @@
 
 int main(int argc, char * argv[]){
 
-    time_series linear, square;
+    time_series parabola, linear, square;
     vector tmp;
-    int i;
+    double i;
+    int j;
 
-    time_series_init( &square, 100);
+    time_series_init( &parabola, 200);
+    time_series_init( &square, 0);
     time_series_init( &linear, 0);
 
-    for(i = 0; i != 100; ++i){
+    for(i = -24.75; i != 25; i+= 0.25){
         tmp.x = i*i;
         tmp.y = tmp.x + 1;
         tmp.z = tmp.y + 1;
-        square.append( &square, tmp);
+        parabola.append( &parabola, tmp);
     }
 
-    printf("Linear size %d \n", derivate( &square, 1, &linear) );
-        
+    // linear = d/dx square
+    derivate( &parabola, 0.25, &linear );
+
+    // square = integral linear
+    integrate( &linear, 0.25, &square );
+
+    for(j = 0; j != linear.length; ++j)
+        printf("%d\t%f\t%f\t%f\n", j, parabola.begin[j].x, linear.begin[j].x, square.begin[j].x);
 
     return 0;
 }
