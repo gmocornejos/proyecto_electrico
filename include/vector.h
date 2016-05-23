@@ -75,6 +75,7 @@ void name ## _destroy(name * _vec){ \
 } \
 \
 type * name ## _init(name * _vec, int size){ \
+    size = size > 0 ? size : 1; \
     _vec -> type_size = sizeof(type); \
     _vec -> length = 0; \
     _vec -> capacity = size; \

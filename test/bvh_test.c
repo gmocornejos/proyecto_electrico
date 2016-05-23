@@ -6,9 +6,13 @@
 int main(int argc, char * argv[]){
 
     FILE * input;
+    int i;
+    motion m;
+    motion_data_entry * j;
+    motion_parameters_entry * p;
+
     input = fopen(argv[1], "r");
 
-    motion m;
     if( ! motion_init( &m ) ){
         fprintf(stderr, "Error initiating motion object in %s at line %d\n", __FILE__, __LINE__ );
         exit(EXIT_FAILURE);    
@@ -16,19 +20,20 @@ int main(int argc, char * argv[]){
 
     load_bvh_data(input, &m);
 
-/*    // prints all joints names and data size
-    motion_data_entry * j;
+    // prints all joints names and data size
+    printf("Joints: ");
     for(j = m.data.begin; j != m.data.end; ++j)
-        printf("%s\n", j -> key);
-    printf("data size %ld\n", m.data.length);
-*/
+        printf(" %s ", j -> key);
+    printf("\n");
 
-/*    // prints Hips time series
-    time_series * tmp = m.data.get( &m.data, "Hips");
-    vector *v;
-    for(v = tmp -> begin; v != tmp -> end; ++v)
-        printf("%f %f %f \n", v -> x, v -> y, v -> z);
-*/
+    for(p = m.parameters.begin; p != m.parameters.end; ++p)
+        printf("%s:, %lf\n", p -> key, p -> value);
+
+    for(i = 0; i != m.data.length; ++i){
+        for(j = m.data.begin; j != m.data.end; ++j)
+            printf(" %lf %lf %lf ", (j -> value).begin[i].x, (j -> value).begin[i].y, (j -> value).begin[i].z );
+        printf("\n");
+    }
 
     motion_dealloc( &m, 1, 1);
 

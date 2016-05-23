@@ -2,12 +2,12 @@ INCLUDE = ./include
 TEST = ./test
 SRC = ./src
 
-CFLAGS = -I $(INCLUDE)
+CFLAGS = -g -I $(INCLUDE)
 LIBS = -lm
 CC = gcc
 
-_SRC_OBJ = motion.o bvh_joint.o bvh_load.o
-_SRC_DEPS = vector.h bvh_header.h dictionary.h motion.h
+_SRC_OBJ = motion.o bvh_joint.o bvh_load.o kinematics.o
+_SRC_DEPS = vector.h bvh_header.h dictionary.h motion.h kinematics.h
 
 SRC_OBJ = $(patsubst %, $(SRC)/%, $(_SRC_OBJ))
 SRC_DEPS = $(patsubst %, $(INCLUDE)/%, $(_SRC_DEPS))
@@ -22,6 +22,9 @@ dic_test: $(TEST)/dictionary_test.o $(INCLUDE)/dictionary.h
 	$(CC) -o $@ $^ $(CFLAGS)
 
 bvh_test : $(SRC_OBJ) $(TEST)/bvh_test.o
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+kinematics_test : $(SRC_OBJ) $(TEST)/kinematics_test.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 clean:
