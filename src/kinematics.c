@@ -1,5 +1,6 @@
 #include <kinematics.h>
 
+
 int derivate(time_series * input, double sample_time, time_series * output){
 
     vector * v, tmp;

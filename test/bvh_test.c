@@ -29,7 +29,7 @@ int main(int argc, char * argv[]){
     for(p = m.parameters.begin; p != m.parameters.end; ++p)
         printf("%s:, %lf\n", p -> key, p -> value);
 
-    for(i = 0; i != m.data.length; ++i){
+    for(i = 0; i != m.data.begin -> value.length; ++i){
         for(j = m.data.begin; j != m.data.end; ++j)
             printf(" %lf %lf %lf ", (j -> value).begin[i].x, (j -> value).begin[i].y, (j -> value).begin[i].z );
         printf("\n");
