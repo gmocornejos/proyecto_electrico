@@ -66,6 +66,7 @@ int calculate_std_planes(motion * m){
     time_series_init( &(m -> transversal).normal, (m -> data).begin -> value.length);
     time_series_init( &(m -> coronal).normal, (m -> data).begin -> value.length);
 
+/*-------------------------------------------------*/
     /**** Sagital plane *****/
     for(i = 0; i != (m -> data).begin -> value.length; ++i){
         // Shoulder average
@@ -77,7 +78,7 @@ int calculate_std_planes(motion * m){
             ( (m -> data).get(m -> data_ptr, "RightShoulder") -> begin )[i].y );
          v1.z = 0.5 * ( 
             ( (m -> data).get(m -> data_ptr, "LeftShoulder") -> begin )[i].z + 
-            ( (m -> data).get(m -> data_ptr, "RightShoulder") -> begin )[i].y );
+            ( (m -> data).get(m -> data_ptr, "RightShoulder") -> begin )[i].z );
 
         // UpLeg average
         v2.x = 0.5 * ( 
@@ -104,6 +105,54 @@ int calculate_std_planes(motion * m){
         tmp_normal.y /= magnitude;
         tmp_normal.z /= magnitude;
         (m -> sagital).normal.append( &( (m -> sagital).normal ), tmp_normal);
+    }
+
+/*-------------------------------------------------*/
+    /**** Coronal plane *****/
+    for(i = 0; i != (m -> data).begin -> value.length; ++i){
+        // Shoulder average
+        v1.x = 0.5 * ( 
+            ( (m -> data).get(m -> data_ptr, "LeftShoulder") -> begin )[i].x + 
+            ( (m -> data).get(m -> data_ptr, "RightShoulder") -> begin )[i].x );
+        v1.y = 0.5 * ( 
+            ( (m -> data).get(m -> data_ptr, "LeftShoulder") -> begin )[i].y + 
+            ( (m -> data).get(m -> data_ptr, "RightShoulder") -> begin )[i].y );
+         v1.z = 0.5 * ( 
+            ( (m -> data).get(m -> data_ptr, "LeftShoulder") -> begin )[i].z + 
+            ( (m -> data).get(m -> data_ptr, "RightShoulder") -> begin )[i].z );
+
+        // Second and third point 
+        v2 = ((m -> data).get(m -> data_ptr, "LeftUpLeg") -> begin)[i];
+        v3 = ((m -> data).get(m -> data_ptr, "RightUpLeg") -> begin)[i];
+         // Calculate normal vector
+        tmp_normal.x = (v2.y - v1.y) * (v3.z - v1.z) - (v2.z - v1.z) * (v3.y - v3.y);
+        tmp_normal.y = (v2.z - v1.z) * (v3.x - v1.x) - (v2.x - v1.x) * (v3.z - v1.z);
+        tmp_normal.z = (v2.x - v1.x) * (v3.y - v1.y) - (v3.x - v1.x) * (v2.y - v1.y);
+
+        // normalizes normal vector
+        magnitude = sqrt(tmp_normal.x * tmp_normal.x + tmp_normal.y * tmp_normal.y + tmp_normal.z * tmp_normal.z);
+        tmp_normal.x /= magnitude;
+        tmp_normal.y /= magnitude;
+        tmp_normal.z /= magnitude;
+        (m -> coronal).normal.append( &((m -> coronal).normal), tmp_normal);
+    }
+
+/*-------------------------------------------------*/
+    /**** Coronal plane *****/
+    for(i = 0; i != (m -> data).begin -> value.length; ++i){
+        v1 = (m -> sagital).normal.begin[i];
+        v2 = (m -> coronal).normal.begin[i];
+        
+        tmp_normal.x = v1.y * v2.z - v1.z * v2.y;
+        tmp_normal.y = v1.z * v2.x - v1.x * v2.z;
+        tmp_normal.z = v1.x * v2.y - v1.y * v2.x;
+
+        magnitude = sqrt(tmp_normal.x * tmp_normal.x + tmp_normal.y * tmp_normal.y + tmp_normal.z * tmp_normal.z);
+        tmp_normal.x /= magnitude;
+        tmp_normal.y /= magnitude;
+        tmp_normal.z /= magnitude;
+        
+        (m -> transversal).normal.append( &((m -> transversal).normal), tmp_normal);
     }
 
     return 0;
