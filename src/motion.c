@@ -57,29 +57,41 @@ int calculate_std_planes(motion * m){
     int i;
 
     // Sets Hips time_series as plane point
-    (m -> sagital).point = (m -> data).get( &(m -> data), "Hips");
-    (m -> transversal).point = (m -> data).get( &(m -> data), "Hips");
-    (m -> coronal).point = (m -> data).get( &(m -> data), "Hips");
+    (m -> sagital).point = (m -> data).get( m -> data_ptr, "Hips");
+    (m -> transversal).point = (m -> data).get( m -> data_ptr, "Hips");
+    (m -> coronal).point = (m -> data).get( m -> data_ptr, "Hips");
 
     // Init normal vectors
-    time_series_init( &(m -> sagital).normal, (m -> data).length);
-    time_series_init( &(m -> transversal).normal, (m -> data).length);
-    time_series_init( &(m -> coronal).normal, (m -> data).length);
+    time_series_init( &(m -> sagital).normal, (m -> data).begin -> value.length);
+    time_series_init( &(m -> transversal).normal, (m -> data).begin -> value.length);
+    time_series_init( &(m -> coronal).normal, (m -> data).begin -> value.length);
 
     /**** Sagital plane *****/
     for(i = 0; i != (m -> data).begin -> value.length; ++i){
         // Shoulder average
-        v1.x = 0.5 * ( ( (m -> data).get(m, "LeftShoulder") -> begin )[i].x + ( (m -> data).get(m, "RightShoulder") -> begin )[i].x );
-        v1.y = 0.5 * ( ( (m -> data).get(m, "LeftShoulder") -> begin )[i].y + ( (m -> data).get(m, "RightShoulder") -> begin )[i].y );
+        v1.x = 0.5 * ( 
+            ( (m -> data).get(m -> data_ptr, "LeftShoulder") -> begin )[i].x + 
+            ( (m -> data).get(m -> data_ptr, "RightShoulder") -> begin )[i].x );
+        v1.y = 0.5 * ( 
+            ( (m -> data).get(m -> data_ptr, "LeftShoulder") -> begin )[i].y + 
+            ( (m -> data).get(m -> data_ptr, "RightShoulder") -> begin )[i].y );
+         v1.z = 0.5 * ( 
+            ( (m -> data).get(m -> data_ptr, "LeftShoulder") -> begin )[i].z + 
+            ( (m -> data).get(m -> data_ptr, "RightShoulder") -> begin )[i].y );
 
-        v1.z = 0.5 * ( ( (m -> data).get(m, "LeftShoulder") -> begin )[i].z + ( (m -> data).get(m, "RightShoulder") -> begin )[i].y );
         // UpLeg average
-        v2.x = 0.5 * ( ( (m -> data).get(m, "LeftUpLeg") -> begin )[i].x + ( (m -> data).get(m, "RightUpLeg") -> begin )[i].x );
-        v2.y = 0.5 * ( ( (m -> data).get(m, "LeftUpLeg") -> begin )[i].y + ( (m -> data).get(m, "RightUpLeg") -> begin )[i].y );
-        v2.z = 0.5 * ( ( (m -> data).get(m, "LeftUpLeg") -> begin )[i].z + ( (m -> data).get(m, "RightUpLeg") -> begin )[i].z );
+        v2.x = 0.5 * ( 
+            ( (m -> data).get(m -> data_ptr, "LeftUpLeg") -> begin )[i].x + 
+            ( (m -> data).get(m -> data_ptr, "RightUpLeg") -> begin )[i].x );
+        v2.y = 0.5 * ( 
+            ( (m -> data).get(m -> data_ptr, "LeftUpLeg") -> begin )[i].y + 
+            ( (m -> data).get(m -> data_ptr, "RightUpLeg") -> begin )[i].y );
+        v2.z = 0.5 * ( 
+            ( (m -> data).get(m -> data_ptr, "LeftUpLeg") -> begin )[i].z + 
+            ( (m -> data).get(m -> data_ptr, "RightUpLeg") -> begin )[i].z );
 
         // Third point
-        v3 = *( ((m -> data).get(m, "ToSpine") -> begin)[i] );
+        v3 = ((m -> data).get(m -> data_ptr, "ToSpine") -> begin)[i];
 
         // Calculate normal vector
         tmp_normal.x = (v2.y - v1.y) * (v3.z - v1.z) - (v2.z - v1.z) * (v3.y - v3.y);
@@ -91,6 +103,7 @@ int calculate_std_planes(motion * m){
         tmp_normal.x /= magnitude;
         tmp_normal.y /= magnitude;
         tmp_normal.z /= magnitude;
+        (m -> sagital).normal.append( &( (m -> sagital).normal ), tmp_normal);
     }
 
     return 0;

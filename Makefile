@@ -27,6 +27,9 @@ bvh_test : $(SRC_OBJ) $(TEST)/bvh_test.o
 kinematics_test : $(SRC_OBJ) $(TEST)/kinematics_test.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+planes_test: $(SRC_OBJ) $(TEST)/planes_test.o
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 clean:
 	rm $(SRC)/*.o
 	rm $(TEST)/*.o
