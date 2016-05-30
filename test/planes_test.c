@@ -15,15 +15,11 @@ int main(int argc, char * argv[]){
     int c;
     time_series n;
     char msg[] = "Sagital = 1, Transversal = 2, Coronal = 3: ";
+    motion m;
     
     input = fopen(argv[1], "r");
-
-    motion m;
-
     motion_init( & m );
-
     load_bvh_data(input, &m);
-
     calculate_std_planes( &m );
 
     while( printf("%s", msg), (c = getchar()) != EOF ){

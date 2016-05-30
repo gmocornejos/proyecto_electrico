@@ -50,6 +50,22 @@ void dealloc_std_planes(motion * m){
 
 }
 
+int calculate_angle(time_series * o, time_series * v1, time_series * v2, plane * p, unidimentional_series * angle){
+
+    time_series origin, vector1, vector2;
+
+    if( p != NULL){
+        time_series_init( & origin, o -> length);
+        time_series_init( & vector1, o -> length);
+        time_series_init( & vector2, o -> length);
+    } else {
+        origin = * o;
+        vector1 = * v1;
+        vector2 = * v2;
+    }
+
+}
+
 int calculate_std_planes(motion * m){
     // temporal variables
     vector v1, v2, v3, tmp_normal;

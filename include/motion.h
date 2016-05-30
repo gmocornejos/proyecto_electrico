@@ -28,6 +28,7 @@ typedef struct {
 
 int motion_init(motion *);
 int calculate_std_planes(motion * m);
+int calculate_angle(time_series *, time_series *, time_series *, plane *, unidimentional_series *);
 void motion_dealloc(motion *, int, int);
 
 #endif
