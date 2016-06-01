@@ -20,7 +20,7 @@ int main(int argc, char * argv[]){
     input = fopen(argv[1], "r");
     motion_init( & m );
     load_bvh_data(input, &m);
-    calculate_std_planes( &m );
+    std_planes_calculate( &m, 1 );
 
     while( printf("%s", msg), (c = getchar()) != EOF ){
         getchar(); // catches line feed
@@ -39,7 +39,7 @@ int main(int argc, char * argv[]){
 
     printf("\n");
 
-    dealloc_std_planes( &m );
+    std_planes_dealloc( &m );
     motion_dealloc( &m, 1, 1);
 
     return 0;

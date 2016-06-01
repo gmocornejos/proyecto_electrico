@@ -26,9 +26,14 @@ typedef struct {
     plane sagital, transversal, coronal;
 } motion;
 
+// motion data structures functions 
 int motion_init(motion *);
-int calculate_std_planes(motion * m);
-int calculate_angle(time_series *, time_series *, time_series *, plane *, unidimentional_series *);
 void motion_dealloc(motion *, int, int);
+void std_planes_alloc(motion *);
+void std_planes_dealloc(motion *);
+
+// motion calculations
+int std_planes_calculate(motion * m, int allocate);
+int vector_calculate_angle(time_series *, time_series *, time_series *, plane *, unidimentional_series *);
 
 #endif
