@@ -11,7 +11,7 @@ vector vector_vector(vector v1, vector v2){
     return tmp;
 }
 
-vector vector_dot_product(vector v1, vector v2){
+double vector_dot_product(vector v1, vector v2){
 
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; 
     
@@ -36,21 +36,48 @@ vector vector_normalize(vector v){
     return v;
 }
 
-int vector_calculate_angle(time_series * o, time_series * v1, time_series * v2, plane * p, unidimentional_series * angle){
+vector vector_project_plane(vector A, vector point, vector normal){
 
-    time_series origin, vector1, vector2;
+    vector Ap = vector_vector(point, A);
+    double dimention = vector_dot_product(Ap, normal);
+    vector proy = { normal.x * dimention, 
+                    normal.y * dimention,
+                    normal.z * dimention };
 
-/*
-    if( p != NULL){
-        time_series_init( & origin, o -> length);
-        time_series_init( & vector1, o -> length);
-        time_series_init( & vector2, o -> length);
-    } else {
-        origin = * o;
-        vector1 = * v1;
-        vector2 = * v2;
+    return vector_vector(proy, A);
+}
+
+int vector_calculate_angle(time_series * origin, time_series * vector1, time_series * vector2, plane * p, unidimentional_series * angle){
+
+    int i;
+    double dot, ang;
+    vector o, v1, v2;
+
+    angle -> clean(angle);
+
+    for(i = 0; i < origin -> length; ++i){
+
+        o  = origin -> begin[i];
+        v1 = vector1 -> begin[i];
+        v2 = vector2 -> begin[i];
+
+        if( p != NULL ){
+            o = vector_project_plane(o, p -> point -> begin[i], p -> normal.begin[i]);
+            v1 = vector_project_plane(v1, p -> point -> begin[i], p -> normal.begin[i]);
+            v2 = vector_project_plane(v2, p -> point -> begin[i], p -> normal.begin[i]);
+        }
+
+        v1 = vector_vector(o, v1);
+        v2 = vector_vector(o, v2);
+
+        dot = vector_dot_product(v1, v2)/( sqrt(vector_dot_product(v1, v1)) * sqrt(vector_dot_product(v2, v2)) );
+
+        ang = acos(dot) * 180.0 / M_PI;
+
+        ang = dot > 0 ? ang : - ang;
+
+        angle -> append(angle, ang);
     }
-*/
 
     return 0;
 }
