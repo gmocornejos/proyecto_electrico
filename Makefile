@@ -30,6 +30,9 @@ kinematics_test : $(SRC_OBJ) $(TEST)/kinematics_test.o
 planes_test: $(SRC_OBJ) $(TEST)/planes_test.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+angle_test : $(SRC_OBJ) $(TEST)/angle_test.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 clean:
 	rm $(SRC)/*.o
 	rm $(TEST)/*.o
