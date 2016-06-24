@@ -33,6 +33,9 @@ planes_test: $(SRC_OBJ) $(TEST)/planes_test.o
 angle_test : $(SRC_OBJ) $(TEST)/angle_test.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+mariela : $(SRC_OBJ) $(TEST)/mariela.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 clean:
 	rm $(SRC)/*.o
 	rm $(TEST)/*.o

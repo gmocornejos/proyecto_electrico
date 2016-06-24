@@ -55,11 +55,7 @@ void load_bvh_data(FILE *f, motion * m){
             Joint * tmp = Joint_alloc(*++index, 0, 0, *parents.last(&parents) );
             joints.append(&joints, tmp);
         } else if( strstr(line, "End") ){
-            int len = strlen( (*parents.last(&parents)) -> name);
-            strncpy(line, "End", 3);
-            strncpy(&line[3], (*parents.last(&parents)) -> name, len);
-            line[len - 1] = '\0';
-            Joint * tmp = Joint_alloc(line, 0, 1, *parents.last(&parents) );
+            Joint * tmp = Joint_alloc(NULL, 0, 1, *parents.last(&parents) );
             joints.append(&joints, tmp);
         } else if( strstr(line, "{") )
             parents.append(&parents, *joints.last(&joints) );
@@ -75,9 +71,10 @@ void load_bvh_data(FILE *f, motion * m){
             break;
     }
 
+
     // stores Frames parameter
     fgets(line, MAX_LINE, f);
-    string_split(line, "\t", &line_split);
+    string_split(line, " ", &line_split);
     index = line_split.search(&line_split, "Frames:", string_cmp);
     param_name = malloc( sizeof(char) * (strlen(*index)) );
     strcpy(param_name, "Frames");
@@ -85,13 +82,13 @@ void load_bvh_data(FILE *f, motion * m){
 
     // Stores Frame Time parameter
     fgets(line, MAX_LINE, f);
-    string_split(line, "\t", &line_split);
-    index = line_split.search(&line_split, "Frame Time:", string_cmp);
+    string_split(line, " ", &line_split);
+    index = line_split.search(&line_split, "Time:", string_cmp);
     param_name = malloc( sizeof(char) * (strlen(*index)-1) );
     strcpy(param_name, "FrameTime");
     (m -> parameters).insert(m -> param_ptr, param_name, atof(*++index));
 
-    // Creates dictionary entries for every joints
+    // Creates dictionary entries for every joint
     for(j = joints.begin; j != joints.end; ++j){
         time_series tmp;
         time_series_init(&tmp, *(m -> parameters).get(m -> param_ptr, "Frames") );

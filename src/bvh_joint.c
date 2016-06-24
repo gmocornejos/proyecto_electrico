@@ -57,9 +57,16 @@ Joint * Joint_alloc(char * name, int isRoot, int isEnd, Joint * parent){
     int len;
     Joint * j = malloc( sizeof(Joint) );
 
-    len = isEnd ? strlen(name) + 1 : strlen(name) - 1;
-    j -> name = malloc( sizeof(char) * len );
-    strncpy(j -> name, name, len);
+    if( isEnd ){
+        len = strlen( parent -> name ) + 4;
+        j -> name = malloc( sizeof(char) * len );
+        strncpy(j -> name, "End", 3);
+        strncpy(j -> name + 3, parent -> name, len - 3);
+    } else {
+        len = strlen(name);
+        j -> name = malloc( sizeof(char) * len );
+        strncpy(j -> name, name, len);
+    }
     (j -> name)[len-1] = '\0';
 
     j -> local_matrix = calloc(16, sizeof(double) );

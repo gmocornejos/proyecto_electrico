@@ -27,7 +27,7 @@ int main(int argc, char * argv[]){
     printf("\n");
 
     for(p = m.parameters.begin; p != m.parameters.end; ++p)
-        printf("%s:, %lf\n", p -> key, p -> value);
+        printf("%s: %lf\n", p -> key, p -> value);
 
     for(i = 0; i != m.data.begin -> value.length; ++i){
         for(j = m.data.begin; j != m.data.end; ++j)

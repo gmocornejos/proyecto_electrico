@@ -27,7 +27,6 @@ int main(int argc, char * argv[]){
     integrate( &linear, 0.25, &square );
 
     for(j = 0; j != linear.length; ++j)
-        printf("%d\t%f\t%f\t%f\n", j, parabola.begin[j].x, linear.begin[j].x, square.begin[j].x);
 
     return 0;
 }
