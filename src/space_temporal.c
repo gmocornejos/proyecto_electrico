@@ -3,6 +3,8 @@
 
 #include <space_temporal.h>
 
+#define random (double) rand()/RAND_MAX
+
 void linear_fit(unidimentional_series * curve, double * m, double * b){
     double m_x = 0, m_y = 0, m_dxdx = 0, m_dxdy = 0;
     int i; 
@@ -27,20 +29,16 @@ void linear_fit(unidimentional_series * curve, double * m, double * b){
 
 double * minimum(double * p1, double * p2){
 
-    double * j, * pv, value;
+    double * j, * pv;
 
-    if(p2 > p1)
+    if(p2 < p1)
         return NULL;
 
     pv = p1;  // if no minimum, return first element 
-//    value = HUGE_VAL;
-    value = -HUGE_VAL;
     for(j = p1; j <= p2; ++j)
-//        if( *j < value){
-        if( *j > value ){
+        if( *j < *pv )
+//        if( *j > *pv )
             pv = j;
-            value = *j;
-        }
 
     return pv;
 }
@@ -59,37 +57,43 @@ void detect_peaks(unidimentional_series * curve, unidimentional_series * peaks){
     L = ceil(curve -> length / 2.0) - 1;
     lms = malloc( sizeof(double) * L * curve -> length);
 
+
+
     // Primer paso del algoritmo: detrimenta linealmente la señal
     linear_fit( curve, &m, &b );
 
-    for(j = curve -> begin; j != curve -> end; ++j)
-        *j = m * (*j) + b;
+    for(i = 0, j = curve -> begin; j != curve -> end; ++j, ++i)
+        *j = *j - m * i - b;
 
     // segundo paso: crea el "local maxima scalogram"
     // en realidad aquí bucamos el mínimo
     for(k = 0; k < L; ++k){
         for(i = 0, j = curve -> begin; i < curve -> length; ++i, ++j)
             if( i < k || i > (curve -> length - k) )
-                lms[k * (curve -> length) + i] = rand() + 1.0;
+                lms[k * (curve -> length) + i] = random + 1.0;
             else
                 if( j == minimum(j-k, j+k) )
                     lms[k * (curve -> length) + i] = 0.0;
                 else
-                    lms[k * (curve -> length) + i] = rand() + 1.0;
+                    lms[k * (curve -> length) + i] = random + 1.0;
     }
 
     // 3ro: encuentra gamma
     gamma_min = HUGE_VAL;
     gamma_indx = 0;
-    for(k = 0; k < L; ++k){
+    for(k = 1; k < L; ++k){
         gamma_sum = 0;
         for(i = 0; i < curve -> length; ++i)
             gamma_sum += lms[k * (curve -> length) + i];
 
-        if( gamma_sum < gamma_min )
+        if( gamma_sum < gamma_min ){
             gamma_min = gamma_sum;
             gamma_indx = k; 
+        }
     }
+
+    if( gamma_indx == 1)
+        gamma_indx = 2;
 
     printf("gama %d, L %d\n", gamma_indx, L);
 
