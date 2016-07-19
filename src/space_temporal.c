@@ -3,7 +3,34 @@
 
 #include <space_temporal.h>
 
-#define binwidth 5
+double candence(motion * m, unidimentional_series * peaks){
+
+    double steps, time;
+
+    steps = peaks -> length;
+    time = *(peaks -> last(peaks)) - *(peaks -> begin);
+    time /= *( m -> parameters.get(m -> param_ptr, "FrameTime") );
+
+    return steps/time;
+}
+
+/*
+double averg_step_length(motion * m, unidimentional_series peaks, char * joint_name){
+
+    double step_len = 0, * step;
+    int i;
+    vector v1, v2, v;
+    time_series * j; 
+
+    j = m -> data.get( m -> dataptr, joint_name ) 
+
+    for(step = peaks -> begin + 1; step != peaks -> end; ++step){
+        v = vector_vector( j -> begin[step-1], j -> begin[step]);
+    }
+
+    return 1;
+}
+*/
 
 void linear_fit(unidimentional_series * curve, double * m, double * b){
     double m_x = 0, m_y = 0, m_dxdx = 0, m_dxdy = 0;
@@ -42,7 +69,7 @@ double * minimum(double * p1, double * p2){
     return pv;
 }
 
-void detect_peaks(unidimentional_series * curve, unidimentional_series * peaks){
+void detect_peaks(unidimentional_series * curve, unidimentional_series * peaks, int binwidth){
 
     double m, b; // Variables for linerly detriment the signal.
     double * j, * histogram; 

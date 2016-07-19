@@ -27,7 +27,7 @@ int main(int argc, char * argv[]){
    for(v = ankle_joint -> begin; v != ankle_joint -> end; ++v)
         ankle.append( &ankle, v -> y);
 
-    detect_peaks( &ankle, &ankle_peaks);
+    detect_peaks( &ankle, &ankle_peaks, 5);
 
     signal = fopen("signal.txt", "w");
     peaks = fopen("peaks.txt", "w");

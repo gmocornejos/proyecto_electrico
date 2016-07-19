@@ -5,7 +5,7 @@
 
     /* Funciones miscelaneas */
     void linear_fit(unidimentional_series *, double *, double *);
-    void detect_peaks(unidimentional_series *, unidimentional_series *);
+    void detect_peaks(unidimentional_series *, unidimentional_series *, int binwidth);
     
 
 #endif
