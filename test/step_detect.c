@@ -8,6 +8,7 @@ int main(int argc, char * argv[]){
     
 
     FILE * f, * signal, * peaks;
+    int i, j;
 
     vector * v;
     time_series * ankle_joint;
@@ -26,22 +27,17 @@ int main(int argc, char * argv[]){
    for(v = ankle_joint -> begin; v != ankle_joint -> end; ++v)
         ankle.append( &ankle, v -> y);
 
-
     detect_peaks( &ankle, &ankle_peaks);
 
-    printf("Angle peaks length %ld\n", ankle_peaks.length);
-
-    int i, j;
-    
     signal = fopen("signal.txt", "w");
     peaks = fopen("peaks.txt", "w");
 
-    for(i = 0; i < ankle.length; ++i)
-        fprintf(signal, "%d    %lf\n", i, ankle.begin[i]);
+    for(i = 0; i < ankle_joint -> length; ++i)
+        fprintf(signal, "%d    %lf\n", i, ankle_joint -> begin[i].y);
 
     for(i = 0; i < ankle_peaks.length; ++i){
         j = ankle_peaks.begin[i];
-        fprintf(peaks, "%d    %lf\n", j, ankle.begin[j]);
+        fprintf(peaks, "%d    %lf\n", j, ankle_joint -> begin[j].y);
     }
 
     fclose(signal);
