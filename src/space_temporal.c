@@ -1,34 +1,39 @@
 #include <math.h>
 #include <float.h>
 
+#include <motion.h>
 #include <space_temporal.h>
 
-double candence(motion * m, unidimentional_series * peaks){
+double candence(double sample_time, unidimentional_series * peaks){
 
     double steps, time;
 
     steps = peaks -> length;
     time = *(peaks -> last(peaks)) - *(peaks -> begin);
-    time /= *( m -> parameters.get(m -> param_ptr, "FrameTime") );
+    time *= sample_time;
 
     return steps/time;
 }
 
 /*
-double averg_step_length(motion * m, unidimentional_series peaks, char * joint_name){
+double averg_step_length(time_series * joint, unidimentional_series * peaks){
 
     double step_len = 0, * step;
     int i;
     vector v1, v2, v;
-    time_series * j; 
 
-    j = m -> data.get( m -> dataptr, joint_name ) 
+    v1 = joint -> begin[ (int) peaks -> begin[0] ];
+    for(i = 1; i < peaks -> length; ++i){
+        v2 = v1;
+        v1 = joint -> begin[ (int) peaks -> begin[i] ];
+        v = vector_vector(v1, v2)
+        step_len += sqrt( vector_dot_product(v,v) );
 
-    for(step = peaks -> begin + 1; step != peaks -> end; ++step){
-        v = vector_vector( j -> begin[step-1], j -> begin[step]);
     }
 
-    return 1;
+    step_len /= peaks -> length;
+
+    return step_len;
 }
 */
 

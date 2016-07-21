@@ -41,24 +41,4 @@ void motion_dealloc(motion * m, int free_data_key, int free_param_key){
     (m -> parameters).destroy(m -> param_ptr);
 }
 
-void std_planes_alloc(motion * m){
 
-    // Sets Hips time_series as plane point
-    (m -> sagital).point = (m -> data).get( m -> data_ptr, "Hips");
-    (m -> transversal).point = (m -> data).get( m -> data_ptr, "Hips");
-    (m -> coronal).point = (m -> data).get( m -> data_ptr, "Hips");
-
-    // Init normal vectors
-    time_series_init( &(m -> sagital).normal, (m -> data).begin -> value.length);
-    time_series_init( &(m -> transversal).normal, (m -> data).begin -> value.length);
-    time_series_init( &(m -> coronal).normal, (m -> data).begin -> value.length);
-   
-}
-
-void std_planes_dealloc(motion * m){
-
-    (m -> sagital).normal.destroy( & (m -> sagital).normal );
-    (m -> transversal).normal.destroy( & (m -> transversal).normal );
-    (m -> coronal).normal.destroy( & (m -> coronal).normal );
-
-}
