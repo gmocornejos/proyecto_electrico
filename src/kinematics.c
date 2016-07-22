@@ -63,7 +63,7 @@ vector vector_vector(vector v1, vector v2){
 double vector_dot_product(vector v1, vector v2){
 
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; 
-    
+
 }
 
 vector vector_cross_product(vector v1, vector v2){

@@ -36,6 +36,9 @@ angle_test : $(SRC_OBJ) $(TEST)/angle_test.c
 step_detect : $(SRC_OBJ) $(TEST)/step_detect.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+space_temporal : $(SRC_OBJ) $(TEST)/space_temporal.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 mariela : $(SRC_OBJ) $(TEST)/mariela.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 

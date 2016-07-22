@@ -22,6 +22,7 @@ int std_planes_calculate( motion * m,  // motion object
 vector vector_vector(vector v1, vector v2); 
 
 vector vector_croos_product(vector v1, vector v2);
+double vector_dot_product(vector v1, vector v2);
 
 // makes v an unitary vector
 vector vector_normalize(vector v); 

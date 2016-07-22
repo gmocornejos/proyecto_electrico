@@ -2,9 +2,10 @@
 #include <float.h>
 
 #include <motion.h>
+#include <kinematics.h>
 #include <space_temporal.h>
 
-double candence(double sample_time, unidimentional_series * peaks){
+double cadence(double sample_time, unidimentional_series * peaks){
 
     double steps, time;
 
@@ -15,27 +16,72 @@ double candence(double sample_time, unidimentional_series * peaks){
     return steps/time;
 }
 
-/*
-double averg_step_length(time_series * joint, unidimentional_series * peaks){
 
-    double step_len = 0, * step;
+void step_length(time_series * joint, unidimentional_series * peaks, unidimentional_series * step_len){
+
     int i;
     vector v1, v2, v;
+
+    step_len -> clean(step_len);
 
     v1 = joint -> begin[ (int) peaks -> begin[0] ];
     for(i = 1; i < peaks -> length; ++i){
         v2 = v1;
         v1 = joint -> begin[ (int) peaks -> begin[i] ];
-        v = vector_vector(v1, v2)
-        step_len += sqrt( vector_dot_product(v,v) );
+        v = vector_vector(v1, v2);
+        step_len -> append( step_len, sqrt( vector_dot_product(v,v) ) );
+    }
+}
 
+void step_width(time_series * joint, unidimentional_series * peaks, unidimentional_series * step_width){
+
+    int i;
+    vector v1, v2, v;
+
+    step_width -> clean(step_width);
+
+    v1 = joint -> begin[ (int) peaks -> begin[0] ];
+    v1.y = 0;
+    for(i = 1; i < peaks -> length; ++i){
+        v2 = v1;
+        v1 = joint -> begin[ (int) peaks -> begin[0] ];
+        v1.y = 0;
+        v = vector_vector(v1, v2);
+        step_width -> append(step_width, sqrt( vector_dot_product(v,v) ) );
+    }
+}
+
+
+void step_time(double sample_time, unidimentional_series * peaks, unidimentional_series * step_time){
+
+    int i;
+    double st;
+
+    step_time -> clean(step_time);
+
+    for(i = 1; i < peaks -> length; ++i){
+        st = sample_time * (peaks -> begin[i] - peaks -> begin[i-1]);
+        step_time -> append( step_time, st);
+    }
+}
+
+
+double distance(time_series * point, int init, int end){
+
+    double dist = 0;
+    int i; 
+    vector v1, v2, v;
+
+    v1 = point -> begin[init];
+    for(i = init + 1; i < end + 1; ++i){
+        v2 = v1;
+        v1 = point -> begin[i];
+        v = vector_vector(v1, v2);
+        dist += sqrt( vector_dot_product(v, v) );
     }
 
-    step_len /= peaks -> length;
-
-    return step_len;
+    return dist;
 }
-*/
 
 void linear_fit(unidimentional_series * curve, double * m, double * b){
     double m_x = 0, m_y = 0, m_dxdx = 0, m_dxdy = 0;
@@ -163,3 +209,20 @@ void detect_peaks(unidimentional_series * curve, unidimentional_series * peaks, 
 
 }
 
+void detect_steps(motion * m, char * joint_name, unidimentional_series * steps, int binwidth){
+
+    time_series * joint;
+    vector * v;
+    unidimentional_series joint_height;
+
+    steps -> clean( steps );
+    unidimentional_series_init( &joint_height, 100);
+
+    joint = m -> data.get(m -> data_ptr, joint_name);
+    
+    for(v = joint -> begin; v != joint -> end; ++v)
+        joint_height.append( &joint_height, v -> y);
+
+    detect_peaks( &joint_height, steps, binwidth);
+    
+}
