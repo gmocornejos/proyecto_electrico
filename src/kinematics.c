@@ -215,6 +215,8 @@ void transform_egocentric(motion * m){
             x_o = m -> coronal.normal.begin[i];
             y_o = m -> transversal.normal.begin[i];
             z_o = m -> sagital.normal.begin[i];
+
+            v[i] = vector_vector(m -> coronal.point -> begin[i], v[i]);
             
             new_v.x = v[i].x * vector_dot_product(x_o, x_i) +
                       v[i].y * vector_dot_product(x_o, y_i) +
