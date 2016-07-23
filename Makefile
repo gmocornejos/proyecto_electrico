@@ -39,6 +39,9 @@ step_detect : $(SRC_OBJ) $(TEST)/step_detect.c
 space_temporal : $(SRC_OBJ) $(TEST)/space_temporal.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+egocentric : $(SRC_OBJ) $(TEST)/egocentric_test.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 mariela : $(SRC_OBJ) $(TEST)/mariela.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 

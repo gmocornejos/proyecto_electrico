@@ -200,3 +200,35 @@ void std_planes_dealloc(motion * m){
     (m -> coronal).normal.destroy( & (m -> coronal).normal );
 
 }
+
+void transform_egocentric(motion * m){
+
+    vector x_i = {1,0,0}, y_i = {0,1,0}, z_i = {0,0,1};
+    vector x_o, y_o, z_o;
+    vector * v, new_v;
+    int i;
+    motion_data_entry * j;
+
+    for(j = m -> data.begin; j != m -> data.end; ++j){
+        v = j -> value.begin;
+        for(i = 0; i < m -> sagital.normal.length; ++i){
+            x_o = m -> coronal.normal.begin[i];
+            y_o = m -> transversal.normal.begin[i];
+            z_o = m -> sagital.normal.begin[i];
+            
+            new_v.x = v[i].x * vector_dot_product(x_o, x_i) +
+                      v[i].y * vector_dot_product(x_o, y_i) +
+                      v[i].z * vector_dot_product(x_o, z_i);
+
+            new_v.y = v[i].x * vector_dot_product(y_o, x_i) +
+                      v[i].y * vector_dot_product(y_o, y_i) +
+                      v[i].z * vector_dot_product(y_o, z_i);
+
+            new_v.z = v[i].x * vector_dot_product(z_o, x_i) +
+                      v[i].y * vector_dot_product(z_o, y_i) +
+                      v[i].z * vector_dot_product(z_o, z_i);
+
+            v[i] = new_v;
+        }
+    }
+}

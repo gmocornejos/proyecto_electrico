@@ -15,6 +15,9 @@ void std_planes_dealloc(motion * m);
 int std_planes_calculate( motion * m,  // motion object
                           int allocate // should I allocate storage?
                         );
+// Using the standard planes, transforms all data points to a new coordinate system, define by normal vector of the three planes. 
+// This function requiers the programmer to allocate and calculate standard planes prior calling it. 
+void transform_egocentric( motion * m);                        
 
 /**** vectors manipulation ****/
 
