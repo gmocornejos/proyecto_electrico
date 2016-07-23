@@ -27,28 +27,10 @@ void step_length(time_series * joint, unidimentional_series * peaks, unidimentio
     v1 = joint -> begin[ (int) peaks -> begin[0] ];
     for(i = 1; i < peaks -> length; ++i){
         v2 = v1;
-        v1 = joint -> begin[ (int) peaks -> begin[i] ];
+        v1 = joint -> begin[ (int) (peaks -> begin[i]) ];
         v = vector_vector(v1, v2);
         step_len -> append( step_len, sqrt( vector_dot_product(v,v) ) );
-    }
-}
-
-void step_width(time_series * joint, unidimentional_series * peaks, unidimentional_series * step_width){
-
-    int i;
-    vector v1, v2, v;
-
-    step_width -> clean(step_width);
-
-    v1 = joint -> begin[ (int) peaks -> begin[0] ];
-    v1.y = 0;
-    for(i = 1; i < peaks -> length; ++i){
-        v2 = v1;
-        v1 = joint -> begin[ (int) peaks -> begin[0] ];
-        v1.y = 0;
-        v = vector_vector(v1, v2);
-        step_width -> append(step_width, sqrt( vector_dot_product(v,v) ) );
-    }
+    } 
 }
 
 

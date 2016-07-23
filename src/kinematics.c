@@ -238,4 +238,7 @@ void transform_egocentric(motion * m){
             v[i] = new_v;
         }
     }
+
+    h.destroy( &h ); // Deallocs memory.
+
 }

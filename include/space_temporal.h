@@ -37,11 +37,6 @@ void step_length( time_series * joint,
                   unidimentional_series * step_len
                 );
 
-void step_width( time_series * joint,
-                 unidimentional_series * peaks, // steps index
-                 unidimentional_series * step_width
-               );
-
 void step_time( double sample_time, 
                 unidimentional_series * peaks,
                 unidimentional_series * step_time
