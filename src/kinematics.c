@@ -140,6 +140,10 @@ int std_planes_calculate(motion * m, int allocate){
     if( allocate )
         std_planes_alloc( m );
 
+    // Sets Hips time_series as plane point
+    (m -> sagital).point = (m -> data).get( m -> data_ptr, "Hips");
+    (m -> transversal).point = (m -> data).get( m -> data_ptr, "Hips");
+    (m -> coronal).point = (m -> data).get( m -> data_ptr, "Hips");
     
     /*************** Coronal Plane *********************/
     for(i = 0; i != (m -> data).begin -> value.length; ++i){
@@ -181,11 +185,6 @@ int std_planes_calculate(motion * m, int allocate){
 
 void std_planes_alloc(motion * m){
 
-    // Sets Hips time_series as plane point
-    (m -> sagital).point = (m -> data).get( m -> data_ptr, "Hips");
-    (m -> transversal).point = (m -> data).get( m -> data_ptr, "Hips");
-    (m -> coronal).point = (m -> data).get( m -> data_ptr, "Hips");
-
     // Init normal vectors
     time_series_init( &(m -> sagital).normal, (m -> data).begin -> value.length);
     time_series_init( &(m -> transversal).normal, (m -> data).begin -> value.length);
@@ -207,7 +206,13 @@ void transform_egocentric(motion * m){
     vector x_o, y_o, z_o;
     vector * v, new_v;
     int i;
+    time_series h;
     motion_data_entry * j;
+
+    time_series_init( &h, 100);
+
+    for(v = m -> data.get(m -> data_ptr, "Hips") -> begin; v != m -> data.get(m -> data_ptr, "Hips") -> end; ++v)
+        h.append( &h, *v);
 
     for(j = m -> data.begin; j != m -> data.end; ++j){
         v = j -> value.begin;
@@ -216,8 +221,8 @@ void transform_egocentric(motion * m){
             y_o = m -> transversal.normal.begin[i];
             z_o = m -> sagital.normal.begin[i];
 
-            v[i] = vector_vector(m -> coronal.point -> begin[i], v[i]);
-            
+            v[i] = vector_vector(h.begin[i], v[i]);
+
             new_v.x = v[i].x * vector_dot_product(x_o, x_i) +
                       v[i].y * vector_dot_product(x_o, y_i) +
                       v[i].z * vector_dot_product(x_o, z_i);
