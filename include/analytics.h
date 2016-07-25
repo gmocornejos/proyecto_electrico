@@ -20,4 +20,6 @@ double step_ratio( time_series * joint,
                    double sample_time
                  );
 
+void fourier_transform( unidimentional_series * signal );
+
 #endif

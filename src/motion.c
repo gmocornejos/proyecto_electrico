@@ -41,4 +41,3 @@ void motion_dealloc(motion * m, int free_data_key, int free_param_key){
     (m -> parameters).destroy(m -> param_ptr);
 }
 
-

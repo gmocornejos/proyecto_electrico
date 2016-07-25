@@ -42,6 +42,9 @@ space_temporal : $(SRC_OBJ) $(TEST)/space_temporal.c
 egocentric : $(SRC_OBJ) $(TEST)/egocentric_test.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+analytics_test : $(SRC_OBJ) $(TEST)/analytics_test.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 mariela : $(SRC_OBJ) $(TEST)/mariela.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 

@@ -82,24 +82,26 @@ void fft(double complex * in, double complex * out, int size, int step){
             t = cexp(-I * M_PI * i / size) * out[i + step];
             in[i/2]        = out[i] + t;
             in[(i+size)/2] = out[i] - t;
-        }
+        } 
     }
 }
 
 void fourier_transform(unidimentional_series * signal){
 
     double complex * time_signal, * freq_signal, tmp;
-    int i;
+    int i, size;
 
-    time_signal = malloc( signal -> length * sizeof(double complex) );
-    freq_signal = malloc( signal -> length * sizeof(double complex) );
+    size = pow(2, ceil(log2(signal -> length)));
+
+    time_signal = calloc( size, sizeof(double complex) );
+    freq_signal = calloc( size, sizeof(double complex) );
 
     for(i = 0; i < signal -> length; ++i){
         time_signal[i] = signal -> begin[i];
         freq_signal[i] = signal -> begin[i];
     }
 
-   fft(time_signal, freq_signal, signal -> length, 1);
+   fft(time_signal, freq_signal, size, 1);
 
     for(i = 0; i < signal -> length; ++i){
         tmp = freq_signal[i];
@@ -108,5 +110,4 @@ void fourier_transform(unidimentional_series * signal){
 
     free(time_signal);
     free(freq_signal);
-
 }
