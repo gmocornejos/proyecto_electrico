@@ -6,8 +6,8 @@ CFLAGS = -g -I $(INCLUDE)
 LIBS = -lm
 CC = gcc
 
-_SRC_OBJ = motion.o bvh_joint.o bvh_load.o kinematics.o space_temporal.o
-_SRC_DEPS = vector.h bvh_header.h dictionary.h motion.h kinematics.h space_temporal.h
+_SRC_OBJ = motion.o bvh_joint.o bvh_load.o kinematics.o space_temporal.o analytics.o
+_SRC_DEPS = vector.h bvh_header.h dictionary.h motion.h kinematics.h space_temporal.h analytics.h
 
 SRC_OBJ = $(patsubst %, $(SRC)/%, $(_SRC_OBJ))
 SRC_DEPS = $(patsubst %, $(INCLUDE)/%, $(_SRC_DEPS))
