@@ -15,11 +15,15 @@ double rms_error( unidimentional_series * data1,
                   unidimentional_series * data2
                 );
 
-double step_ratio( time_series * joint,
+double gait_ratio( time_series * joint,
                    unidimentional_series * peaks,
                    double sample_time
                  );
 
-void fourier_transform( unidimentional_series * signal );
+void fourier_transform( unidimentional_series * signal,
+                        unidimentional_series * output
+                      );
+
+double armonic_ratio( unidimentional_series * signal );
 
 #endif

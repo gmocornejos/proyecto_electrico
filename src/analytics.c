@@ -54,7 +54,7 @@ double rms_error(unidimentional_series * data1, unidimentional_series * data2){
     return rms;
 }
 
-double step_ratio(time_series * joint, unidimentional_series * peaks, double sample_time){
+double gait_ratio(time_series * joint, unidimentional_series * peaks, double sample_time){
 
     unidimentional_series sl;
     double step_len_avrg, step_len_dev, cad;
@@ -86,7 +86,7 @@ void fft(double complex * in, double complex * out, int size, int step){
     }
 }
 
-void fourier_transform(unidimentional_series * signal){
+void fourier_transform(unidimentional_series * signal, unidimentional_series * output){
 
     double complex * time_signal, * freq_signal, tmp;
     int i, size;
@@ -100,14 +100,46 @@ void fourier_transform(unidimentional_series * signal){
         time_signal[i] = signal -> begin[i];
         freq_signal[i] = signal -> begin[i];
     }
+    
+    fft(time_signal, freq_signal, size, 1);
 
-   fft(time_signal, freq_signal, size, 1);
-
-    for(i = 0; i < signal -> length; ++i){
+    size = signal -> length;
+    output -> clean( output );
+    for(i = 0; i < size; ++i){
         tmp = freq_signal[i];
-        signal -> begin[i] = sqrt( creal(tmp) * creal(tmp) + cimag(tmp) * cimag(tmp) );
+        output -> append( output, sqrt( creal(tmp) * creal(tmp) + cimag(tmp) * cimag(tmp) ) );
     }
 
     free(time_signal);
     free(freq_signal);
 }
+
+double armonic_ratio(unidimentional_series * signal){
+
+    double even = 0, odd = 0, * j;
+    int i;
+    unidimentional_series tmp_signal;
+
+    unidimentional_series_init( &tmp_signal, 100);
+    for(j = signal -> begin; j != signal -> end; ++j)
+        tmp_signal.append( &tmp_signal, *j);
+
+    fourier_transform( &tmp_signal, &tmp_signal);
+
+    for(i = 1; i < tmp_signal.length; i += 2)
+        odd += tmp_signal.begin[i];
+    for(i = 2; i < tmp_signal.length; i += 2)
+        even += tmp_signal.begin[i];
+
+    tmp_signal.destroy( &tmp_signal );
+
+    return even / odd; 
+
+}
+
+
+
+
+
+
+

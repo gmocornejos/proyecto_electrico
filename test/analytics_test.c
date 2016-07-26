@@ -10,6 +10,7 @@ int main(int argc, char * argv[]){
     motion m;
     unidimentional_series joint;
     int i;
+    double arm_ratio, rms_e;
     FILE * f;
 
     motion_init( &m );
@@ -20,10 +21,13 @@ int main(int argc, char * argv[]){
     for(i = 0; i != m.data.get(m.data_ptr, "RightFoot") -> length; ++i)
         joint.append( &joint, m.data.get(m.data_ptr, "RightFoot") -> begin[i].y);
 
-    fourier_transform( &joint );
+    arm_ratio = armonic_ratio( &joint );
+    rms_e = rms_error( &joint, NULL );
+    fourier_transform( &joint, &joint );
 
-    for(i = 0; i != joint.length; ++i)
-        printf("%d    %lf\n", i, joint.begin[i]);
+//    for(i = 0; i != joint.length; ++i)
+//        printf("%d    %lf\n", i, joint.begin[i]);
+    printf("Razón armónica: %lf, RMS = %lf\n", arm_ratio, rms_e);
     
     fclose(f);
     motion_dealloc( &m, 1, 1);
