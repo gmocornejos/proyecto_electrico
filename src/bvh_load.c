@@ -1,6 +1,7 @@
 #include <string.h>
-
 #include <stdlib.h>
+#include <dirent.h>
+#include <stdio.h>
 
 #include <vector.h>
 #include <bvh_header.h>
@@ -29,13 +30,20 @@ int string_cmp(char * v1, char * v2){
     return ! strcmp(v1, v2);
 }
 
-void load_bvh_data(FILE *f, motion * m){
+void load_bvh_data(char * file_name, motion * m){
 
+    FILE * f;
     char * param_name;
     char line[MAX_LINE];
     char ** index;
     Joint_vector joints, parents;
     string_vector line_split;
+
+    f = fopen(file_name, "r");
+    if( f == NULL ){
+        fprintf(stderr, "Could'n open file %s\n", file_name);
+        return;
+    }
 
     Joint_vector_init( & joints, 30);
     Joint_vector_init( & parents, 30);
@@ -119,6 +127,8 @@ void load_bvh_data(FILE *f, motion * m){
         }
     }
 
+    fclose( f );
+
     // free memory
     for(j = joints.begin; j != joints.end; ++j){
         (*j) -> dealloc( (*j), 0 );
@@ -129,3 +139,34 @@ void load_bvh_data(FILE *f, motion * m){
     line_split.destroy( & line_split );
 }
 
+
+void load_bvh_directory(char * dir_name, motion_vector * mv){
+
+    DIR * dir_pointer;
+    struct dirent * dir_handler;
+    char full_path[1000];
+    int i;
+    motion m;
+
+    mv -> clean( mv );
+
+    dir_pointer = opendir( dir_name );
+    if( dir_pointer == NULL ){
+        fprintf(stderr, "Couldn'n open the directory %s\n", dir_name);
+        return;
+    }
+
+    i = strlen(dir_name);
+    strncpy( full_path, dir_name, i );
+
+    while( dir_handler = readdir(dir_pointer) ){
+        if( strcmp(dir_handler -> d_name, "..") == 0 || strcmp(dir_handler -> d_name, ".") == 0 )
+            continue;
+        strcpy( full_path + i, dir_handler -> d_name );
+        motion_init( &m );
+        load_bvh_data( full_path, &m );
+        mv -> append( mv, m );
+    }
+    
+    closedir( dir_pointer );
+}

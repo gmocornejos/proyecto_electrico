@@ -32,5 +32,11 @@ void motion_dealloc( motion * m,
                      int, // Free data key? 
                      int  // Free parameters key? 
                    );
+void get_component( time_series * joint,
+                    unidimentional_series * component,
+                    char select
+                  );                    
+
+VECTOR_DECLARE(motion, motion_vector);
 
 #endif

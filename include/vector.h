@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #define VECTOR_DECLARE(type, name) \
+    typedef type * name ## _itr ; \
     typedef struct name name; \
                               \
     struct name{ \

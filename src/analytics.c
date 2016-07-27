@@ -12,7 +12,8 @@ void calc_mean_std_dev(unidimentional_series * data, double * mean, double * std
 
     for(i = data -> begin; i != data -> end; ++i)
         m += *i;
-
+    m /= data -> length;
+    
     for(i = data -> begin; i != data -> end; ++i)
         sd += (*i - m) * (*i - m);
 
@@ -138,8 +139,25 @@ double armonic_ratio(unidimentional_series * signal){
 }
 
 
+double students_t(double value, double df){
 
+    double a, b, c;
 
+    a = gamma( (df + 1)/2 );
+    b = sqrt( M_PI * df ) * gamma( df/2 );
+    c = pow(1 + value*value / df, -(df+1)/2);
 
+    return a*c/b;
+}
 
+double t_test_one_sample(unidimentional_series * sample, double mean){
 
+    double aver, std;
+    double t, df;
+
+    calc_mean_std_dev( sample, &aver, &std, 0);
+
+    t = sqrt(sample -> length) * (aver - mean) / std;
+
+    return students_t(t, sample -> length - 1);
+}

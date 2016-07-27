@@ -45,6 +45,9 @@ egocentric : $(SRC_OBJ) $(TEST)/egocentric_test.c
 analytics_test : $(SRC_OBJ) $(TEST)/analytics_test.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+statistics_test : $(SRC_OBJ) $(TEST)/statistics_test.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 mariela : $(SRC_OBJ) $(TEST)/mariela.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 

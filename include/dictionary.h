@@ -35,6 +35,7 @@ value_type * name ## _get(name * _dic, key_type _key){ \
     for(p = _dic -> begin; p != _dic -> end; ++p) \
         if( (_dic -> cmp) (_key, p -> key) == 0 ) \
             return &(p -> value); \
+    fprintf(stderr, "Could'n find entry %s\n", _key); \
     return NULL; \
 } \
 \
@@ -55,11 +56,12 @@ name ## _entry * name ## _remove(name * _dic, key_type _key){ \
 }\
 \
 name ## _entry * name ## _insert(name * _dic, key_type _key, value_type _value){ \
-    value_type * v; \
-    if( ( v = (_dic -> get) (_dic, _key) ) != NULL ){ \
-        *v = _value; \
-        return NULL; \
-    } \
+    name ## _entry *p; \
+    for(p = _dic -> begin; p != _dic -> end; ++p) \
+        if( (_dic -> cmp) (_key, p -> key) == 0 ){ \
+            p -> value = _value; \
+            return p; \
+        } \
     (_dic -> end) -> key = _key; \
     (_dic -> end) -> value = _value; \
     ++(_dic -> length); \

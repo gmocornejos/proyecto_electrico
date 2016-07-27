@@ -26,6 +26,8 @@ struct Joint{
 Joint * Joint_alloc(char *, int, int, Joint *);
 
 /*** bvh parser functions ***/
-void load_bvh_data(FILE *, motion *);
+void load_bvh_data( char * file_name, motion *);
+void load_bvh_directory(char * dir_name, motion_vector * mv);
+
 
 #endif

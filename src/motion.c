@@ -10,6 +10,8 @@ DICTIONARY_DEFINE(char *, time_series, motion_data);
 
 DICTIONARY_DEFINE(char *, double, motion_parameters);
 
+VECTOR_DEFINE(motion, motion_vector);
+
 int motion_init(motion * m){
 
     if( motion_data_init( &(m -> data), strcmp ) == NULL)
@@ -41,3 +43,24 @@ void motion_dealloc(motion * m, int free_data_key, int free_param_key){
     (m -> parameters).destroy(m -> param_ptr);
 }
 
+void get_component( time_series * joint, unidimentional_series * component, char select){
+
+    time_series_itr v;
+
+    component -> clean( component );
+
+    switch(select){
+        case 'x':
+            for(v = joint -> begin; v != joint -> end; ++v)
+                component -> append( component, v -> x);
+            break;
+        case 'y':
+            for(v = joint -> begin; v != joint -> end; ++v)
+                component -> append( component, v -> y);
+            break;
+        case 'z':
+            for(v = joint -> begin; v != joint -> end; ++v)
+                component -> append( component, v -> z);
+            break;   
+    }
+}

@@ -26,4 +26,8 @@ void fourier_transform( unidimentional_series * signal,
 
 double armonic_ratio( unidimentional_series * signal );
 
+
+double t_test_one_sample( unidimentional_series * sample,
+                          double mean
+                        );
 #endif
