@@ -131,14 +131,16 @@ int vector_calculate_angle(time_series * origin, time_series * vector1, time_ser
     return 0;
 }
 
-int std_planes_calculate(motion * m, int allocate){
+int std_planes_calculate(motion * m){
 
     vector v1, v2, v3, tmp_normal;
     double magnitude;
     int i;
 
-    if( allocate )
-        std_planes_alloc( m );
+    // Init normal vectors
+    time_series_init( &(m -> sagital).normal, 1000);
+    time_series_init( &(m -> transversal).normal, 1000);
+    time_series_init( &(m -> coronal).normal, 1000);
 
     // Sets Hips time_series as plane point
     (m -> sagital).point = (m -> data).get( m -> data_ptr, "Hips");
@@ -183,20 +185,11 @@ int std_planes_calculate(motion * m, int allocate){
     return 0;
 }
 
-void std_planes_alloc(motion * m){
-
-    // Init normal vectors
-    time_series_init( &(m -> sagital).normal, (m -> data).begin -> value.length);
-    time_series_init( &(m -> transversal).normal, (m -> data).begin -> value.length);
-    time_series_init( &(m -> coronal).normal, (m -> data).begin -> value.length);
-   
-}
-
 void std_planes_dealloc(motion * m){
 
-    (m -> sagital).normal.destroy( & (m -> sagital).normal );
-    (m -> transversal).normal.destroy( & (m -> transversal).normal );
-    (m -> coronal).normal.destroy( & (m -> coronal).normal );
+    (m -> sagital).normal.destroy( & (m -> sagital.normal) );
+    (m -> transversal).normal.destroy( & (m -> transversal.normal) );
+    (m -> coronal).normal.destroy( & (m -> coronal.normal) );
 
 }
 

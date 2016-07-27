@@ -12,7 +12,7 @@ DICTIONARY_DEFINE(char *, double, motion_parameters);
 
 VECTOR_DEFINE(motion, motion_vector);
 
-int motion_init(motion * m){
+int motion_alloc(motion * m){
 
     if( motion_data_init( &(m -> data), strcmp ) == NULL)
         return 0;
@@ -25,22 +25,18 @@ int motion_init(motion * m){
     return 1;
 }
 
-void motion_dealloc(motion * m, int free_data_key, int free_param_key){
-    motion_data_entry * d;
-    motion_parameters_entry * p;
-
-    for(d = (m -> data).begin; d != (m -> data).end; ++d ){
-        (d -> value).destroy( &(d -> value) );
-        if( free_data_key )
-            free( d -> key );
-    }
-
-    if( free_param_key )
-        for(p = (m -> parameters).begin; p != (m -> parameters).end; ++p )
-            free( p -> key);
-
+void motion_free(motion * m){
     (m -> data).destroy(m -> data_ptr);
     (m -> parameters).destroy(m -> param_ptr);
+}
+
+void motion_vector_free(motion_vector * mv){
+
+    motion_vector_itr m;
+
+    for(m = mv -> begin; m != mv -> end; ++m)
+        motion_free( m );
+    
 }
 
 void get_component( time_series * joint, unidimentional_series * component, char select){

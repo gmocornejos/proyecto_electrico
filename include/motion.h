@@ -26,17 +26,18 @@ typedef struct {
     plane sagital, transversal, coronal;
 } motion;
 
-// motion data structures functions 
-int motion_init(motion *);
-void motion_dealloc( motion * m, 
-                     int, // Free data key? 
-                     int  // Free parameters key? 
-                   );
+VECTOR_DECLARE(motion, motion_vector);
+
+// motion functions 
+int motion_alloc( motion * m);
+
+void motion_free( motion * m );
+
+void motion_vector_free( motion_vector * mv );
+
 void get_component( time_series * joint,
                     unidimentional_series * component,
                     char select
                   );                    
-
-VECTOR_DECLARE(motion, motion_vector);
 
 #endif

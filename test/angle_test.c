@@ -4,19 +4,16 @@
 
 int main(int argc, char * argv[]){
 
-    FILE * input;
     motion m;
     unidimentional_series angle;
     int i;
 
-    input = fopen(argv[1], "r");
-    motion_init( &m );
-    unidimentional_series_init( &angle, m.data.length );
-    load_bvh_data(input, &m);
-    std_planes_calculate( &m, 1 );
+    bvh_load_data( argv[1], &m);
+    std_planes_calculate( &m );
+    unidimentional_series_init( &angle, 1000 );
 
     vector_calculate_angle( m.data.get(m.data_ptr, "LeftArm"), 
-                            m.data.get(m.data_ptr, "LeftForeArm"), 
+                            m.data.get(m.data_ptr, "LeftForeArm"),
                             m.data.get(m.data_ptr, "Spine"), 
                             &m.sagital, 
                             &angle );
@@ -24,6 +21,10 @@ int main(int argc, char * argv[]){
     printf("Angle length %ld\n", angle.length);
     for(i = 0; i != angle.length; ++i)
         printf("%d, %lf\n", i, angle.begin[i]);
+
+    angle.destroy( &angle );
+    std_planes_dealloc( &m );
+    bvh_unload_data( &m ); 
     
     return 0;
 }

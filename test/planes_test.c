@@ -12,35 +12,25 @@ void print_normal(time_series n){
 int main(int argc, char * argv[]){
 
     FILE * input;
-    int c;
     time_series n;
-    char msg[] = "Sagital = 1, Transversal = 2, Coronal = 3: ";
     motion m;
     
-    input = fopen(argv[1], "r");
-    motion_init( & m );
-    load_bvh_data(input, &m);
-    std_planes_calculate( &m, 1 );
+    bvh_load_data( argv[1], &m );
+    std_planes_calculate( &m );
 
-    while( printf("%s", msg), (c = getchar()) != EOF ){
-        getchar(); // catches line feed
-        switch ( c ){
-            case '1':
-                print_normal(m.sagital.normal);
-                break;
-            case '2':
-                print_normal(m.transversal.normal);
-                break;
-            case '3':
-                print_normal(m.coronal.normal);
-                break;
-        }
-    }   
+    printf("Sagital plane:\n");
+    print_normal(m.sagital.normal);
+    printf("\n\n");
 
-    printf("\n");
+    printf("Transversal plane:\n");
+    print_normal(m.transversal.normal);
+    printf("\n\n");
+
+    printf("Coronal plane:\n");
+    print_normal(m.coronal.normal);
 
     std_planes_dealloc( &m );
-    motion_dealloc( &m, 1, 1);
+    bvh_unload_data( &m );
 
     return 0;
 }

@@ -10,8 +10,7 @@ int main(int argc, char * argv[]){
     motion_data_entry * j;
     motion_parameters_entry * p;
 
-    motion_init( &m );
-    load_bvh_data( argv[1], &m);
+    bvh_load_data( argv[1], &m);
 
     // prints all joints names and data size
     printf("Joints: ");
@@ -28,7 +27,7 @@ int main(int argc, char * argv[]){
         printf("\n");
     }
 
-    motion_dealloc( &m, 1, 1);
+    bvh_unload_data( &m );
 
     return 0;
 }

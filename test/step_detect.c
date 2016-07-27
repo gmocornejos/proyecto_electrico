@@ -7,26 +7,20 @@
 int main(int argc, char * argv[]){
     
 
-    FILE * f, * signal, * peaks;
+    FILE * signal, * peaks;
     int i, j;
-
-    vector * v;
     time_series * ankle_joint;
+
     motion m;
     unidimentional_series ankle, ankle_peaks;
 
-    f = fopen(argv[1], "r");
 
-    motion_init( &m );
-    load_bvh_data(f, &m);
-    ankle_joint = m.data.get( m.data_ptr, "RightFoot");
-
-    unidimentional_series_init( &ankle, 100);
+    bvh_load_data( argv[1], &m );
+    unidimentional_series_init( &ankle, 1000);
     unidimentional_series_init( &ankle_peaks, 100);
 
-   for(v = ankle_joint -> begin; v != ankle_joint -> end; ++v)
-        ankle.append( &ankle, v -> y);
-
+    ankle_joint = m.data.get( m.data_ptr, "RightFoot");
+    get_component( ankle_joint, &ankle, 'y');
     detect_peaks( &ankle, &ankle_peaks, 5);
 
     signal = fopen("signal.txt", "w");
@@ -43,9 +37,9 @@ int main(int argc, char * argv[]){
     fclose(signal);
     fclose(peaks);
 
-    motion_dealloc( &m, 1, 1);
-    fclose(f);
+    bvh_unload_data( &m );
     ankle.destroy( &ankle );
+    ankle_peaks.destroy( &ankle_peaks );
 
     return 0; 
 

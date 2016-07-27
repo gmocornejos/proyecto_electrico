@@ -8,13 +8,11 @@ int derivate(time_series *, double, time_series *);
 int integrate(time_series *, double, time_series *);
 
 // Standard planes allocate, calculate and deallocate.
-void std_planes_alloc(motion * m);
 void std_planes_dealloc(motion * m);
 
 // Calculates the standard planes 
-int std_planes_calculate( motion * m,  // motion object
-                          int allocate // should I allocate storage?
-                        );
+int std_planes_calculate( motion * m );
+
 // Using the standard planes, transforms all data points to a new coordinate system, define by normal vector of the three planes. 
 // This function requiers the programmer to allocate and calculate standard planes prior calling it. 
 void transform_egocentric( motion * m);                        

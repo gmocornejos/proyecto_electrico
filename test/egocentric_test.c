@@ -5,17 +5,13 @@
 
 int main(int argc, char * argv[]){
     
-    FILE * f;
     motion m;
     int i;
     motion_data_entry * j;
 
-    f = fopen(argv[1], "r");
+    bvh_load_data( argv[1], &m );
+    std_planes_calculate( &m );
 
-    motion_init( &m );
-
-    load_bvh_data(f, &m );
-    std_planes_calculate( &m, 1);
     transform_egocentric( &m );
 
     for(i = 0; i != m.data.begin -> value.length; ++i){
@@ -24,8 +20,8 @@ int main(int argc, char * argv[]){
         printf("\n");
     }
 
-    motion_dealloc( &m, 1, 1);
-    fclose( f );
+    std_planes_dealloc( &m );
+    bvh_unload_data( &m );
 
     return 0;
 
