@@ -16,7 +16,7 @@ int main(int argc, char * argv[]){
 
     // Loads data and calculates steps
     bvh_load_data( argv[1], &m );
-    detect_steps( &m, "RightFoot", &steps, 5);
+    detect_steps( m.data.get(m.data_ptr, "RightFoot"), 'y', &steps, 5);
 
     cad = cadence( *(m.parameters.get( m.param_ptr, "FrameTime")),
                    & steps );

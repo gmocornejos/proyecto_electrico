@@ -166,7 +166,7 @@ void bvh_load_directory(char * dir_name, motion_vector * mv){
     struct dirent * dir_handler;
     char full_path[1000];
     int i;
-    motion m;
+    motion * m;
 
     motion_vector_init( mv, 50 );
 
@@ -183,7 +183,8 @@ void bvh_load_directory(char * dir_name, motion_vector * mv){
         if( strcmp(dir_handler -> d_name, "..") == 0 || strcmp(dir_handler -> d_name, ".") == 0 )
             continue;
         strcpy( full_path + i, dir_handler -> d_name );
-        bvh_load_data( full_path, &m );
+        m = malloc( sizeof(motion) );
+        bvh_load_data( full_path, m );
         mv -> append( mv, m );
     }
     
@@ -194,9 +195,10 @@ void bvh_unload_directory( motion_vector * mv ){
 
     motion_vector_itr m;
 
-    for(m = mv -> begin; m != mv -> end; ++m)
-        bvh_unload_data( m );
-
-    motion_vector_free( mv );
+    for(m = mv -> begin; m != mv -> end; ++m){
+        bvh_unload_data( *m );
+        free( *m );
+    }
+    mv -> destroy( mv );
 }
 

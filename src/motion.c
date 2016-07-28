@@ -10,7 +10,7 @@ DICTIONARY_DEFINE(char *, time_series, motion_data);
 
 DICTIONARY_DEFINE(char *, double, motion_parameters);
 
-VECTOR_DEFINE(motion, motion_vector);
+VECTOR_DEFINE(motion *, motion_vector);
 
 int motion_alloc(motion * m){
 
@@ -28,15 +28,6 @@ int motion_alloc(motion * m){
 void motion_free(motion * m){
     (m -> data).destroy(m -> data_ptr);
     (m -> parameters).destroy(m -> param_ptr);
-}
-
-void motion_vector_free(motion_vector * mv){
-
-    motion_vector_itr m;
-
-    for(m = mv -> begin; m != mv -> end; ++m)
-        motion_free( m );
-    
 }
 
 void get_component( time_series * joint, unidimentional_series * component, char select){

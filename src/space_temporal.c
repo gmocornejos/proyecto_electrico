@@ -191,16 +191,16 @@ void detect_peaks(unidimentional_series * curve, unidimentional_series * peaks, 
 
 }
 
-void detect_steps(motion * m, char * joint_name, unidimentional_series * steps, int binwidth){
+void detect_steps(time_series * joint, char component, unidimentional_series * steps, int binwidth){
 
-    unidimentional_series joint_height;
+    unidimentional_series joint_comp;
 
     steps -> clean( steps );
-    unidimentional_series_init( &joint_height, 100);
+    unidimentional_series_init( &joint_comp, 100);
 
-    get_component( m -> data.get(m->data_ptr, joint_name), &joint_height, 'y');
+    get_component( joint, &joint_comp, component);
 
-    detect_peaks( &joint_height, steps, binwidth);
+    detect_peaks( &joint_comp, steps, binwidth);
     
-    joint_height.destroy( &joint_height );
+    joint_comp.destroy( &joint_comp );
 }

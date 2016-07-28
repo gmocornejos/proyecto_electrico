@@ -14,11 +14,11 @@ void detect_peaks( unidimentional_series *,
                    int binwidth
                  );
 
-void detect_steps( motion * m,
-                   char * joint_name,
+void detect_steps( time_series * joint,
+                   char component,
                    unidimentional_series * steps,
                    int binwidth
-                  );                 
+                 );                 
     
     /* Space - tempral variables */
 
