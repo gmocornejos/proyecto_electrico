@@ -30,4 +30,15 @@ double armonic_ratio( unidimentional_series * signal );
 double t_test_one_sample( unidimentional_series * sample,
                           double mean
                         );
+
+double t_test_two_samples( unidimentional_series * sample1,
+                           unidimentional_series * sample2
+                         );
+
+double t_test_Welch( unidimentional_series * sample1,
+                     unidimentional_series * sample2
+                   );
+
+double anova_one_way( int n_levels, ... );
+
 #endif

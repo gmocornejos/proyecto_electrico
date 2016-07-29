@@ -2,6 +2,7 @@
 
 #include <complex.h>
 #include <math.h>
+#include <stdarg.h>
 
 void calc_mean_std_dev(unidimentional_series * data, double * mean, double * std_dev, int bessel_correction){
 
@@ -141,23 +142,111 @@ double armonic_ratio(unidimentional_series * signal){
 
 double students_t(double value, double df){
 
-    double a, b, c;
+    long double a, b;
 
-    a = gamma( (df + 1)/2 );
-    b = sqrt( M_PI * df ) * gamma( df/2 );
-    c = pow(1 + value*value / df, -(df+1)/2);
+    a = tgamma( (df + 1) / 2 );
+    b = sqrt(df * M_PI) * tgamma( df/2 ) * pow(1 + value*value/df, (df+1)/2 );
 
-    return a*c/b;
+    return a/b;
 }
 
 double t_test_one_sample(unidimentional_series * sample, double mean){
 
     double aver, std;
-    double t, df;
+    double t;
 
-    calc_mean_std_dev( sample, &aver, &std, 0);
+    calc_mean_std_dev( sample, &aver, &std, 1);
 
-    t = sqrt(sample -> length) * (aver - mean) / std;
+    t =  (aver - mean) / ( std / sqrt(sample -> length));
 
     return students_t(t, sample -> length - 1);
 }
+
+double t_test_two_samples(unidimentional_series * sample1, unidimentional_series * sample2){
+
+    double mean1, mean2, std1, std2, stdN; 
+    double t;
+
+    calc_mean_std_dev( sample1, &mean1, &std1, 1);
+    calc_mean_std_dev( sample2, &mean2, &std2, 1);
+
+    stdN = sqrt( ( (sample1 -> length - 1)*std1*std1 + (sample2 -> length - 1)*std2*std2 ) / (sample1 -> length + sample2 -> length - 2) );
+
+    t = (mean1 - mean2) / (stdN * sqrt(1/(sample1 -> length) + 1/(sample2 -> length)));
+
+    return students_t(t, sample1 -> length + sample2 -> length -2);
+
+}
+
+double t_test_Welch(unidimentional_series * sample1, unidimentional_series * sample2){
+
+    double mean1, mean2, std1, std2, stdN; 
+    double t, df;
+
+    calc_mean_std_dev( sample1, &mean1, &std1, 1);
+    calc_mean_std_dev( sample2, &mean2, &std2, 1);
+
+    stdN = sqrt( std1/(sample1 -> length) + std2/(sample2 -> length) );
+    df = pow(std1*std1/(sample1 -> length) + std2*std2/(sample2 -> length), 2) / ( pow(std1*std1/sample1 -> length, 2)/(sample1 -> length - 1) + pow(std2*std2/sample2 -> length, 2)/(sample2 -> length - 1) );
+    t = (mean1 - mean2) / stdN;
+
+    return students_t(t, df);
+}
+
+double F_distribution(double F, double n, double m){
+
+    long double a, b;
+
+    a = tgamma( (n+m)/2 ) * pow(n, n/2) * pow(m, m/2) * pow(F, n/2 - 1);
+    b = tgamma(n/2) * tgamma(m/2) * pow(m + n*F, (n+m)/2);
+
+    return a / b;
+
+}
+
+double anova_one_way(int n_levels, ...){
+
+    va_list ap;
+    int i, dfB, dfW;
+    double m, std, global_mean;
+    double B, MSB, W, MSW, F;
+    unidimentional_series mean_vector, * level;
+    unidimentional_series_itr j;
+
+    va_start(ap, n_levels);
+    unidimentional_series_init( &mean_vector, n_levels );
+
+    for(i = 0; i < n_levels; ++i){
+        level = va_arg(ap, unidimentional_series *);
+        calc_mean_std_dev(level, &m, &std, 0);
+        mean_vector.append( &mean_vector, m);
+    }
+    calc_mean_std_dev( &mean_vector, &global_mean, &std, 0);
+
+    B = 0;
+    va_start(ap, n_levels);
+    for(j = mean_vector.begin; j != mean_vector.end; ++j){
+        level = va_arg(ap, unidimentional_series *);
+        B += pow(*j - global_mean, 2) * (level -> length);
+    }
+    dfB = n_levels - 1;
+    MSB = B/dfB;
+
+    W = 0;
+    va_start(ap, n_levels);
+    for(i = 0; i < n_levels; ++i){
+        level = va_arg(ap, unidimentional_series *);
+        for(j = level -> begin; j != level -> end; ++j)
+            W += pow(*j - mean_vector.begin[i], 2);
+    }
+    dfW = n_levels * (level -> length - 1);
+    MSW = W/dfW;
+    
+    F = MSB / MSW;
+
+    va_end( ap );
+    mean_vector.destroy( &mean_vector );
+
+    return F_distribution(F, dfB, dfW);
+}
+
