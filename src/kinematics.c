@@ -5,48 +5,57 @@
 
 int derivate(time_series * input, double sample_time, time_series * output){
 
-    vector * v, tmp;
+    vector tmp;
+    int i, overwrite;
 
-    output -> clean(output);
-    
-    for(v = input -> begin + 1; v != input -> end; ++v){
-        tmp.x = ( v -> x - (v-1) -> x ) / sample_time;
-        tmp.y = ( v -> y - (v-1) -> y ) / sample_time;
-        tmp.z = ( v -> z - (v-1) -> z ) / sample_time;
-        output -> append(output, tmp);
+    if( !(overwrite = !(input - output)) )
+        output -> clean( output );
+
+    for(i = 1; i < input -> length; ++i){
+        tmp = vector_vector( input -> begin[i-1], input -> begin[i]);
+        if( overwrite )
+            output -> begin[i-1] = tmp;
+        else
+            output -> append(output, tmp);
     }
 
     // linear approximation for last point
-    v = output -> last(output);
-    tmp.x = 2 * (v -> x) - (v-1) -> x;  
-    tmp.y = 2 * (v -> y) - (v-1) -> z;  
-    tmp.z = 2 * (v -> z) - (v-1) -> z;  
-    output -> append(output, tmp);
+    tmp = vector_vector(output -> begin[i-1], output -> begin[i-2]);
+    if( overwrite )
+        output -> begin[i] = tmp;
+    else
+        output -> append(output, tmp);
 
     return output -> length;        
 }
 
 int integrate(time_series * input, double sample_time, time_series * output){
 
-    vector * v, tmp, sum;
+    vector tmp, sum = {0, 0, 0};
+    int i, overwrite;
 
-    output -> clean(output);
-    sum.x = sum.y = sum.z = 0;
+    if( !(overwrite = !(input - output)) )
+        output -> clean( output );
 
-    for(v = input -> begin + 1; v != input -> end; ++v){
-        tmp.x = 0.5 * sample_time * ( v -> x + (v-1) -> x ) + sum.x;
-        tmp.y = 0.5 * sample_time * ( v -> y + (v-1) -> y ) + sum.y;
-        tmp.z = 0.5 * sample_time * ( v -> z + (v-1) -> z ) + sum.z;
-        output -> append(output, tmp);
+    for(i = 1; i < input -> length; ++i){
+        (input -> begin[i-1].x + input -> begin[i].x);
+        tmp.x = 0.5 * sample_time * (input -> begin[i-1].x + input -> begin[i].x) + sum.x;
+        tmp.y = 0.5 * sample_time * (input -> begin[i-1].y + input -> begin[i].y) + sum.y;
+        tmp.z = 0.5 * sample_time * (input -> begin[i-1].z + input -> begin[i].z) + sum.z;
         sum = tmp;
+
+        if( overwrite )
+            output -> begin[i-1] = tmp;
+        else
+            output -> append(output, tmp);
     }
-    
+ 
     // linear approximation for last point
-    v = output -> last(output);
-    tmp.x = 2 * (v -> x) - (v-1) -> x;
-    tmp.y = 2 * (v -> y) - (v-1) -> z;  
-    tmp.z = 2 * (v -> z) - (v-1) -> z;  
-    output -> append(output, tmp);
+    tmp = vector_vector(output -> begin[i-1], output -> begin[i-2]);
+    if( overwrite )
+        output -> begin[i] = tmp;
+    else
+        output -> append(output, tmp);
 
     return output -> length;
 }

@@ -27,6 +27,7 @@ int main(int argc, char * argv[]){
     integrate( &linear, 0.25, &square );
 
     for(j = 0; j != linear.length; ++j)
+        printf("%d   %lf\n", j, square.begin[j].z);
 
     return 0;
 }
