@@ -26,6 +26,7 @@
 \usepackage{geometry}
 \usepackage{natbib}
 \usepackage{longtable}
+\usepackage{caption}
 
 \usepackage{nameref}
 \usepackage{color}
@@ -34,6 +35,8 @@
 \setcounter{secnumdepth}{1} % Solo numera capítulos y secciones
 \newcommand{\newchap}[1]{\include{#1} \clearpage{\pagestyle{empty}\cleardoublepage}}
 \newcommand{\comentario}[1]{{\color{red} #1}}
+\newcommand{\mono}[1]{{\ttfamily #1}}
+\newcommand{\equwref}[1]{(\ref{#1})}
 % ==== Inicio del informe ==== 
 \begin{document}
 \frontmatter
@@ -110,6 +113,11 @@
 \newchap{eval_solucion}
 
 \newchap{conclusiones}
+
+% ---- apéndices ----
+\appendix 
+
+\newchap{apendices}
 
 % ---- Bibliografía ----
 \bibliography{referencias}

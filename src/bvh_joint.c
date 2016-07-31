@@ -42,8 +42,6 @@ void Joint_calculate_local_matrix(Joint *self){
 }
 
 void Joint_dealloc(Joint * j, int free_name){
-    /* WARNING OF MEMORY LEAK */
-    /* name is keeped in memory in order to be used un motion data structure, if you want to release name memory, set free_name parameter = 1 */
     if(! j -> isRoot )
         free(j -> global_matrix);
     free(j -> local_matrix);
