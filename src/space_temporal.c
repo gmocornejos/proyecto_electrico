@@ -108,6 +108,10 @@ void detect_peaks(unidimentional_series * curve, unidimentional_series * peaks, 
     double * j, * histogram; 
     int L, H, i, k;
     int cont, * peaks_per_win_size;
+    // Variables para Kitler
+    double p1, p2, s1, s2, J_tmp, J = HUGE_VAL;
+    double m1, m2;
+    int J_indx = 0;
 
     peaks -> clean( peaks );
 
@@ -116,6 +120,7 @@ void detect_peaks(unidimentional_series * curve, unidimentional_series * peaks, 
 
     peaks_per_win_size = calloc( L, sizeof(int) );
     histogram = calloc( H, sizeof(double) );
+
 
     // detrimentar linealmente la señal
     linear_fit( curve, &m, &b );
@@ -132,11 +137,9 @@ void detect_peaks(unidimentional_series * curve, unidimentional_series * peaks, 
         }
         peaks_per_win_size[k] = cont;
         ++histogram[ (int) ceil( (double) cont/binwidth) ];
+        if( cont == 1 )
+            break;
     }
-
-    double p1, p2, s1, s2, J_tmp, J = HUGE_VAL;
-    double m1, m2;
-    int J_indx = 0;
 
     // normaliza el histograma
     histogram[0] = 0;
@@ -188,7 +191,9 @@ void detect_peaks(unidimentional_series * curve, unidimentional_series * peaks, 
     for(i = 0, j = curve -> begin; j != curve -> end; ++i, ++j)
         if( j == minimum(j-k, j+k) )
             peaks -> append(peaks, i);
-
+   
+    free( peaks_per_win_size );
+    free( histogram );
 }
 
 void detect_steps(time_series * joint, char component, unidimentional_series * steps, int binwidth){

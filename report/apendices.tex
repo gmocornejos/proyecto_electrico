@@ -1,6 +1,6 @@
 \chapter{Formato BVH}
 
-El formato \emph{BVH} fue originalmente desarrollado por \emph{Biovision}, una empresa especializada en captura de movimiento, como una forma de entregar los datos a sus clientes. El formato consta de dos grandes partes: \emph{HIERARCHY} y \emph{MOTION}. El sistema de captura de movimiento reduce la grabación a un cuerpo rígido, la primera parte describe la jerarquía de ese cuerpo rígido, es decir, como se conectan los segmentos. La segunda parte describe el movimiento. A continuación se describe cada una de las partes.
+Según \cite{wisconsin-bvh}, el formato \emph{BVH} fue originalmente desarrollado por \emph{Biovision}, una empresa especializada en captura de movimiento, como una forma de entregar los datos a sus clientes. El formato consta de dos grandes partes: \emph{HIERARCHY} y \emph{MOTION}. El sistema de captura de movimiento reduce la grabación a un cuerpo rígido, la primera parte describe la jerarquía de ese cuerpo rígido, es decir, como se conectan los segmentos. La segunda parte describe el movimiento. A continuación se describe cada una de las partes.
 
 \section{HIERARCHY}
 
@@ -82,7 +82,7 @@ M =
     \end{pmatrix}
 \end{equation}
 
-Los valores $t$ corresponden al offset encontrado en la sección \mono{HIERARCHY}, los valores $r$ Se obtiene la multiplicar las matrices de rotación $R_z$, $R_y$ y $R_x$, como se muestra en \eqref{matriz_rotacion}, los valores de los ángulos representados por $\theta$ en la ecuación son los valores que aparecen en esta sección, como se puede observar, son tres por Joint para formar la matriz. 
+Los valores $t$ corresponden al offset encontrado en la sección \mono{HIERARCHY}, los valores $r$ Se obtiene la multiplicar las matrices de rotación $R_z$, $R_y$ y $R_x$, según explica \cite{andreas}, como se muestra en \eqref{matriz_rotacion}, los valores de los ángulos representados por $\theta$ en la ecuación son los valores que aparecen en esta sección, como se puede observar, son tres por Joint para formar la matriz. 
 
 \begin{equation}\label{matriz_rotacion}
 R_z R_y R_x = 
@@ -255,3 +255,48 @@ Frame Time:    0.003906
 \end{verbatim}
 
 \chapter{Algoritmo de detección de los pasos}
+
+El algoritmo presentado se inspira fuertemente en la idea presentada por \cite{scholkmann} llamado \emph{automatic multiscale-based peak detection} (AMPD). La intensión era generar un algoritmo de detección de picos para señales periódicas o cuasi-periódicas robusto al ruido de baja frecuencia y que no necesitara parámetros. La estructura principal del algoritmo es el \emph{local maxima scalogram} una matriz tamaño $N \times N/2$, donde N es el tamaño del vector de datos. Esta matriz se llena de la siguiente manera: se selecciona un tamaño de ventana $w = 2k | k = 1, 2, 3, ..., N/2$, esta ventana se desplaza por el vector de datos y si el valor en el centro de la ventana es el máximo, se almacena un cero, de otra manera se almacena un número aleatorio entre 1 y 2, tal como muestra \eqref{ampd_matriz}, donde $r$ es un número aleatorio entre 0 y 1.
+
+\begin{equation}\label{ampd_matriz}
+    w_{i,k} =
+    \begin{cases}
+    0\ , & \quad \text{si}\ i\ \text{es máximo} \\ 
+    1 + r\ , & \quad \text{de otra manera} 
+    \end{cases}
+\end{equation}
+
+Note que construir esta matriz es un algoritmo $O(N^2)$ y es la parte más lenta del algoritmo. Una vez construida se hace una suma por filas y como criterio para seleccionar el tamaño de ventana adecuado se toma la fila que suma menor valor, se descartan los valores de ventana mayores y se eliminan de la matriz. Después se calculará la desviación estándar por columna y en los casos donde esta resulte $0$ se encuentra un máximo. 
+
+El criterio utilizado para seleccionar el valor óptimo de ventada tiene una consecuencia interesante: la frecuencia máxima de la señal no puede se mayor a 4 veces la frecuencia mínima de la señal $f_{max} < 4 f_{min}$, este no es el caso de la marcha, por lo tanto se propone otro algoritmo, semejante al AMPD.
+
+\begin{figure}
+    \centering
+    \input{imagenes/step.tex}
+    \caption{Altura del talón derecho según datos de captura de movimiento}
+    \label{fig:senal}
+\end{figure}
+
+La figura \ref{fig:senal} muestra la altura del tobillo para captura de movimiento realizada en Pris-Lab. La altura el tobillo es la señal ideal para detectar el paso, según las pruebas realizadas, pues se puede tomar \emph{cruda} y tiene valles y picos muy marcados. El algoritmo propuesto recupera la idea de \cite{scholkmann} de encontrar una ventana de tamaño óptimo, así la pregunta a responder es: ¿cual es el tamaño de ventana óptimo que me permite encontrar los máximos (o mínimos) de una señal cuasiperiódica?
+
+Responder la pregunta resuelve el problema de encontrar los máximos, data el tamaño óptimo de ventana, se puede recorrer la señal y aquellos valores que al ser el centro de la ventana sean el máximo son picos o valles de la señal. Se inicia entonces seleccionando un tamaño mínimo de ventana, se recorre la señal y se almacena la cantidad de máximos encontrados, note entonces que este será también un algoritmo con cota $O(N^2)$. 
+
+El tamaño mínimo se fijó en $k = 2$, pues para $k = 1$ uno de cada tres puntos será marcado como máximo, esto solo es útil en el caso de una señal triangular, no es lo que se busca. La figura \ref{fig:ventana} muestra como varía la cantidad de máximos o mínimos encontrados al recorrer la señal según el tamaño de la ventana. Como es de esperar, la señal es monotónicamente decreciente, pues al aumentar de tamaño de la ventana es más difícil encontrar máximos, en la práctica el incremento del tamaño de la ventana de detiene cuando encuentra un único pico (o valle) en toda la señal, pues se espera una señal cuasiperiódica. 
+
+\begin{figure}
+    \centering
+    \input{imagenes/ventana.tex}
+    \caption{Variación de la cantidad de máximo (mínimos) encontrados al recorrer la señal para cada valor de ventana}
+    \label{fig:ventana}
+\end{figure}
+
+Al observar la señal de la figura \ref{fig:ventana}, la cual es bastante representativa del fenómeno, esta primero muestra una pendiente negativa muy alta, después bruscamente reduce la pendiente, en la práctica se determinó que el tamaño óptimo de ventana se encuentra alrededor del punto medio de este segmento, antes de ese punto el ruido y los picos de menor tamaño son marcados, después de este punto se comienzan a perder pasos. Finalmente la señal decaerá hasta llega a cero.
+
+\begin{figure}
+    \centering
+    \input{imagenes/histograma.tex}
+    \caption{algo}
+    \label{fig:histograma}
+\end{figure}
+
+El análisis del comportamiento de esta señal puede revelar una característica interesante del fenómeno: recorriendo la señal de derecha a izquierda, para muchos valores de ventana se va a encontrar una cantidad de pequeña de máximos, para un rango pequeño de tamaño de ventanas se va a encontrar una cantidad de máximos cercanas al óptimo y finalmente para otro rango de tamaño de ventanas se va a encontrar una gran cantidad de máximos espurios. 
