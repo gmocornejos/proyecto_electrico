@@ -21,9 +21,9 @@ int main(int argc, char * argv[]){
     rms_e = rms_error( &joint, NULL );
     fourier_transform( &joint, &joint );
 
-//    for(i = 0; i != joint.length; ++i)
-//        printf("%d    %lf\n", i, joint.begin[i]);
-    printf("Razón armónica: %lf, RMS = %lf\n", arm_ratio, rms_e);
+    for(i = 0; i != joint.length; ++i)
+        printf("%d    %lf\n", i, joint.begin[i]);
+//    printf("Razón armónica: %lf, RMS = %lf\n", arm_ratio, rms_e);
     
     joint.destroy( &joint );
     bvh_unload_data( &m );

@@ -299,4 +299,19 @@ Al observar la señal de la figura \ref{fig:ventana}, la cual es bastante repres
     \label{fig:histograma}
 \end{figure}
 
-El análisis del comportamiento de esta señal puede revelar una característica interesante del fenómeno: recorriendo la señal de derecha a izquierda, para muchos valores de ventana se va a encontrar una cantidad de pequeña de máximos, para un rango pequeño de tamaño de ventanas se va a encontrar una cantidad de máximos cercanas al óptimo y finalmente para otro rango de tamaño de ventanas se va a encontrar una gran cantidad de máximos espurios. 
+El análisis del comportamiento de esta señal puede revelar una característica interesante del fenómeno: recorriendo la señal de derecha a izquierda, para muchos valores de ventana se va a encontrar una cantidad de pequeña de máximos, para un rango pequeño de tamaño de ventanas se va a encontrar una cantidad de máximos cercanas al óptimo y finalmente para otro rango de tamaño de ventanas se va a encontrar una gran cantidad de máximos espurios. La figura \ref{fig:histograma} revela la importancia de este hecho, al realizar el histograma de la frecuencia relativa de máximos encontrados con un tamaño de bin adecuando (más adelante se elaborará sobre el significado de \emph{adecuado}) se obtiene una distribución bi-gaussiana. Esto sucede para todas pruebas analizadas ($\approx 25$). 
+
+El siguiente paso fue utilizar el algoritmo de segmentación de Kitler para encontrar un umbral óptimo que divida las distribuciones gaussianas. La cantidad de pasos óptimos es entonces la media de la segunda distribución, para encontrar el tamaño óptimo de ventana se toma el menor tamaño de ventana para el cual al recorrer la señal se obtiene la cantidad óptima de pasos. 
+
+Desde el punto de vista del algoritmo propuesto, el ancho del bin al crear el histograma es un parámetro libre, sin embargo su valor óptimo se puede determinar como una relación entre la frecuencia de los picos (no necesariamente la frecuencia fundamental de la señal), la frecuencia de muestreo de la señal y tiempo total de la señal. Esto resulta intuitivo pues la razón entre la frecuencia se muestreo de la señal y la frecuencia de los picos indica cuantas muestras componen un pico, multiplicado por el tamaño de la señal se puede obtener un valor aproximado de cuantos pasos se encontrarán en la señal, para poder formar la distribución bi-gaussiana se necesitan al menos 10 bins, al dividir por este valor se obtiene el ancho del bin para el histograma.
+
+Formalizando el razonamiento el ancho del bin $A_b$ viene dado por la expresión mostrada en \eqref{ancho_b}. Donde:\\
+$N$ es la longitud de la muestra (cantidad de frames) \\
+$f_m$ es la frecuencia de muestreo (frame time) \\
+$f_p$ es la frecuencia de pasos, se puede estimar al graficar la señal. 
+
+\begin{equation}\label{ancho_b}
+    A_b\ =\ \left\lceil \cfrac{N f_m}{10 f_p} \right\rceil
+\end{equation}
+
+Como el área de estudio del presente trabajo se limita a la marcha se puede tomar en cuenta que la cantidad de pasos por segundo en los humanos es muy semejante. La marcha no patológica se da una frecuencia de $0.83\ \text{Hz}$, menor que $0.60\ \text{Hz}$ se encuentra la marcha patológica, y como referencia Usain Bolt (el humano más rápido) corre con una frecuencia de pasos de $4.25\ \text{Hz}$. \citep{perry, huntley}
