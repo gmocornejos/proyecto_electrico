@@ -1,0 +1,36 @@
+\chapter{Solución propuesta}
+
+Para el desarrollo del proyecto se propuso una arquitectura \emph{software framework}, donde se provean las funcionalidades básicas para analizar la marcha, las cuales se determinaron en la búsqueda bibliográfica, pero se deja en manos del usuario final escribir el código para darle un objetivo al estudio. Desde el punto de vista del programador final, este recibe del equipo de investigación una serie de requerimientos para el software de aplicación específica, desarrolla el programa, el cual consiste de la función \emph{main} y algunas posibles extensiones a parte del \emph{software framework}, el cual es accesible a través de 5 \emph{headers} o un \emph{meta-header} que por comodidad incluye a los otros. Finalmente se \emph{linkea} con el framework distribuido en fuente o como librería estática. 
+
+\section{Estructuras de datos}
+
+Se desarrollo una estructura de datos que proveyera abstracción de manera independiente al origen de los datos de movimiento, así los datos de un archivo BVH, 3DC, CSV o cualquier otro formato podrían ser cargados en la estructura de datos y ser tratados de manera homogenea. Con este objetivo e inspirado en la STL de C++ se desarrollaron dos contenedores genéricos para el proyecto, los cuales pueden ser utilizados por el programador final si lo desea, la implementación se encuentra en los headers \mono{vector.h} y \mono{dictionary.h}, la tabla \ref{tab:vector} y \ref{tab:dictionary} muestra el macro para declarar las estructuras, miembros y métodos del objeto. 
+
+Estos contenedores genéricos puede contener a cualquier tipo declarado previamente y son dinámicos en memoria, adaptando su tamaño dependiendo de la cantidad de datos almacenados. 
+
+\begin{table}
+    \centering
+    \caption{Declaración y miembros de \mono{vector} para un name-scope \mono{name} }
+    \label{tab:vector}
+    \begin{tabular}{lll}
+        \toprule
+        Nombre & Tipo & Descripción \\
+        \midrule
+        \mono{VECTOR\_DECLARE(type, name)} & macro & Declara un nuevo tipo de nombre \mono{name}, \\ & & contiene datos de tipo \mono{type}. \\
+        \mono{VECTOR\_DEFINE(type, name)} & macro & Se expande a código compilable, \\ & & implementa los métodos del contenedor. \\
+        \mono{name\_init(vector *, size)} & constructor & Aloca memoria para \mono{size} elementos. \\
+        \mono{name\_itr} & tipo & Declara un nuevo tipo para iterar sobre \\ & & el contenido del vector. \\ 
+        \mono{type\_size} & miembro & Tamaño en bytes del tipo vector declarado. \\
+        \mono{length} & miembro & Cantidad de elementos almacenados \\ & & en el contenedor. \\
+        \mono{* begin} & miembro & Puntero al primer elemento del vector. \\
+        \mono{* end} & miembro & Puntero a la próxima posición libre \\ & & en memoria. \\
+        \mono{append(self *, v)} & método & Añade el elemento \mono{v} al final del vector. \\
+        \mono{pop(self *)} & método & Elimina el último elemento del vector. \\
+        \mono{last(self *)} & método & Puntero al último elemento del vector. \\
+        \mono{search(self *, v, (*comp)())} & método & Busca el valor \mono{v}, requiere la \\
+        & & función \mono{comp()} para comparar entre valores. \\
+        \mono{clean(self *)} & método & Elimina todos los elementos del vector. \\
+        \mono{destroy(self *)} & destructor & Desaloca el vector, limpia la memoria. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
