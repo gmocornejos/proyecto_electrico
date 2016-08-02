@@ -1,56 +1,37 @@
 INCLUDE = ./include
 TEST = ./test
 SRC = ./src
+EXMPLS = ./examples
 
-CFLAGS = -g -I $(INCLUDE)
+CFLAGS = -I $(INCLUDE)
 LIBS = -lm
 CC = gcc
 
-_SRC_OBJ = motion.o bvh_joint.o bvh_load.o kinematics.o space_temporal.o analytics.o
-_SRC_DEPS = vector.h bvh_header.h dictionary.h motion.h kinematics.h space_temporal.h analytics.h
-
-SRC_OBJ = $(patsubst %, $(SRC)/%, $(_SRC_OBJ))
-SRC_DEPS = $(patsubst %, $(INCLUDE)/%, $(_SRC_DEPS))
+SRC_OBJ = $(patsubst %, %.o, $(basename $(wildcard $(SRC)/*)))
+SRC_DEPS = $(wildcard $(INCLUDE)/*)
+TEST_FILES = $(basename $(wildcard $(TEST)/*))
+EXAMPLES = $(basename $(wildcard $(EXMPLS)/*))
 
 $(SRC)/%.o : $(SRC)/%.c $(SRC_DEPS) 
-	$(CC) -c -o $@ $< $(CFLAGS)	
+	$(CC) -c -o $@ $< $(CFLAGS)
 
-vector_test: $(TEST)/vector_test.o $(INCLUDE)/vector.h
-	$(CC) -o $@ $^ $(CFLAGS)
+libmas.a : $(SRC_OBJ)
+	ar rcs $@ $^
 
-dic_test: $(TEST)/dictionary_test.o $(INCLUDE)/dictionary.h
-	$(CC) -o $@ $^ $(CFLAGS)
+test : libmas.a
+	for file in $(TEST_FILES); \
+	do \
+		$(CC) -static $$file.c $^ $(CFLAGS) $(LIBS) -o $$file ; \
+	done
 
-bvh_test : $(SRC_OBJ) $(TEST)/bvh_test.o
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-kinematics_test : $(SRC_OBJ) $(TEST)/kinematics_test.o
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-planes_test: $(SRC_OBJ) $(TEST)/planes_test.o
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-angle_test : $(SRC_OBJ) $(TEST)/angle_test.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-step_detect : $(SRC_OBJ) $(TEST)/step_detect.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-space_temporal : $(SRC_OBJ) $(TEST)/space_temporal.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-egocentric : $(SRC_OBJ) $(TEST)/egocentric_test.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-analytics_test : $(SRC_OBJ) $(TEST)/analytics_test.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-statistics_test : $(SRC_OBJ) $(TEST)/statistics_test.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-mariela : $(SRC_OBJ) $(TEST)/mariela.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
+examples: libmas.a
+	for file in $(EXAMPLES); \
+	do \
+		$(CC) -static $$file.c $^ $(CFLAGS) $(LIBS) -o $$file; \
+	done
+	
 clean:
+	rm *.a
 	rm $(SRC)/*.o
-	rm $(TEST)/*.o
+	rm $(TEST_FILES) $(EXAMPLES)
+
