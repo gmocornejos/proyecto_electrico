@@ -22,7 +22,7 @@ void transform_egocentric( motion * m);
 // Creates a vector from v1 to v2
 vector vector_vector(vector v1, vector v2); 
 
-vector vector_croos_product(vector v1, vector v2);
+vector vector_cross_product(vector v1, vector v2);
 double vector_dot_product(vector v1, vector v2);
 
 // makes v an unitary vector

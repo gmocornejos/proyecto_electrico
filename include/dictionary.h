@@ -5,13 +5,13 @@
 #include <stdio.h>
 
 #define DICTIONARY_DECLARE(key_type, value_type, name) \
-    typedef struct name name; \
-                              \
     typedef struct{ \
         key_type key; \
         value_type value; \
     } name ## _entry ; \
+    typedef name ## _entry * name ## _itr;\
                        \
+    typedef struct name name; \
     struct name{ \
         size_t entry_size; \
         size_t length; \
@@ -35,7 +35,7 @@ value_type * name ## _get(name * _dic, key_type _key){ \
     for(p = _dic -> begin; p != _dic -> end; ++p) \
         if( (_dic -> cmp) (_key, p -> key) == 0 ) \
             return &(p -> value); \
-    fprintf(stderr, "Could'n find entry %s\n", _key); \
+    fprintf(stderr, "Could'n find entry\n"); \
     return NULL; \
 } \
 \

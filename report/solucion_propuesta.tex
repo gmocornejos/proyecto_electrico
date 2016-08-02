@@ -4,9 +4,13 @@ Para el desarrollo del proyecto se propuso una arquitectura \emph{software frame
 
 \section{Estructuras de datos}
 
-Se desarrollo una estructura de datos que proveyera abstracción de manera independiente al origen de los datos de movimiento, así los datos de un archivo BVH, 3DC, CSV o cualquier otro formato podrían ser cargados en la estructura de datos y ser tratados de manera homogenea. Con este objetivo e inspirado en la STL de C++ se desarrollaron dos contenedores genéricos para el proyecto, los cuales pueden ser utilizados por el programador final si lo desea, la implementación se encuentra en los headers \mono{vector.h} y \mono{dictionary.h}, la tabla \ref{tab:vector} y \ref{tab:dictionary} muestra el macro para declarar las estructuras, miembros y métodos del objeto. 
+Se desarrollo una estructura de datos que proveyera abstracción de manera independiente al origen de los datos de movimiento, así los datos de un archivo BVH, 3DC, CSV o cualquier otro formato podrían ser cargados en la estructura de datos y ser tratados de manera homogenea. Con este objetivo e inspirados en la STL de C++ se desarrollaron dos contenedores genéricos para el proyecto, los cuales pueden ser utilizados por el programador final si lo desea, la implementación se encuentra en los headers \mono{vector.h} y \mono{dictionary.h}, la tabla \ref{tab:vector} y \ref{tab:dictionary} muestra el macro para declarar las estructuras, miembros y métodos del objeto. 
 
-Estos contenedores genéricos puede contener a cualquier tipo declarado previamente y son dinámicos en memoria, adaptando su tamaño dependiendo de la cantidad de datos almacenados. 
+Estos contenedores genéricos puede contener a cualquier tipo declarado previamente y son dinámicos en memoria, adaptando su tamaño dependiendo de la cantidad de datos almacenados. Si el contenedor se va a utilizar únicamente en un archivo, puede utilizarse la declaración \mono{VECTOR\_LOCAL\_DEFINE} y \mono{DICTIONARY\_LOCAL\_DEFINE}, al contrario, los contenedores son utilizados en más de un archivo fuente, en el header debe debe declararse el contenedor y en algún archivo debe colocarse la definición. La figura \ref{fig:containers} muestra un ejemplo de uso de ambos contenedores, para compilar puede ejecutar en terminal:
+
+\begin{verbatim}
+$ gcc -I./include/ examples/containers.c -o containers
+\end{verbatim}
 
 \begin{table}
     \centering
@@ -34,3 +38,160 @@ Estos contenedores genéricos puede contener a cualquier tipo declarado previame
         \bottomrule
     \end{tabular}
 \end{table}
+
+\begin{table}
+    \centering
+    \caption{Declaración y miembros de \mono{dictionary} para un name-scope \mono{name} }
+    \label{tab:dictionary}
+    \begin{tabular}{lll}
+        \toprule
+        Nombre & Tipo & Descripción \\
+        \midrule
+        \mono{DICTIONARY\_DECLARE(type, name)} & macro & Declara un nuevo tipo de nombre \mono{name}, \\ & & contiene datos de tipo \mono{type}. \\
+        \mono{DICTIONARY\_DEFINE(type, name)} & macro & Se expande a código compilable, \\ & & implementa los métodos del contenedor. \\
+        \mono{name\_init(dictionary *, size)} & constructor & Aloca memoria para \mono{size} elementos. \\
+        \mono{name\_entry} & tipo & Estructura para soportar una entrada \\ & & compuesta por \emph{key} y \emph{value}. \\ 
+        \mono{name\_itr} & tipo & Tipo de variable para iterar sobre las \\ & & entradas del diccionario. \\
+        \mono{entry\_size} & miembro & Tamaño en bytes del tipo diccionario. \\
+        \mono{length} & miembro & Cantidad de entradas almacenadas \\ & & en el contenedor. \\
+        \mono{* begin} & miembro & Puntero a la primera entrada del diccionario. \\
+        \mono{* end} & miembro & Puntero a la próxima posición libre \\ & & en memoria. \\
+        \mono{insert(self *, k, v)} & método & Crea o actualiza una entrada con \mono{k} key \\ & & y \mono{v} value. \\
+        \mono{remove(self *, k)} & método & Remueve la entrada con key \mono{k}. \\
+        \mono{get(self *, k)} & método & Retorna un puntero a la entrada con key \mono{k}. \\
+        \mono{destroy(self *)} & destructor & Desaloca el vector, limpia la memoria. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{figure}
+    \input{../examples/containers.c}
+    \caption{Programa de ejemplo de los contenedores}
+    \label{fig:containers}
+\end{figure}
+
+A partir de los contenedores implementados se creó el objeto \mono{motion} el cual tiene como objetivo almacenar los datos de captura de movimiento. Se asume, que sin importar la fuente, el movimiento se compone de una secuencia de vectores, cada uno indicando la posición de una unión en el momento implícito en el índice de la secuencia. En la figura \ref{fig:motion-impl} se muestra la implementación del objeto \mono{motion}, la estructura \mono{vector} almacena tres valores reales para componer un vector en el espacio tridimensional, el contenedor vector \mono{time\_series} almacena una secuencia de vectores tridimensionales, los cuales se harán corresponder a la posición de una unión a través del tiempo. 
+
+El contenedor diccionario \mono{motion\_data} almacena el \mono{time\_series} de todos los Joints, la entrada puede ser accedida por el nombre de la unión, para un ejemplo de los nombres típicos encontrados en archivos BVH, refiérase al apéndice \ref{ap:bvh}. Además se incorpora un diccionario para los parámetros de la captura, como la cantidad de frames y la frecuencia de muestreo. En el caso de los archivos BVH, estos parámetros son \mono{Frames} y \mono{FrameTime}. 
+
+Además se incluye un contenedor vector de valores reales para almacenar series temporales de ángulos, componentes de vectores y el resultado de operaciones como transfomada de fourier. Además se contempló la posibilidad de manejar en una misma estructura muchos objetos \mono{motion}, útil cuando se tiene un grupo de filmaciones y se desean comparar individuos o grupos de individuos, esto lo brinda el contenedor vector \mono{motion\_vector} 
+
+Finalmente se incluye facilidades para calcular los planos de simetría típicos en el estudio del movimiento humano: sagital, transversal y coronal. Siguiendo la definición matemática, un plano se compone de un vector normal a este y un punto que lo fija en el espacio, tal como se muestra en el objeto \mono{plane}.
+
+\begin{figure}
+    \begin{verbatim}
+typedef struct {
+    double x,y,z;
+} vector;
+
+VECTOR_DECLARE(double, unidimentional_series);
+
+VECTOR_DECLARE(vector, time_series);
+
+DICTIONARY_DECLARE(char *, time_series, motion_data);
+
+DICTIONARY_DECLARE(char *, double, motion_parameters);
+
+typedef struct{
+    time_series normal, * point;
+} plane;
+
+typedef struct {
+    motion_data data, * data_ptr;
+    motion_parameters parameters, * param_ptr;
+    plane sagital, transversal, coronal;
+} motion;
+
+VECTOR_DECLARE(motion *, motion_vector);
+    \end{verbatim}
+    \caption{Implementación del objeto motion}
+    \label{fig:motion-impl}
+\end{figure}
+
+\section{Funcionalidad} 
+
+El resto de \emph{software framework} es accesible a través de 4 headers, los cuales agrupan funciones relacionadas: carga de datos, cálculo de variables cinemáticas, cálculo de variables espacio-temporales, análisis de variables. Las tablas \ref{tab:bvh}, \ref{tab:kinematics}, \ref{tab:space-tmp} y \ref{tab:analytics} indican el nombre de cada función y dan una breve descripción. 
+
+\begin{table}
+    \centering
+    \caption{Funciones relacionadas a archivos bvh}
+    \label{tab:bvh}
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{bvh\_load\_data} & Carga un archivo BVH a un objeto \mono{motion}. \\
+        \mono{bvh\_load\_directory} & Interpreta todos los archivos de un directorio como formato \\ & BVH y los carga en un vector \mono{motion\_vector}. \\
+        \mono{bvh\_unload\_data} & Destruye un objeto \mono{motion} y libera la memoria. \\
+        \mono{bvh\_unload\_directory} & Destruye un objeto \mono{motion\_vector}, incluyendo su contenido, \\ & y libera memoria. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{Funciones sobre variables cinemáticas}
+    \label{tab:kinematics}
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{derivate} & Deriva un \mono{time\_series}. \\
+        \mono{integrate} & Integra un \mono{time\_series}. \\
+        \mono{std\_planes\_calculate} & Calcula los planes de simetría estándar. \\
+        \mono{transform\_egocentric} & Transforma todos los puntos al sistema egocéntrico \\ & definido por los planos estándar. \\
+        \mono{vector\_vector} & Calcula un vector entre dos puntos. \\
+        \mono{vector\_cross\_product} & Calcula el producto cruz de dos vectores. \\
+        \mono{vector\_dot\_product} & Calcula el producto punto de dos vectores. \\
+        \mono{vector\_normalize} & Normaliza a un vector unitario. \\
+        \mono{vector\_project\_plane} & Proyecta un vector sobre un plano. \\
+        \mono{vector\_calculate\_angle} & Calcula el ángulo entre dos vectores, opcionalmente \\ & los proyecta primero sobre un plano. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{Funciones sobre variables espacio-temporales}
+    \label{tab:space-tmp}
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{linear\_fit} & Calcula una recta de tendencia de la forma $y = mx + b$. \\
+        \mono{detect\_peaks} & Identifica los valles en una señal unidimensional. \\
+        \mono{detect\_steps} & Identifica los pasos en un componente de un time-series. \\
+        \mono{cadence} & Calcula la cadencia. \\
+        \mono{distance} & Calcula la distancia tridimensional recorrida. \\
+        \mono{step\_length} & Calcula la distancia de cada paso. \\
+        \mono{step\_time} & Calcula la duración de cada paso. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{Funciones para analizar las variables}
+    \label{tab:analytics}
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{calc\_mean\_std\_dev} & Calcula la media y desviación estándar de un vector de valores reales. \\
+        \mono{rms\_error} & Calcula el valor RMS de una señal o el error RMS entre dos señales. \\
+        \mono{gait\_ration} & Razón de la longitud media del paso entre la cadencia. \\
+        \mono{fourier\_transform} & Calcula la transformada de Fourier. \\
+        \mono{armonic\_ratio} & Calcula la razón armónica de la marcha. \\
+        \mono{t\_test\_one\_sample} & Calcula la significancia de que la media de una secuencia de valores \\ &  sea un valor en particular. \\
+        \mono{t\_test\_two\_samples} & Calcula que la significancia de que media de dos secuencias de \\ & valores sea igual. \\
+        \mono{t\_test\_Welcth} & Igual a la anterior pero sin asumir que la secuencia tiene la misma \\ & desviación estándar. \\
+        \mono{anova\_one\_way} & Calcula el impacto de un factor sobre varios niveles. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+
+
+
+
