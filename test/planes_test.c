@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-#include <motion.h>
-#include <bvh_header.h>
+#include <mas.h>
 
 void print_normal(time_series n){
     vector * j;

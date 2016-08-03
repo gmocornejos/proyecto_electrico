@@ -1,6 +1,6 @@
-#include <stdio.h>
+#include <mas.h>
 
-#include <motion.h>
+#include <stdio.h>
 
 int main(int argc, char * argv[]){
 

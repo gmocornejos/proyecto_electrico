@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <vector.h>
+#include <mas.h>
 
 VECTOR_LOCAL_DEFINE(double, double_vector);
 

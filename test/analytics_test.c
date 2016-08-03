@@ -1,8 +1,4 @@
-#include <motion.h>
-#include <bvh_header.h>
-#include <space_temporal.h>
-#include <analytics.h>
-
+#include <mas.h>
 #include <stdio.h>
 
 int main(int argc, char * argv[]){

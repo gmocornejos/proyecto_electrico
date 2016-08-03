@@ -1,7 +1,7 @@
+#include <mas.h>
+
 #include <stdio.h>
 #include <string.h>
-
-#include <dictionary.h>
 
 DICTIONARY_DECLARE(char *, int, dic_type);
 DICTIONARY_DEFINE(char *, int, dic_type);

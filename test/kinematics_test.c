@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <mas.h>
 
-#include <kinematics.h>
 
 int main(int argc, char * argv[]){
 

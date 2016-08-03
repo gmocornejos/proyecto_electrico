@@ -1,8 +1,6 @@
 #include <stdio.h>
 
-#include <motion.h>
-#include <bvh_header.h>
-#include <space_temporal.h>
+#include <mas.h>
 
 int main(int argc, char * argv[]){
     

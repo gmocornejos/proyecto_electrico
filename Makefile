@@ -31,7 +31,9 @@ examples: libmas.a
 	done
 	
 clean:
-	rm *.a
 	rm $(SRC)/*.o
+
+clean_bin:
+	rm *.a
 	rm $(TEST_FILES) $(EXAMPLES)
 

@@ -1,7 +1,7 @@
+#include <mas.h>
+
 #include <stdio.h>
 #include <stdlib.h>
-
-#include <motion.h>
 
 int main(int argc, char * argv[]){
 
