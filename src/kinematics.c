@@ -60,6 +60,12 @@ int integrate(time_series * input, double sample_time, time_series * output){
     return output -> length;
 }
 
+double vector_magnitude(vector v){
+
+    return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+
+}
+
 vector vector_vector(vector v1, vector v2){
 
     vector tmp = { v2.x - v1.x, 

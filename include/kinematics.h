@@ -19,6 +19,8 @@ void transform_egocentric( motion * m);
 
 /**** vectors manipulation ****/
 
+double vector_magnitude(vector v);
+
 // Creates a vector from v1 to v2
 vector vector_vector(vector v1, vector v2); 
 
