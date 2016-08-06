@@ -336,15 +336,11 @@ el \emph{name\_scope} es \mono{vector\_enteros}.
 \section{Vector}
 
 \begin{apientry}{type * name\_scope\_init(name\_scope * vector, int size)}{Constructor}
-    Inicializa el vector con al menos \mono{size} espacios. El tamaño en memoria se modifica dinámicamente según se añadan o eliminen elementos.     
+    Inicializa el vector con al menos \mono{size} espacios. El tamaño en memoria se modifica dinámicamente según se añadan o eliminen elementos. Retorna un puntero a la primera posición de memoria disponible.      
 \end{apientry}
 
 \begin{apientry}{name\_scope\_itr}{Tipo}
     Tipo apropiado para iterar sobre los elementos almacenados en el contenedor. 
-\end{apientry}
-
-\begin{apientry}{size\_t type\_size}{Atributo}
-    Tamaño del tipo de dato almacenado.    
 \end{apientry}
 
 \begin{apientry}{size\_t length}{Atributo}
@@ -355,12 +351,12 @@ el \emph{name\_scope} es \mono{vector\_enteros}.
     Puntero al primer elemento almacenado.
 \end{apientry}
 
-\begin{apientry}{type * begin}{Atributo}
+\begin{apientry}{type * end}{Atributo}
     Puntero al la siguiente posición de memoria libre para almacenar un elemento.
 \end{apientry}
 
 \begin{apientry}{type * append(* self, type value)}{Método}
-    Añade un elemento en la última posición libre de memoria. Retorna un puntero a la primera dirección de memoria. 
+    Añade un elemento \mono{value} en la última posición libre de memoria. Retorna un puntero a la primera dirección de memoria. 
 \end{apientry}
 
 \begin{apientry}{type * pop(* self)}{Método}
@@ -372,16 +368,58 @@ el \emph{name\_scope} es \mono{vector\_enteros}.
 \end{apientry}
 
 \begin{apientry}{type * search(* self, int (*comp)(type value, type elemento) )}{Método}
-    Busca si \mono{value} se encuentra almacenado. Necesita la unción \mono{comp(type value, type)} para comparar entre elementos, la cual retorna no cero si los elementos comparados son iguales.  
+    Busca si \mono{value} se encuentra almacenado. Necesita la función \mono{comp(type value, type)} para comparar entre elementos, la cual retorna no cero si los elementos comparados son iguales.  
 \end{apientry}
 
 \begin{apientry}{void clean(* self)}{Método}
     Vacía el contenido. El contenedor puede seguirse utilizado, se comporta como recién inicializado. 
 \end{apientry}
 
-\begin{apientry}{void destroy(* self)}{Método}
+\begin{apientry}{void destroy(* self)}{Destructor}
     Vacía el contenido y libera la memoria. Para poder utilizarse de nuevo debe llamarse al constructor. Cualquier intento de acceder a los elementos después de haber llamado a la función causan un \emph{segmentation fault}
 \end{apientry}
+
+\section{Dictionary}
+
+\begin{apientry}{name\_scope\_entry}{Tipo}
+    Define la estructura para las entradas del diccionario. El \emph{key} y \emph{value} se pueden acceder a través del operador \mono{.} ó \verb;->;, según corresponda. 
+\end{apientry}
+
+\begin{apientry}{name\_scope\_itr}{Tipo}
+   Define un tipo apropiado para iterar sobre todas las entradas de un diccionario. 
+\end{apientry}
+
+\begin{apientry}{name\_scope\_entry * name\_scope\_init(* self, int (*cmp)(key\_type k1, key\_type k2) )}{Constructor}
+    Inicializa el diccionario. Necesita al función cmp(key\_type k1, key\_type k2) para poder añadir nuevas entradas al diccionario. Retornar un puntero a la primera dirección de memoria disponible.\end{apientry}
+
+\begin{apientry}{size\_t length}{Atributo}
+    Cantidad de entradas en el diccionario.
+\end{apientry}
+
+\begin{apientry}{name\_scope\_entry * begin}{Atributo}
+    Puntero a la primera entrada del diccionario.
+\end{apientry}
+
+\begin{apientry}{name\_scope\_entry * end}{Atributo}
+    Puntero a la próxima posición de memoria disponible en el diccionario. 
+\end{apientry}
+
+\begin{apientry}{name\_scope\_entry * insert(* self, key\_type k, value\_type v)}{Método}
+    Crea una nueva entrada y la almacena en la última posición de memoria disponible. Retorna un puntero a la primera entrada almacenada.
+\end{apientry}
+
+\begin{apientry}{name\_scope\_entry * remove(* self, key\_type k)}{Método}
+    Elimina la entrada con \emph{key} \mono{k}. En caso de éxito retorna un puntero a la primera entrada almacenada, de lo contrario retorna un puntero a NULL.
+\end{apientry}
+
+\begin{apientry}{value\_entry * get(* self, key\_tipe k)}{Método}
+    Retorna un puntero al valor de la entrada con \emph{key} \mono{k}. Si no encuentra una entrada con dicho \emph{key}, retorna NULL.
+\end{apientry}
+
+\begin{apientry}{void destroy(* self)}{Destructor}
+    Elimina todas las entradas del diccionario y limpia la memoria. Cualquier intento de acceder al contenido del diccionario después de llamar al destructor causa un \emph{segmentation fault}
+\end{apientry}
+
 
 
 
