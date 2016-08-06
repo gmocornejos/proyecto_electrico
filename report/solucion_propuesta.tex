@@ -4,7 +4,7 @@ Para el desarrollo del proyecto se propuso una arquitectura \emph{software frame
 
 \section{Estructuras de datos}
 
-Se desarrollo una estructura de datos que proveyera abstracción de manera independiente al origen de los datos de movimiento, así los datos de un archivo BVH, 3DC, CSV o cualquier otro formato podrían ser cargados en la estructura de datos y ser tratados de manera homogenea. Con este objetivo e inspirados en la STL de C++ se desarrollaron dos contenedores genéricos para el proyecto, los cuales pueden ser utilizados por el programador final si lo desea, la implementación se encuentra en los headers \mono{vector.h} y \mono{dictionary.h}, la tabla \ref{tab:vector} y \ref{tab:dictionary} muestra el macro para declarar las estructuras, miembros y métodos del objeto. 
+Se desarrollo una estructura de datos que proveyera abstracción de manera independiente al origen de los datos de movimiento, así los datos de un archivo BVH, 3DC, CSV o cualquier otro formato podrían ser cargados en la estructura de datos y ser tratados de manera homogenea. Con este objetivo e inspirados en la STL de C++ se desarrollaron dos contenedores genéricos para el proyecto, los cuales pueden ser utilizados por el programador final si lo desea, la implementación se encuentra en los headers \mono{vector.h} y \mono{dictionary.h}, la tabla \ref{tab:vector} y \ref{tab:dictionary} muestra el macro para declarar las estructuras, atributos y métodos del objeto. 
 
 Estos contenedores genéricos puede contener a cualquier tipo declarado previamente y son dinámicos en memoria, adaptando su tamaño dependiendo de la cantidad de datos almacenados. Si el contenedor se va a utilizar únicamente en un archivo, puede utilizarse la declaración \mono{VECTOR\_LOCAL\_DEFINE} y \mono{DICTIONARY\_LOCAL\_DEFINE}, al contrario, los contenedores son utilizados en más de un archivo fuente, en el header debe debe declararse el contenedor y en algún archivo debe colocarse la definición. La figura \ref{fig:containers} muestra un ejemplo de uso de ambos contenedores, para compilar puede ejecutar en terminal:
 
@@ -14,7 +14,7 @@ $ gcc -I./include/ examples/containers.c -o containers
 
 \begin{table}
     \centering
-    \caption{Declaración y miembros de \mono{vector} para un name-scope \mono{name} }
+    \caption{Declaración y atributos de \mono{vector} para un name-scope \mono{name} }
     \label{tab:vector}
     \begin{tabular}{lll}
         \toprule
@@ -24,10 +24,10 @@ $ gcc -I./include/ examples/containers.c -o containers
         \mono{VECTOR\_DEFINE(type, name)} & macro & Se expande a código compilable, \\ & & implementa los métodos del contenedor. \\
         \mono{name\_init(vector *, size)} & constructor & Aloca memoria para \mono{size} elementos. \\
         \mono{name\_itr} & tipo & Declara un nuevo tipo para iterar sobre \\ & & el contenido del vector. \\ 
-        \mono{type\_size} & miembro & Tamaño en bytes del tipo vector declarado. \\
-        \mono{length} & miembro & Cantidad de elementos almacenados \\ & & en el contenedor. \\
-        \mono{* begin} & miembro & Puntero al primer elemento del vector. \\
-        \mono{* end} & miembro & Puntero a la próxima posición libre \\ & & en memoria. \\
+        \mono{type\_size} & atributo & Tamaño en bytes del tipo vector declarado. \\
+        \mono{length} & atributo & Cantidad de elementos almacenados \\ & & en el contenedor. \\
+        \mono{* begin} & atributo & Puntero al primer elemento del vector. \\
+        \mono{* end} & atributo & Puntero a la próxima posición libre \\ & & en memoria. \\
         \mono{append(self *, v)} & método & Añade el elemento \mono{v} al final del vector. \\
         \mono{pop(self *)} & método & Elimina el último elemento del vector. \\
         \mono{last(self *)} & método & Puntero al último elemento del vector. \\
@@ -41,7 +41,7 @@ $ gcc -I./include/ examples/containers.c -o containers
 
 \begin{table}
     \centering
-    \caption{Declaración y miembros de \mono{dictionary} para un name-scope \mono{name} }
+    \caption{Declaración y atributos de \mono{dictionary} para un name-scope \mono{name} }
     \label{tab:dictionary}
     \begin{tabular}{lll}
         \toprule
@@ -52,10 +52,10 @@ $ gcc -I./include/ examples/containers.c -o containers
         \mono{name\_init(dictionary *, size)} & constructor & Aloca memoria para \mono{size} elementos. \\
         \mono{name\_entry} & tipo & Estructura para soportar una entrada \\ & & compuesta por \emph{key} y \emph{value}. \\ 
         \mono{name\_itr} & tipo & Tipo de variable para iterar sobre las \\ & & entradas del diccionario. \\
-        \mono{entry\_size} & miembro & Tamaño en bytes del tipo diccionario. \\
-        \mono{length} & miembro & Cantidad de entradas almacenadas \\ & & en el contenedor. \\
-        \mono{* begin} & miembro & Puntero a la primera entrada del diccionario. \\
-        \mono{* end} & miembro & Puntero a la próxima posición libre \\ & & en memoria. \\
+        \mono{entry\_size} & atributo & Tamaño en bytes del tipo diccionario. \\
+        \mono{length} & atributo & Cantidad de entradas almacenadas \\ & & en el contenedor. \\
+        \mono{* begin} & atributo & Puntero a la primera entrada del diccionario. \\
+        \mono{* end} & atributo & Puntero a la próxima posición libre \\ & & en memoria. \\
         \mono{insert(self *, k, v)} & método & Crea o actualiza una entrada con \mono{k} key \\ & & y \mono{v} value. \\
         \mono{remove(self *, k)} & método & Remueve la entrada con key \mono{k}. \\
         \mono{get(self *, k)} & método & Retorna un puntero a la entrada con key \mono{k}. \\
@@ -189,6 +189,29 @@ El resto de \emph{software framework} es accesible a través de 4 headers, los c
         \bottomrule
     \end{tabular}
 \end{table}
+
+\section{Evaluación de la solución}
+
+El presente proyecto pretende facilitar a investigadores de ciencias del movimiento humano, en cooperación con profesionales de otras disciplinas, desarrollar rápidamente el software necesario para comprobar hipótesis relacionadas al estudio de la marcha. En este sentido, para comprobar que el \emph{software framework} desarrollado realmente cumple esa expectativa.
+
+Con ese objetivo se seleccionaron 3 artículos científicos: \cite{mazza}, \cite{menz}, \cite{mizoguchi}. Para los tres artículos se desarrolló el código necesario para, con los datos de captura de movimiento correctos, reproducir los resultados encontrados por los investigadores. La tabla \ref{tab:eval_lineas} muestra las líneas de código necesarias para reproducir cada trabajo, tanto las líneas totales de la fuente como las relacionadas únicamente con los cálculos propiamente. 
+
+\begin{table}
+    \centering
+    \caption{Cantidad de líneas necesarias para reproducir cada publicación}
+    \label{tab:eval_lineas}
+    \begin{tabular}{lll}
+        \toprule
+        Publicación & Total de líneas & Líneas efectivas \\
+        \midrule
+        \cite{mazza} & 125 & 90 \\
+        \cite{menz} & 125 & 78 \\
+        \cite{mizoguchi} & 54 & 31 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Además de las líneas de código, la elaboración de cada programa llevó alrededor de 2 horas. Esto resulta en una reducción significativa el del tiempo y esfuerzo necesario para desarrollar futuros estudios, en comparación con la alternativa de desarrollas código en alguna otra plataforma, como MATLAB y después utilizar un programa de análisis estadístico, como SPSS, para obtener los resultados finales. El \emph{software framework} permite analizar los datos crudos obtenidos del sistema de captura de movimiento y realizar los cálculos estadísticos hasta obtener los resultados finales. En este sentido es un flujo de desarrollo mucho más eficiente.  
 
 
 

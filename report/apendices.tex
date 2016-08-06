@@ -295,7 +295,7 @@ Al observar la señal de la figura \ref{fig:ventana}, la cual es bastante repres
 \begin{figure}
     \centering
     \input{imagenes/histograma.tex}
-    \caption{algo}
+    \caption{Histograma de la frecuencia de máximos encontrados, se utilizan los datos de la figura \ref{fig:ventana}, se obtiene una distribución bi-gaussiana.}
     \label{fig:histograma}
 \end{figure}
 
@@ -315,3 +315,75 @@ $f_p$ es la frecuencia de pasos, se puede estimar al graficar la señal.
 \end{equation}
 
 Como el área de estudio del presente trabajo se limita a la marcha se puede tomar en cuenta que la cantidad de pasos por segundo en los humanos es muy semejante. La marcha no patológica se da una frecuencia de $0.83\ \text{Hz}$, menor que $0.60\ \text{Hz}$ se encuentra la marcha patológica, y como referencia Usain Bolt (el humano más rápido) corre con una frecuencia de pasos de $4.25\ \text{Hz}$. \citep{perry, huntley}
+
+\newenvironment{apientry}[2]
+{
+    \mono{#1} \hfill [\mono{#2}] \\
+    \setlength{\leftskip}{3cm}
+}
+{
+    \setlength{\leftskip}{0pt}
+}
+
+\chapter{Breve API de los Contenedores}
+
+El \emph{name\_scope} corresponde al texto utilizado para el encapsulamiento de los atributos y métodos de los contenedores, por ejemplo en \\
+
+\mono{VECTOR\_DECLARE(int, vector\_enteros);}\\
+
+el \emph{name\_scope} es \mono{vector\_enteros}. 
+
+\section{Vector}
+
+\begin{apientry}{type * name\_scope\_init(name\_scope * vector, int size)}{Constructor}
+    Inicializa el vector con al menos \mono{size} espacios. El tamaño en memoria se modifica dinámicamente según se añadan o eliminen elementos.     
+\end{apientry}
+
+\begin{apientry}{name\_scope\_itr}{Tipo}
+    Tipo apropiado para iterar sobre los elementos almacenados en el contenedor. 
+\end{apientry}
+
+\begin{apientry}{size\_t type\_size}{Atributo}
+    Tamaño del tipo de dato almacenado.    
+\end{apientry}
+
+\begin{apientry}{size\_t length}{Atributo}
+    Cantidad de elementos almacenados
+\end{apientry}
+
+\begin{apientry}{type * begin}{Atributo}
+    Puntero al primer elemento almacenado.
+\end{apientry}
+
+\begin{apientry}{type * begin}{Atributo}
+    Puntero al la siguiente posición de memoria libre para almacenar un elemento.
+\end{apientry}
+
+\begin{apientry}{type * append(* self, type value)}{Método}
+    Añade un elemento en la última posición libre de memoria. Retorna un puntero a la primera dirección de memoria. 
+\end{apientry}
+
+\begin{apientry}{type * pop(* self)}{Método}
+    Elimina el ultimo elemento añadido. Retorna un puntero a la primera dirección de memoria.
+\end{apientry}
+
+\begin{apientry}{type * last(* self)}{Método}
+    Retorna un puntero al último elemento añadido. 
+\end{apientry}
+
+\begin{apientry}{type * search(* self, int (*comp)(type value, type elemento) )}{Método}
+    Busca si \mono{value} se encuentra almacenado. Necesita la unción \mono{comp(type value, type)} para comparar entre elementos, la cual retorna no cero si los elementos comparados son iguales.  
+\end{apientry}
+
+\begin{apientry}{void clean(* self)}{Método}
+    Vacía el contenido. El contenedor puede seguirse utilizado, se comporta como recién inicializado. 
+\end{apientry}
+
+\begin{apientry}{void destroy(* self)}{Método}
+    Vacía el contenido y libera la memoria. Para poder utilizarse de nuevo debe llamarse al constructor. Cualquier intento de acceder a los elementos después de haber llamado a la función causan un \emph{segmentation fault}
+\end{apientry}
+
+
+
+
+
