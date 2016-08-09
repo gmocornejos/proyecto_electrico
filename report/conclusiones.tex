@@ -1,0 +1,22 @@
+\chapter{Conclusiones y recomendaciones}
+
+\section{Conclusiones}
+
+Se desarrollo un marco de trabajo en \emph{software} que facilitar al investigador de movimiento humano plantear experimentos relacionados a la marcha, utilizando un sistema de captura de movimiento. Esto se comprobó reconstruyendo estudios científicos sobre la marcha publicados.
+
+A través de una investigación bibliográfica, se identificaron las variables cinemáticas y espacio-temporales, así como las técnicas de análisis comúnmente usadas al estudiar la marcha, estos resultados se muestran en las tablas \ref{tab:cinematicas}, \ref{tab:espacio-temp}, \ref{tab:tec-especificas} y \ref{tab:tec-generales}.
+
+Se propuso una solución que permite fácilmente cargar datos de captura de movimiento almacenados en formato BVH y calcular las variables cinemáticas y espacio-temporales además y sobre ellas aplicarlas técnicas identificadas. La eficacia de la solución se evaluó al recrear tres estudios científicos sobre la marcha publicados.
+
+Este proyecto permite al Laboratorio de Investigación en Reconocimiento de patrones y Sistemas Inteligentes contar con la plataforma de software necesaria para plantear nuevos estudios sobre la marcha, proponer nuevas técnicas de análisis y descubrir relaciones importantes entre las variables cinemáticas y espacio-temporales con afectaciones motoras. 
+
+
+\section{Recomendaciones}
+
+El presente trabajo representa el primer acercamiento al desarrollo de un sistema computacional para el estudio del movimiento humano, por lo tanto se recomienda plantear los requerimientos para el desarrollo completo de dicho sistema. 
+
+El PRIS-Lab ha implementado mucho software en el lenguaje C++, sin embargo este proyecto se desarrolló en C, se recomienda portar el trabajo al lenguaje mencionado.
+
+Muchos de los estudios sobre la marcha encontrados utilizan estadística \emph{tradicional} para comprobar las hipótesis: pruebas t-studen, F-value, ANOVA, principalmente. El futuro sistema computacional debería incluir facilidades para aplicar técnicas de reconocimiento de patrones: PCA, k-means, clasificadores, entre otros. 
+
+
