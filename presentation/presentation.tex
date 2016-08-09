@@ -18,18 +18,365 @@
 \usepackage{amsmath}
 \usepackage{verbatim}
 \usetikzlibrary{arrows,shapes}
+\usepackage{natbib}
+\usepackage{booktabs}
+
+\bibliographystyle{../report/apalike_es}
+\graphicspath{../report/imagenes}
+\newcommand{\mono}[1]{{\ttfamily #1}}
 
 \author{Luis Guillermo Cornejo Suárez}
-\title{
-{\ty}
-{\normalfont}
-}
+\institute[UCR]{Universidad de Costa Rica}
+\title[PRIS-Lab Motion analysis Software]{Desarrollo de un \emph{software framework} para el análisis de variables cinemáticas y espacio-temporales de la marcha.}
+\date{viernes 12 de agosto del 2016}
+
 
 \begin{document}
 
 \begin{frame}
-
-\Huge ¡Hola!
-
+    \titlepage
 \end{frame}
+
+%================================================================
+\section{Introducción}
+
+\begin{frame}{¿Qué es la marcha?}
+   \begin{block}{Definición}
+   Por marcha se entiende el acto de desplazarse utilizando las extremidades corporales inferiores. 
+   \end{block}
+\end{frame}
+
+\begin{frame}{¿Qué es la marcha?}
+    Según \citep{menz} la marcha consiste de cuatro tareas:
+    \begin{itemize}
+        \item Inicio y terminación de los movimientos locomotores.
+        \item Generación de movimientos continuos para desplazarse hacia adelante.
+        \item Mantenimiento del equilibrio .
+        \item Adaptabilidad al ambiente. 
+    \end{itemize}
+    Se puede estudiar desde la \emph{dinámica} y la \emph{cinemática}
+\end{frame}
+
+\begin{frame}{Ciclo de la marcha}
+    \begin{figure}
+        \centering
+        \includegraphics[height=0.7\textheight]{../report/imagenes/ciclo_marcha}
+        \caption{Ilustración del ciclo de la marcha, tomado de \citep{perry}}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Patrón de la marcha}
+        \input{../report/imagenes/step.tex}
+\end{frame}
+
+\begin{frame}{Como herramienta clínica}
+    El estudio de la marcha ha sido utilizado con éxito en el diagnóstico y control de al menos los siguientes padecimientos:
+    \begin{itemize}
+        \item Enfermedades degenerativas: esclerosis, Alzheimer, reumatismo, enfermedad de Parkinson. 
+        \item Daños en ligamentos y músculos.
+        \item Hemofilia. 
+        \item Parálisis cerebral. 
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Como herramienta clínica}
+    \begin{block}{}
+        La utilización de sistemas de captura de movimiento y sistemas computacionales complementa las observaciones del especialista para formar un criterio más preciso. 
+    \end{block}
+\end{frame}
+
+%================================================================
+\section{Estado de la Tecnología}
+
+\begin{frame}{Métodos de recolección de datos}
+    \begin{itemize}
+        \item Procesamiento de imagen: cámaras digitales, kinect, lidars, sistemas MoCap.
+        \item Sensores de presión y fuerza: alfombras, plantillas.
+        \item Sensores de inercia.
+        \item Electromiografía.
+        \item Dispositivos RF, galgas de compresión, sensores piezoeléctricos y capacitivos. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Software disponible}
+    \begin{itemize}
+        \item Opción preferida: Matlab + suit de estadística.
+        \item nMotion Musculos de NAC Image Technology.
+        \item EliteClinic Systems. 
+        \item TEMPLO Contemplas.
+        \item Medical Motion Pro-Trainer.
+    \end{itemize}
+    \begin{block}{}
+        Desde la ingeniería han existido propuestas de software para facilitar el análisis clínico, pero han encontrado la dificultada de reunir una cantidad de \emph{features} suficientes para hacerlo atractivo. 
+    \end{block}
+\end{frame}
+
+
+%================================================================
+\section{Motivación}
+
+\begin{frame}{Antecedentes}
+    \begin{itemize}
+        \item PRIS-Lab adquiere un sistema de captura de movimiento.
+        \item Se realizan experimentos sobre la marcha y escoliosis, se desarrolla software específico para cada uno.
+        \item Se plantea el desarrollo de un sistema computacional para el estudio del movimiento humano.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Presente trabajo}
+    \begin{block}{Aspiración} 
+        Realizar un primer acercamiento al desarrollo del un sistema computacional, facilitando ampliamente la programación de experimentos relacionados con la marcha. 
+    \end{block}
+\end{frame}
+
+
+%================================================================
+\section{Objetivos}
+
+\begin{frame}{Objetivo General}
+    \begin{block}{}
+        Desarrollar un \emph{software framework} para facilitar a investigadores de distintas disciplinas analizar las variables cinemáticas y espacio-temporales de la marcha, a partir de datos recolectados por un sistema de captura óptica del movimiento.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Objetivos específicos}
+    \begin{enumerate}
+        \item Realizar una investigación bibliográfica sobre las variables cinemáticas y espacio-temporales de la marcha y técnicas de análisis de la marcha. 
+        \item Seleccionar las variables cinemáticas y espacio-temporales más relevantes, así como las técnicas más utilizadas al realizar un análisis de la marcha.
+        \item Plantear los requerimientos técnicos y de uso para la solución. 
+        \item Implementar un \emph{software framework} capaz de tomar datos de un sistema de captura óptica de movimiento y aplicar técnicas de análisis usuales a variables cinemáticas y espacio-temporales de la marcha. 
+        \item Evaluar el \emph{software} a nivel de uso.
+        \item Elaborar documentación del \emph{software} e informe final del proyecto. 
+    \end{enumerate}
+\end{frame}
+
+%================================================================
+\section{Variables y técnicas de análisis}
+
+\begin{frame}{Variables cinemáticas}
+\begin{table}
+    \centering
+    \caption{Variables cinemáticas}
+    \label{tab:cinematicas}
+    \begin{tabular}{lr}
+        \toprule
+        Variable & Número de referencias  \\
+        \midrule
+        Aceleración & 7 \\
+        Velocidad   & 12 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+Además del cálculo de ángulos y la proyección de estos sobre los planos principales: sagital, transversal, coronal. 
+\end{frame}
+
+\begin{frame}{Variables espacio-temporales}
+ \begin{table}
+    \centering
+    \caption{Variables espacio-temporales}
+    \label{tab:espacio-temp}
+    \begin{tabular}{lr}
+        \toprule
+        Variable & Número de referencias \\
+        \midrule
+        Cadencia & 9 \\
+        Longitud del paso & 10 \\
+        Distancia recorrida & 2 \\
+        Número de pasos & 1 \\
+        Duración del paso & 2 \\
+        Ancho del paso & 5 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{técnicas específicas}
+ \begin{table}
+    \centering
+    \caption{Técnicas específicas de análisis}
+    \label{tab:tec-especificas}
+    \begin{tabular}{llr}
+        \toprule
+        Técnica & Descripción & NR \\
+        \midrule
+        Razón del caminar & longitud del paso / cadencia & 1 \\
+        Razón armónica    & razón armónicos pares e impares & 2 \\
+        Segmentación      & de las fases de la marcha       & 9 \\
+        Área de soporte   & Polígono formado por los pies & 1 \\
+        Centro de gravedad &  & 1 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Técnicas generales}
+\begin{table}
+    \centering
+    \caption{Técnicas generales de análisis}
+    \label{tab:tec-generales}
+    \begin{tabular}{lr}
+        \toprule
+        Técnica & Número de referencias \\
+        \midrule
+        Media aritmética & 5 \\
+        Desviación estándar & 5 \\
+        Transformada rápida de Fourier & 4 \\
+        Principal Component Analysis & 4 \\
+        Valor raíz cuadrático medio & 4 \\
+        Entropía aproximada         & 1 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Técnicas generales}
+    \begin{block}{}
+        Además se requieren métodos para pruebas de hipótesis estadísticas: t-student y ANOVA, principalmente. 
+    \end{block}
+\end{frame}
+   
+%================================================================
+\section{Solución propuesta}
+
+\begin{frame}
+    \begin{block}{}
+        Se desarrollaron contenedores genéricos para soportar los algoritmos, con un api muy semejante a STL++, para facilitar eventualmente hacer un \emph{port}.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Carga de datos}
+\begin{table}
+    \centering
+    \caption{Funciones relacionadas a archivos bvh}
+    \label{tab:bvh}
+    \scriptsize 
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{bvh\_load\_data} & Carga un archivo BVH a un objeto \mono{motion}. \\
+        \mono{bvh\_load\_directory} & Interpreta todos los archivos de un directorio como formato \\ & BVH y los carga en un vector \mono{motion\_vector}. \\
+        \mono{bvh\_unload\_data} & Destruye un objeto \mono{motion} y libera la memoria. \\
+        \mono{bvh\_unload\_directory} & Destruye un objeto \mono{motion\_vector}, incluyendo su contenido, \\ & y libera memoria. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Variables cinemáticas}
+\begin{table}
+    \centering
+    \caption{Funciones sobre variables cinemáticas}
+    \label{tab:kinematics}
+    \scriptsize
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{derivate} & Deriva un \mono{time\_series}. \\
+        \mono{integrate} & Integra un \mono{time\_series}. \\
+        \mono{std\_planes\_calculate} & Calcula los planes de simetría estándar. \\
+        \mono{transform\_egocentric} & Transforma todos los puntos al sistema egocéntrico \\ & definido por los planos estándar. \\
+        \mono{vector\_vector} & Calcula un vector entre dos puntos. \\
+        \mono{vector\_cross\_product} & Calcula el producto cruz de dos vectores. \\
+        \mono{vector\_dot\_product} & Calcula el producto punto de dos vectores. \\
+        \mono{vector\_normalize} & Normaliza a un vector unitario. \\
+        \mono{vector\_project\_plane} & Proyecta un vector sobre un plano. \\
+        \mono{vector\_calculate\_angle} & Calcula el ángulo entre dos vectores, opcionalmente \\ & los proyecta primero sobre un plano. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Variables espacio-temporales}
+\begin{table}
+    \centering
+    \caption{Funciones sobre variables espacio-temporales}
+    \label{tab:space-tmp}
+    \scriptsize
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{linear\_fit} & Calcula una recta de tendencia de la forma $y = mx + b$. \\
+        \mono{detect\_peaks} & Identifica los valles en una señal unidimensional. \\
+        \mono{detect\_steps} & Identifica los pasos en un componente de un time-series. \\
+        \mono{cadence} & Calcula la cadencia. \\
+        \mono{distance} & Calcula la distancia tridimensional recorrida. \\
+        \mono{step\_length} & Calcula la distancia de cada paso. \\
+        \mono{step\_time} & Calcula la duración de cada paso. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Técnicas de análisis}
+\begin{table}
+    \centering
+    \caption{Funciones para analizar las variables}
+    \label{tab:analytics}
+    \scriptsize
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{calc\_mean\_std\_dev} & Calcula la media y desviación estándar de un vector de valores reales. \\
+        \mono{rms\_error} & Calcula el valor RMS de una señal o el error RMS entre dos señales. \\
+        \mono{gait\_ration} & Razón de la longitud media del paso entre la cadencia. \\
+        \mono{fourier\_transform} & Calcula la transformada de Fourier. \\
+        \mono{armonic\_ratio} & Calcula la razón armónica de la marcha. \\
+        \mono{t\_test\_one\_sample} & Calcula la significancia de que la media de una secuencia de valores \\ &  sea un valor en particular. \\
+        \mono{t\_test\_two\_samples} & Calcula que la significancia de que media de dos secuencias de \\ & valores sea igual. \\
+        \mono{t\_test\_Welcth} & Igual a la anterior pero sin asumir que la secuencia tiene la misma \\ & desviación estándar. \\
+        \mono{anova\_one\_way} & Calcula el impacto de un factor sobre varios niveles. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+%================================================================
+\section{Algoritmo de detección de pasos}
+
+\begin{frame}{Datos de entrada}
+    \input{../report/imagenes/step.tex}
+\end{frame}
+
+\begin{frame}{Algoritmo AMPD de \citep{scholkmann}}
+    \begin{itemize}
+        \item Crea una matiz de tamaño $N \times N/2$, $N$ es el tamaño del vector de entrada. 
+        \item Se selecciona un tamaño de ventana $w = 2k | k = 1,2,3, ..., N/2$ y se desplaza por los datos con el índice $i$.
+    \end{itemize}
+    \begin{equation}
+     w_{i,k} =
+    \begin{cases}
+    0\ , & \quad \text{si}\ i\ \text{es máximo} \\ 
+    1 + r\ , & \quad \text{de otra manera} 
+    \end{cases}
+    \end{equation}
+    \begin{itemize}
+        \item Como criterio para seleccionar el tamaño de ventana óptimo, se toma la fila que suma menor valor. 
+        \item Se descartan todos los valores de ventana mayores y se eliminan de la matriz. 
+        \item Se calcula la desviación estándar por columna, si resulta cero, se encontró un máximo. 
+        \item Restricción $f_{max} < 4 f_{min}$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo AMPD de \citep{scholkmann}}
+    \begin{itemize}
+        \item Es un proceso de orden $O(N^2)$ en memoria y tiempo de procesamiento.
+        \item Sin darle un parámetro para el tamaño de ventana mínimo, no funciona muy bien al detectar la marcha, entrega muchos falsos positivos. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo propuesto}
+    \begin{itemize}
+        \item Inspirado en el algoritmo de \cite{scholkmann}.
+        \item Si se tiene el tamaño óptimo de ventana, se pueden encontrar los picos o valles de una señal cuasiperiódica.
+        \item Intenta responder la pregunta ¿Cual es el tamaño de ventana óptima que permite encontrar los máximos o mínimos de una señal cuaisperiódica?
+    \end{itemize}
+\end{frame} 
+
+
+\bibliography{../report/referencias}
 \end{document}
