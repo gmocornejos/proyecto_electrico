@@ -1,6 +1,19 @@
 \chapter{Introducción}
 
-\comentario{Voy a dejar esta sección para el final} \\
+El análisis de marcha es una herramienta clínica de disgnóstico muy sencilla, consiste en hacer caminar al paciente y observar el patrón que genera el mecanismo de locomoción. Los especialistas en salud se entrenan para identificar aquellos aspectos de la marcha que pueden evidenciar afectaciones provocadas por enfermedades degenerativas, daños en múlculo y ligamentos, atrofia o deficiencias neurógicas. 
+
+Para complementar la observación realizada por el especialista, se han desarrollado sistemas de captura de movimiento, los datos producidos por dichos sistemas son analizados con herramientas computacionales, con el fin de detectar elementos del patrón de la marcha que puedan escapar al \emph{ojo experto}
+
+El Laboratorio de Investigación en Reconocimiento de Patrones y Sistemas Inteligentes (PRIS-Lab) de la Escuela de Ingeniería Eléctrica de la Universidad de Costa Rica, cuenta con equipo especializado en la captura de movimiento, el presente trabajo tiene como propósito ser un acercamiento al desarrollo de un sistema computacional para el análisis del movimiento humanoide. 
+
+Existen ya sistemas computacionales de uso clínico para el análisis de la marcha, sin embargo estos ofrecen solamente un conjunto limitado de técnicas de análsis sobre variables cinemáticas y espacio temporales predefinidas. Se pretende por lo tanto desarrollar un marco de trabajo para facilitar a investigadores en el área del movimiento humano plantear hipótesis y comprobarlas sin necesidad de preocuparse por detalles de manipulación de los datos, extracción de variables y los cálculos sobre ellas. 
+
+De esta manera será posible, con un esfuerzo reducido, desarrollar nuevas técnicas de análisis y generar conocimiento que relacione variaciones específicas al patrón de la marcha con afectaciones clínicas. 
+
+Para limitar los alcances del trabajo, se desarrolló software capaz de analizar la marcha a partir de una captura de movimiento registrada en formato BVH. A partir de esta información es posible calcular variables cinemáticas como ángulos entre articulaciones, sean absolutos o proyectados sobre alguno de los planos principales del cuerpo: sagital, transversal o coronal, la velocidad y aceleración. Permite también calcular variable espacio temporales como cadencia, duración y longitud del paso, distancia recorrida y detectar automáticamente el paso. 
+
+Estas variables se pueden analizar a través de técnicas comunes, como media aritmética, desviación estándar, transformada de Fourier, valor RMS y técnicas específicas desarrolladas por científicos del área, como razón del paso y razón armónica. Finalmente, se incorporan facilidades de pruebas de hipótesis con pruebas \emph{t-test} y \emph{ANOVA} de una vía. 
+
 
 Nota: Habar (en ese orden) 
 
@@ -30,6 +43,14 @@ Desarrollar un \emph{software framework} para facilitar a investigadores de dist
 
 \section{Desarrollo}
 
-\comentario{¿Qué se va a tratar en cada capítulo?}
-
 Los capítulos \ref{generalidades} y \ref{variables-tecnicas} comprenden el marco teórico del trabajo. En el capítulo \ref{generalidades}: \nameref{generalidades} introduce la marcha, su utilidad como herramienta de diagnóstico, hardware y software utilizado en su estudio. El capitulo \ref{variables-tecnicas}: \nameref{variables-tecnicas} hace una revisión bibliográfica para establecer las variables cinemáticas, espacio-temporales y técnicas de análisis más utilizadas en el campo. 
+
+El capítulo \ref{chap:solucion} presenta la solución desarrollada. Recorre las principales estructuras de datos, encargadas se sostener en memoria los datos de captura de movimiento, muestra las principales funciones, agrupadas según sea de: carga de datos, cálculo de variables cinemáticas, espacio-temporales o técnicas de análisis. El trabajo incluye tres apéndices. El apéndice \ref{ap:bvh} explica el formato BVH, el apéndice \ref{chap:detect-step} explica al detalle el algoritmo de detección de pasos y el apéndice \ref{chap:api} muestra el API de los contenedores genéricos desarrollados. 
+
+
+
+
+
+
+
+

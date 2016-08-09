@@ -254,7 +254,7 @@ Frame Time:    0.003906
 -0.066035    -0.925920    0.191887    
 \end{verbatim}
 
-\chapter{Algoritmo de detección de los pasos}
+\chapter{Algoritmo de detección de los pasos}\label{chap:detect-step}
 
 El algoritmo presentado se inspira fuertemente en la idea presentada por \cite{scholkmann} llamado \emph{automatic multiscale-based peak detection} (AMPD). La intensión era generar un algoritmo de detección de picos para señales periódicas o cuasi-periódicas robusto al ruido de baja frecuencia y que no necesitara parámetros. La estructura principal del algoritmo es el \emph{local maxima scalogram} una matriz tamaño $N \times N/2$, donde N es el tamaño del vector de datos. Esta matriz se llena de la siguiente manera: se selecciona un tamaño de ventana $w = 2k | k = 1, 2, 3, ..., N/2$, esta ventana se desplaza por el vector de datos y si el valor en el centro de la ventana es el máximo, se almacena un cero, de otra manera se almacena un número aleatorio entre 1 y 2, tal como muestra \eqref{ampd_matriz}, donde $r$ es un número aleatorio entre 0 y 1.
 
@@ -325,7 +325,7 @@ Como el área de estudio del presente trabajo se limita a la marcha se puede tom
     \setlength{\leftskip}{0pt}
 }
 
-\chapter{Breve API de los Contenedores}
+\chapter{Breve API de los Contenedores}\label{chap:api}
 
 El \emph{name\_scope} corresponde al texto utilizado para el encapsulamiento de los atributos y métodos de los contenedores, por ejemplo en \\
 
