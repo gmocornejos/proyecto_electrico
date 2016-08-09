@@ -20,6 +20,9 @@
 \usetikzlibrary{arrows,shapes}
 \usepackage{natbib}
 \usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
 
 \bibliographystyle{../report/apalike_es}
 \graphicspath{../report/imagenes}
@@ -336,6 +339,28 @@ Además del cálculo de ángulos y la proyección de estos sobre los planos prin
 \end{frame}
 
 %================================================================
+\section{Evaluación de la solución}
+
+\begin{frame}{Evaluación de la solución}
+ \begin{table}
+    \centering
+    \caption{Cantidad de líneas necesarias para reproducir cada publicación}
+    \label{tab:eval_lineas}
+    \begin{tabular}{lrr}
+        \toprule
+        Publicación & Total de líneas & Líneas efectivas \\
+        \midrule
+        \cite{mazza} & 125 & 90 \\
+        \cite{menz} & 125 & 78 \\
+        \cite{mizoguchi} & 54 & 31 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+   
+\end{frame}
+
+%================================================================
 \section{Algoritmo de detección de pasos}
 
 \begin{frame}{Datos de entrada}
@@ -372,10 +397,50 @@ Además del cálculo de ángulos y la proyección de estos sobre los planos prin
 \begin{frame}{Algoritmo propuesto}
     \begin{itemize}
         \item Inspirado en el algoritmo de \cite{scholkmann}.
-        \item Si se tiene el tamaño óptimo de ventana, se pueden encontrar los picos o valles de una señal cuasiperiódica.
+        \item Hipótesis: si se tiene el tamaño óptimo de ventana, se pueden encontrar los picos o valles de una señal cuasiperiódica.
         \item Intenta responder la pregunta ¿Cual es el tamaño de ventana óptima que permite encontrar los máximos o mínimos de una señal cuaisperiódica?
     \end{itemize}
 \end{frame} 
+
+\begin{frame}{Mínimos en función del tamaño de ventana}
+    \input{../report/imagenes/ventana.tex}
+\end{frame}
+
+\begin{frame}{Frecuencia relativa de la cantidad de mínimos}
+    \input{../report/imagenes/histograma.tex}
+\end{frame}
+
+\begin{frame}{Resultado del algoritmo de detección de pasos}
+    \input{../report/imagenes/detected_steps.tex}
+\end{frame}
+
+%================================================================
+\section{Conclusiones y recomendaciones}
+
+\begin{frame}{Conclusiones}
+    \begin{block}{}
+        Ahora el PRIS-Lab cuenta con una plataforma de software para plantear nuevos estudios sobre la marcha, proponer nuevas técnicas de análisis y descubrir relaciones importantes entre las variables cinemáticas y espacio-temporales y afectaciones motoras. 
+    \end{block}
+\end{frame}
+
+\begin{frame}{Conclusiones}
+    \begin{enumerate}
+        \item Se desarrollo un marco de trabajo en software que facilita al investigador calcular los resultados de experimentos. 
+        \item Se identificaron las variables cinéticas y espacio-temporales, además de las técnicas de análisis más comunes al estudiar la marcha. 
+        \item Se propuso una solución que permite fácilmente cargar datos de movimiento en formato BHV y calcular las variables cinemáticas y espacio temporales de la marcha.
+        \item Se crearon facilidades para analizar dichas variables y probar las hipótesis estadísticamente. 
+        \item Se evaluó el software recreando trabajos científicos publicados, plantear un experimento requiere de unas 100 líneas de código.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Recomendaciones}
+    \begin{enumerate}
+        \item Plantear los requerimientos para el desarrollo de un sistema computacional para el estudio del movimiento humano. 
+        \item Hacer un port o wraper a C++ del código desarrollado para ser compatible con el resto del software desarrollado en el Laboratorio. 
+        \item Identificar técnicas de análisis más avanzadas la comprobación estadística de hipótesis, pensando en construir un sistema de reconocimiento de patrones del movimiento humano. 
+    \end{enumerate}
+\end{frame}
+
 
 
 \bibliography{../report/referencias}
