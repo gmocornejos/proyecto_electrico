@@ -1,6 +1,6 @@
 \chapter{Solución propuesta}\label{chap:solucion}
 
-Para el desarrollo del proyecto se propuso una arquitectura \emph{software framework}, donde se provean las funcionalidades básicas para analizar la marcha, las cuales se determinaron en la búsqueda bibliográfica, pero se deja en manos del usuario final escribir el código para darle un objetivo al estudio. Desde el punto de vista del programador final, este recibe del equipo de investigación una serie de requerimientos para el software de aplicación específica, desarrolla el programa, el cual consiste de la función \emph{main} y algunas posibles extensiones a parte del \emph{software framework}, el cual es accesible a través de 5 \emph{headers} o un \emph{meta-header} que por comodidad incluye a los otros. Finalmente se \emph{linkea} con el framework distribuido en fuente o como librería estática. 
+Para el desarrollo del proyecto se propuso una arquitectura de biblioteca, donde se provean las funcionalidades básicas para analizar la marcha, las cuales se determinaron en la búsqueda bibliográfica, pero se deja en manos del usuario final escribir el código para darle un objetivo al estudio. Desde el punto de vista del programador final, este recibe del equipo de investigación una serie de requerimientos para el software de aplicación específica, entonces desarrolla el programa, el cual consiste de la función \emph{main} y algunas posibles extensiones a parte de la infraestructura provista, la cual es accesible a través de 5 \emph{headers} o un \emph{meta-header} que por comodidad incluye a los otros. Finalmente se \emph{linkea} con el framework distribuido en fuente o como biblioreca estática. 
 
 \section{Estructuras de datos}
 
@@ -110,7 +110,7 @@ VECTOR_DECLARE(motion *, motion_vector);
 
 \section{Funcionalidad} 
 
-El resto de \emph{software framework} es accesible a través de 4 headers, los cuales agrupan funciones relacionadas: carga de datos, cálculo de variables cinemáticas, cálculo de variables espacio-temporales, análisis de variables. Las tablas \ref{tab:bvh}, \ref{tab:kinematics}, \ref{tab:space-tmp} y \ref{tab:analytics} indican el nombre de cada función y dan una breve descripción. 
+El resto de infraestructura es accesible a través de 4 headers, los cuales agrupan funciones relacionadas: carga de datos, cálculo de variables cinemáticas, cálculo de variables espacio-temporales, análisis de variables. Las tablas \ref{tab:bvh}, \ref{tab:kinematics}, \ref{tab:space-tmp} y \ref{tab:analytics} indican el nombre de cada función y dan una breve descripción. 
 
 \begin{table}
     \centering
@@ -211,7 +211,15 @@ Con ese objetivo se seleccionaron 3 artículos científicos: \cite{mazza}, \cite
     \end{tabular}
 \end{table}
 
-Además de las líneas de código, la elaboración de cada programa llevó alrededor de 2 horas. Esto resulta en una reducción significativa el del tiempo y esfuerzo necesario para desarrollar futuros estudios, en comparación con la alternativa de desarrollas código en alguna otra plataforma, como MATLAB y después utilizar un programa de análisis estadístico, como SPSS, para obtener los resultados finales. El \emph{software framework} permite analizar los datos crudos obtenidos del sistema de captura de movimiento y realizar los cálculos estadísticos hasta obtener los resultados finales. En este sentido es un flujo de desarrollo mucho más eficiente.  
+Además de las líneas de código, la elaboración de cada programa llevó alrededor de 2 horas. Esto resulta en una reducción significativa el del tiempo y esfuerzo necesario para desarrollar futuros estudios, en comparación con la alternativa de desarrollas código en alguna otra plataforma, como MATLAB y después utilizar un programa de análisis estadístico, como SPSS, para obtener los resultados finales. El software permite analizar los datos crudos obtenidos del sistema de captura de movimiento y realizar los cálculos estadísticos hasta obtener los resultados finales. En este sentido es un flujo de desarrollo mucho más eficiente.  
+
+Finalmente, la figura \ref{fig:presentation} muestra un programa de ejemplo, donde se evaluá si el promedio del ángulo formado por la rodilla derecha es igual al promedio del ángulo formado por rodilla izquierda, para una población de capturas contenidas en el mismo directorio. El programa contempla el flujo de trabajo de inicio a fin, partiendo desde los datos en crudo hasta la prueba de hipótesis estadística. 
+
+\begin{figure}
+    \input{../examples/presentation.c}
+    \caption{Programa de ejemplo de un experimento}
+    \label{fig:presentation}
+\end{figure}
 
 
 

@@ -1,43 +1,36 @@
 \chapter{Introducción}
 
-El análisis de marcha es una herramienta clínica de disgnóstico muy sencilla, consiste en hacer caminar al paciente y observar el patrón que genera el mecanismo de locomoción. Los especialistas en salud se entrenan para identificar aquellos aspectos de la marcha que pueden evidenciar afectaciones provocadas por enfermedades degenerativas, daños en múlculo y ligamentos, atrofia o deficiencias neurógicas. 
+Caminar requiere de la acción coordinada de distintos sistemas y sentidos, por ejemplo, el sistema óseo debe ser capás de transferir efectivamente todo el peso del cuerpo al piso, el sistema muscular debe proporcionar la tensión necesaria para sostener el cuerpo y la energía para generar el movimiento, el interior del oído detecta las aceleraciones sufridas por la cabeza, la vista proporciona un horizonte de referencia para mantener el equilibrio y la presión sobre la planta de los pies permite estimar el punto donde cae el centro del masa. Finalmente el sistema nervioso periférico recopila toda esta información y es procesada por el sistema nervioso central. 
 
-Para complementar la observación realizada por el especialista, se han desarrollado sistemas de captura de movimiento, los datos producidos por dichos sistemas son analizados con herramientas computacionales, con el fin de detectar elementos del patrón de la marcha que puedan escapar al \emph{ojo experto}
+Dado lo anterior, se ha encontrado que el análisis de la marcha es una herramienta para el diagnóstico y control de padecimientos que afecten el sistema locomotor, por ejemplo: enfermedades degenerativas, daños en ligamentos y músculos, atrofia, hemofilia, parálisis cerebral, entre otros. Su estudio se aborda con dos énfasis: dinámica, referente al estudio de las fuerzas que involucran el movimiento y cinemática, considerando únicamente el desplazamiento del cuerpo. En esta última se suelen diferenciar dos variables: cinemáticas, se refieren a la posición, velocidad y aceleración de una parte del cuerpo y espacio-temporal, las cuales describen el movimiento del cuerpo de manera global. 
 
-El Laboratorio de Investigación en Reconocimiento de Patrones y Sistemas Inteligentes (PRIS-Lab) de la Escuela de Ingeniería Eléctrica de la Universidad de Costa Rica, cuenta con equipo especializado en la captura de movimiento, el presente trabajo tiene como propósito ser un acercamiento al desarrollo de un sistema computacional para el análisis del movimiento humanoide. 
+Por su sencillez, los especialistas en salud se entrenan para identificar aquellos aspectos de la marcha que pueden evidenciar afectaciones. Para complementar la observación realizada por el especialista, se han desarrollado sistemas de captura de movimiento, los datos producidos por dichos sistemas son procesados por herramientas computacionales, con el fin de obtener un criterio más preciso.
 
-Existen ya sistemas computacionales de uso clínico para el análisis de la marcha, sin embargo estos ofrecen solamente un conjunto limitado de técnicas de análsis sobre variables cinemáticas y espacio temporales predefinidas. Se pretende por lo tanto desarrollar un marco de trabajo para facilitar a investigadores en el área del movimiento humano plantear hipótesis y comprobarlas sin necesidad de preocuparse por detalles de manipulación de los datos, extracción de variables y los cálculos sobre ellas. 
+Existen múltiples sistemas para la recolección de datos del movimiento: basados en procesamiento de imágenes, sensores de presión y fuerza, sensores de inercia, electromiografía y dispositivos experimentales. Para el ambiente clínico hay disponibles herramientas comerciales para analizar los datos capturados, para investigación comúnmente se procesan los datos con Matlab y después son analizados en una \emph{suit} de estadística. 
 
-De esta manera será posible, con un esfuerzo reducido, desarrollar nuevas técnicas de análisis y generar conocimiento que relacione variaciones específicas al patrón de la marcha con afectaciones clínicas. 
+El software especializado comercialmente disponible ofrece soluciones cerradas, donde no es posible considerar nuevas variables o técnicas de análisis. En investigación, cada experimento implica desarrollar código desde la base para manejar los datos. Existe entonces una carencia por software abierto, capas de considerar gran cantidad de variables y ofrezca integrar nuevas técnicas de análisis, así como encontrar relaciones entre las variables consideradas y la condición clínica bajo estudio.
 
-Para limitar los alcances del trabajo, se desarrolló software capaz de analizar la marcha a partir de una captura de movimiento registrada en formato BVH. A partir de esta información es posible calcular variables cinemáticas como ángulos entre articulaciones, sean absolutos o proyectados sobre alguno de los planos principales del cuerpo: sagital, transversal o coronal, la velocidad y aceleración. Permite también calcular variable espacio temporales como cadencia, duración y longitud del paso, distancia recorrida y detectar automáticamente el paso. 
+El Laboratorio de Investigación en Reconocimiento de Patrones y Sistemas Inteligentes (PRIS-Lab) de la Escuela de Ingeniería Eléctrica de la Universidad de Costa Rica, cuenta con equipo especializado para la captura del movimiento, con el cual se han desarrollado experimentos sobre la marcha y escoliosis \citep{escoliosis}. Desde este laboratorio se plantea el desarrollo de una plataforma computacional para el estudio del movimiento humano, el presente trabajo representa un primer acercamiento al desarrollo de dicha plataforma.
 
-Estas variables se pueden analizar a través de técnicas comunes, como media aritmética, desviación estándar, transformada de Fourier, valor RMS y técnicas específicas desarrolladas por científicos del área, como razón del paso y razón armónica. Finalmente, se incorporan facilidades de pruebas de hipótesis con pruebas \emph{t-test} y \emph{ANOVA} de una vía. 
+El alcance actual de trabajo permitiría a investigadores de distintas disciplinas analizar las variables cinemáticas y espacio-temporales de la marcha a partir de datos recolectados por un sistema de captura de movimiento. Concretamente se utilizarán archivos BVH generados por el sistema MoCap OptiTrack del PRIS-Lab. A partir de esta información será posible calcular variables cinemáticas como ángulos entre articulaciones, sean absolutos o proyectados sobre alguno de los planos principales del cuerpo: sagital, transversal o coronal, la velocidad y aceleración; también calcular variables espacio-temporales como cadencia, duración y longitud del paso, distancia recorrida y detectar automáticamente el paso. 
 
-
-Nota: Habar (en ese orden) 
-
-Justificación: Por qué el análisis de la marcha y su estudio es importante
-
-Problema: Cuál es el problema puntual que se va a resolver 
-
-Alcances: Qué cosas se hicieron y qué quedó por fuera. 
+Estas variables podrán ser analizadas a través de técnicas comunes, como media aritmética, desviación estándar, transformada de Fourier, valor RMS y técnicas específicas desarrolladas por científicos del área, como razón del paso y razón armónica. Finalmente, se incorporan facilidades de pruebas de hipótesis con pruebas \emph{t-test} y \emph{ANOVA} de una vía. 
 
 
 \section{Objetivos}
 
 \subsection{Objetivo general}
 
-Desarrollar un \emph{software framework} para facilitar a investigadores de distintas disciplinas analizar las variables cinemáticas y espacio-temporales de la marcha, a partir de datos recolectados por un sistema de captura óptica de movimiento.
+Desarrollar una infraestructura de software para el análisis de variables cinemáticas y espacio-temporales de la marcha, a partir de datos recolectados por un sistema de captura óptica de movimiento.
 
 \subsection{Objetivos específicos}
 
 \begin{enumerate}
     \item Realizar una investigación bibliográfica sobre las variables cinemáticas y espacio temporales de la marcha y técnicas de análisis de la marcha.
     \item Seleccionar las variables cinemáticas y espacio-temporales más relevantes, así como las técnicas más utilizadas al realizar un análisis de la marcha. 
-    \item Plantear los requerimientos técnicos y de uso para la solución. 
-    \item Implementar un \emph{software framework} capaz de tomar datos de un sistema de captura óptica de movimiento y aplicar técnicas de análisis usuales a variables cinemáticas y espacio-temporales de la marcha, según los requerimientos técnicos y de uso planteados.
-    \item Evaluar el \emph{software}, tanto a nivel técnico como de uso.
+    \item Realizar un levantamiento de requerimientos técnicos y de uso para la solución. 
+    \item Implementar una infraestructura de software capaz de tomar datos de un sistema de captura óptica de movimiento y aplicar técnicas de análisis usuales a variables cinemáticas y espacio-temporales de la marcha, según los requerimientos técnicos y de uso planteados.
+    \item Validar el \emph{software}, tanto a nivel técnico como de uso.
     \item Elaborar documentación del \emph{software} e informe final del proyecto.
 \end{enumerate}
 

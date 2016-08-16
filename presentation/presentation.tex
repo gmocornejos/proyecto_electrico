@@ -165,6 +165,7 @@
 
 
 \begin{frame}{Definiciones}
+    \emph{Desarrollo de un software framework para el análisis de variables cinemáticas y espacio-temporales de la marcha.} \\
     \begin{block}{Software framework}
         Conjunto de funciones en un flujo de trabajo que proveen una funcionalidad genérica. 
     \end{block}
@@ -179,7 +180,7 @@
 %================================================================
 \section{Solución propuesta}
 
-\begin{frame}
+\begin{frame}{Solución propuesta}
     \begin{block}{}
         Se desarrollaron contenedores genéricos para soportar los algoritmos, con un api muy semejante a STL++, para facilitar eventualmente hacer un \emph{port}.
     \end{block}
@@ -278,7 +279,7 @@
 %================================================================
 \section{Algoritmo de detección de pasos}
 
-\begin{frame}{Datos de entrada}
+\begin{frame}{Algoritmo de detección de pasos}
     \input{../report/imagenes/step.tex}
 \end{frame}
 
@@ -318,8 +319,72 @@ $f_p$ es la frecuencia de pasos, se puede estimar al graficar la señal.
 %================================================================
 \section{Evaluación de uso}
 
-\begin{frame}{Ejemplo}
-   hola 
+\begin{frame}[fragile]{Ejemplo}  
+\begin{verbatim}
+#include <mas.h>
+#include <stdio.h>
+
+int main(int argc, char * argv[]){
+    motion_vector one, two;
+    motion_vector_itr m;
+    unidimentional_series ang1, ang2;
+    unidimentional_series tmp_ang;
+    double mean, std;
+    bvh_load_directory( argv[1], &one );
+    bvh_load_directory( argv[2], &two );
+    unidimentional_series_init( &ang1, 20 );
+    unidimentional_series_init( &ang2, 20 );
+    unidimentional_series_init( &tmp_ang, 100 );
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo}
+    \begin{verbatim}
+    for(m = one.begin; m != one.end; ++m){
+        vector_calculate_angle( 
+            (*m)->data.get((*m)->data_ptr, "RightLeg"), 
+            (*m)->data.get((*m)->data_ptr, "RightUpLeg"),
+            (*m)->data.get((*m)->data_ptr, "RightFoot"),
+            NULL,
+            &tmp_ang
+        );
+        calc_mean_std_dev( &tmp_ang, &mean, &std, 0);
+        ang1.append( &ang1, mean);
+    }
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo}
+\begin{verbatim}
+     for(m = two.begin; m != two.end; ++m){
+        vector_calculate_angle( 
+            (*m)->data.get((*m)->data_ptr, "RightLeg"), 
+            (*m)->data.get((*m)->data_ptr, "RightUpLeg"),
+            (*m)->data.get((*m)->data_ptr, "RightFoot"),
+            NULL,
+            &tmp_ang
+        );
+        calc_mean_std_dev( &tmp_ang, &mean, &std, 0);
+        ang2.append( &ang2, mean);
+    }
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo}
+\begin{verbatim}
+    printf("Significancia estadística %lf\n", 
+                    t_test_Welch(&ang1, &ang2 ));
+
+    bvh_unload_directory( &one );
+    bvh_unload_directory( &two );
+    ang1.destroy( &ang1 );
+    ang2.destroy( &ang2 );
+    tmp_ang.destroy( &tmp_ang );
+}
+\end{verbatim}
+\begin{block}{}
+    Se recrearon experimentos científicos publicados, en general se necesitan alrededor de 100 líneas de ćodigo por experimento. 
+\end{block}
 \end{frame}
 
 %================================================================

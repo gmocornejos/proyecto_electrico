@@ -1,22 +1,20 @@
+// \begin{verbatim}
 #include <mas.h>
 #include <stdio.h>
 
 int main(int argc, char * argv[]){
-
-    motion_vector one, two;
+    motion_vector captures;
     motion_vector_itr m;
-    unidimentional_series ang1, ang2;
+    unidimentional_series right_ang, left_ang;
     unidimentional_series tmp_ang;
     double mean, std;
 
-    bvh_load_directory( argv[1], &one );
-    bvh_load_directory( argv[2], &two );
-
-    unidimentional_series_init( &ang1, 20 );
-    unidimentional_series_init( &ang2, 20 );
+    bvh_load_directory( argv[1], &captures );
+    unidimentional_series_init( &right_ang, 20 );
+    unidimentional_series_init( &left_ang, 20 );
     unidimentional_series_init( &tmp_ang, 100 );
 
-    for(m = one.begin; m != one.end; ++m){
+    for(m = captures.begin; m != captures.end; ++m){
         vector_calculate_angle( 
             (*m)->data.get((*m)->data_ptr, "RightLeg"), 
             (*m)->data.get((*m)->data_ptr, "RightUpLeg"),
@@ -25,26 +23,23 @@ int main(int argc, char * argv[]){
             &tmp_ang
         );
         calc_mean_std_dev( &tmp_ang, &mean, &std, 0);
-        ang1.append( &ang1, mean);
-    }
-       
-     for(m = two.begin; m != two.end; ++m){
-        vector_calculate_angle( 
-            (*m)->data.get((*m)->data_ptr, "RightLeg"), 
-            (*m)->data.get((*m)->data_ptr, "RightUpLeg"),
-            (*m)->data.get((*m)->data_ptr, "RightFoot"),
+        right_ang.append( &right_ang, mean );
+
+        vector_calculate_angle(
+            (*m)->data.get((*m)->data_ptr, "LeftLeg"), 
+            (*m)->data.get((*m)->data_ptr, "LeftUpLeg"),
+            (*m)->data.get((*m)->data_ptr, "LeftFoot"),
             NULL,
             &tmp_ang
         );
         calc_mean_std_dev( &tmp_ang, &mean, &std, 0);
-        ang2.append( &ang2, mean);
+        left_ang.append( &left_ang, mean );
     }
+    printf("Significancia estadística %lf\n", 
+        t_test_Welch(&right_ang, &left_ang ) );
 
-    printf("Significancia estadística %lf\n", t_test_Welch(&ang1, &ang2 ));
-
-    bvh_unload_directory( &one );
-    bvh_unload_directory( &two );
-    ang1.destroy( &ang1 );
-    ang2.destroy( &ang2 );
+    bvh_unload_directory( &captures );
+    right_ang.destroy( &right_ang );
+    left_ang.destroy( &left_ang );
     tmp_ang.destroy( &tmp_ang );
-}
+}// \end{verbatim}
