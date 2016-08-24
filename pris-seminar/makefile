@@ -5,8 +5,6 @@ clean:
 	rm *.aux
 	rm *.log
 	rm *.toc
-	rm *.bbl
-	rm *.blg
 	rm *.nav
 	rm *.out
 	rm *.snm
