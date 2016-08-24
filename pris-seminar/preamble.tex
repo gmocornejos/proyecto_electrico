@@ -1,0 +1,122 @@
+\documentclass[aspectratio=169,spanish]{beamer} %con la opcion [draft] es mas rapido, acepta red, blue, brown, blackandwhite. con la opcion compress los titulitos aparecen seguidos
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[activeacute, spanish]{babel}
+
+% \usepackage{kmath,kerkis} %times, palatino, bookman, newcent, lucidabr, cmbright
+% \usepackage{bookman} %times, palatino, bookman, newcent, lucidabr, cmbright
+\usepackage{graphicx} %otro paquete es graphics o includo pgf con %dvips% \pgfdeclareimage, pues soporta imagenes transparentes
+% \usepackage{wrapfig}
+% \usepackage{color}
+\usepackage{xcolor}
+% \usepackage{verbatim}
+% \usepackage{xspace}
+
+% \usepackage{subfigure}
+% \usepackage{svg} %clash with subfigure: http://tex.stackexchange.com/questions/123124/order-of-packages-svg-and-tocloft
+
+% \usepackage{latexsym}
+\usepackage{amsmath,amsfonts,amssymb}
+% \usepackage{multirow}
+% \usepackage{tabls} %spacing in tables
+% \usepackage{listings}
+% \usepackage{tabularx}
+
+% \usepackage{comment}
+
+% \usepackage{animate}
+% \usepackage{movie15}
+% \usepackage{multimedia}
+% \usepackage{media9}
+
+% \usepackage{tabulary}
+% \usepackage{longtable}
+% \usepackage{booktabs}
+
+\graphicspath{{../../../../../local/Multimedia/images/PR/},{../../../../../local/Multimedia/images/},{./images/}}    % set the graphics path
+\newcommand{\videospath}{../../../../../local/Multimedia/videos/} %/home/adater/Desktop/UCR
+\input{../../../../../local/pris-lab/meta/latex/prislab-commands.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{pgf}
+\usepgfmodule{plot}
+\usepackage{pgffor}
+\usepackage{pgfplots,etex}  %required packages for precision
+\pgfplotsset{compat=1.8}
+\usepackage{fix-cm}
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations,backgrounds,fit,calc,through,scopes,positioning,automata,chains,er,fadings,calendar,matrix,mindmap,folding,patterns,petri,plothandlers,plotmarks,shadows,shapes,shapes.arrows,shapes.multipart,topaths,trees}
+\usetikzlibrary{external}
+\tikzsetexternalprefix{figures/} %where to store the temporal figures
+\tikzsetfigurename{} %default is "\jobname-"
+\tikzexternalize %activate externalization!
+%tikz externalize
+\newcommand{\redrawfrom}{%
+\tikzset{external/force remake}
+}
+\newcommand{\redrawnext}{%
+\tikzset{external/remake next}
+}
+
+
+% \usepackage{caption}
+\usepackage[caption=false,font=footnotesize]{subfig}
+
+\useoutertheme{default}   %empty
+\setbeamercolor{frametitle}{fg = white}
+\setbeamercolor{item}{fg = redPRIS}
+
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+% \setbeamercolor{background canvas}{bg = whitePRIS}
+% \setbeamercolor{title}{fg = whitePRIS, bg = white}
+% \setbeamercolor{titlelike}{fg = whitePRIS}
+% \setbeamercolor{frametitle}{fg = whitePRIS, bg = white}
+% \setbeamercolor{section in toc}{fg = blueLQT}
+% \setbeamercolor{section in toc shaded}{fg = blueLQT} 
+% \setbeamercolor{alerted text}{fg = redPRIS}
+% \setbeamercolor{item}{fg = blueLQT}
+% \setbeamercolor{item projected}{fg = whitePRIS}
+% \setbeamercolor{subitem}{fg = blackPRIS}
+% \setbeamercolor{subsubitem}{fg = blackPRIS}
+% \setbeamercolor{block title}{bg = blueLQT}
+% \setbeamercolor{block title alerted}{use={normal text,alerted text},fg=alerted text.fg!75!normal text.fg,bg=normal text.bg!75!blackPRIS}
+% \setbeamercolor{block body}{bg = normal text.bg!90!blackPRIS}
+% \setbeamercolor{block body alerted}{bg = normal text.bg!90!blackPRIS}
+% \setbeamercolor{block title example}{use = {normal text,example text},fg=example text.fg!75!normal text.fg,bg=normal text.bg!75!blackPRIS}
+% \setbeamercolor{block body example}{bg = normal text.bg!90!blackPRIS}
+% \setbeamercolor{normal text}{bg = whitePRIS,fg = blackPRIS}
+% 
+% \usefonttheme{professionalfonts} %default, professionalfonts, serif, structurebold, structureitalicserif,structuresmallcapsserif, structureitalicserif,
+% \useinnertheme{rounded} %rectangles,circles,inmargin,rounded
+
+% \mode<presentation>
+% {
+% \useoutertheme{default}   % empty
+%  \useoutertheme{infolines}% simple but bland
+%  \useoutertheme{split}    % ok if compress option used
+%  \useoutertheme{shadow}   % way too much space used -- ok with option 'compress'
+  %\useoutertheme{shadow}   
+  %\setbeamercovered{transparent} % or whatever (possibly just delete it)
+  %\useoutertheme[subsection=false]{miniframes}
+% }
+% \logo{\includegraphics[width=15mm]{Logos/pris/pris.png}}
+
+% 
+% add the overview to each section start
+% \AtBeginSection[]{
+% \begin{frame}
+% \frametitle{Contenido}
+% \footnotesize
+% \tableofcontents[currentsection,subsectionstyle=hide] %currentsubsection
+% \end{frame}
+% }
+
+
+% \newcommand{\abs}[1]{\lvert#1\rvert}
+% \newcommand{\norm}[1]{\lVert#1\rVert}
+
+% \newcommand{\prisfont}{\usefont{T1}{pbk}{m}{sc}\fontsize{6pt}{12pt}\selectfont}
+% \renewcommand{\familydefault}{pbk}
+% \setbeamertemplate{caption}[numbered]
+

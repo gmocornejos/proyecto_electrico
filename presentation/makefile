@@ -6,9 +6,11 @@ all:
 
 clean:
 	rm *.aux
-	rm *.lof
 	rm *.log
-	rm *.lot
 	rm *.toc
 	rm *.bbl
 	rm *.blg
+	rm *.nav
+	rm *.out
+	rm *.snm
+	rm *.vrb 

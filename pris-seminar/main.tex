@@ -1,0 +1,416 @@
+\documentclass[aspectratio=169,spanish]{beamer} %con la opcion [draft] es mas rapido, acepta red, blue, brown, blackandwhite. con la opcion compress los titulitos aparecen seguidos
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[activeacute, spanish]{babel}
+
+\usepackage{graphicx} %otro paquete es graphics o includo pgf con %dvips% \pgfdeclareimage, pues soporta imagenes transparentes
+\usepackage{xcolor}
+\usepackage{amsmath,amsfonts,amssymb}
+
+\graphicspath{{./images/}}    % set the graphics path
+
+\newcommand{\mono}[1]{{\ttfamily #1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{pgf}
+\usepgfmodule{plot}
+\usepackage{pgffor}
+\usepackage{pgfplots,etex}  %required packages for precision
+\pgfplotsset{compat=1.8}
+\usepackage{fix-cm}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usetikzlibrary{arrows,decorations,backgrounds,fit,calc,through,scopes,positioning,automata,chains,er,fadings,calendar,matrix,mindmap,folding,patterns,petri,plothandlers,plotmarks,shadows,shapes,shapes.arrows,shapes.multipart,topaths,trees}
+\usetikzlibrary{external}
+\tikzsetexternalprefix{figures/} %where to store the temporal figures
+\tikzsetfigurename{} %default is "\jobname-"
+\tikzexternalize %activate externalization!
+%tikz externalize
+\newcommand{\redrawfrom}{\tikzset{external/force remake}}
+\newcommand{\redrawnext}{\tikzset{external/remake next}}
+
+\usepackage[caption=false,font=footnotesize]{subfig}
+
+\definecolor{redPRIS}{RGB}{184,42,63}
+\definecolor{yellowPRIS}{RGB}{233,201,100}
+\definecolor{whitePRIS}{RGB}{255,255,255}
+\definecolor{blackPRIS}{RGB}{11,21,52}
+
+
+\useoutertheme{default}   %empty
+\setbeamercolor{frametitle}{fg = whitePRIS}
+\setbeamercolor{item}{fg = redPRIS}
+
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\captionsetup[subfloat]{labelformat=empty}
+
+%set background of the slide to the given image to the size of the frame
+\newcommand{\fullbackground}[1]{\usebackgroundtemplate{\includegraphics[width=\paperwidth,height=\paperheight]{#1}}}
+\newcommand{\fs}[1]{\fontsize{#1}{#1pt+0.2*#1pt}\selectfont} %font size
+
+% \usepackage{roboto}
+\usepackage{helvet}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fullbackground{images/opening.png}
+
+\begin{frame}
+\vspace{6cm}
+\centering
+\textcolor{white}{%
+Desarrollo de una infraestructura de software para el análisis de variables cinemáticas y espacio-temporales de la marcha. \\ \vspace{1cm}
+Por Guillermo Cornejo Suárez. 
+}
+\end{frame}
+
+%----------------------------------------------------------------
+\fullbackground{images/slide.png}
+
+\section{Introducción}
+
+\begin{frame}{Antecedentes}
+    \begin{itemize}
+        \item PRIS-Lab adquiere un sistema de captura óptica de movimiento.
+        \item Se realiza el experimento sobre diagnóstico de escoliosis y estudios de la marcha.
+        \item Se propone el desarrollo de una plataforma computacional para el estudio del movimiento humano. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Antecedentes}
+    \begin{block}{Lago plazo}
+        Hacia una plataforma computacional para el estudio del movimiento humanoide
+    \end{block}
+    \begin{block}{Corto plazo}
+        En el contexto del cursos IE0499: Proyecto eléctrico, se desarrolla software para analizar la marcha. 
+    \end{block}
+\end{frame}
+
+%----------------------------------------------------------------
+\section{Motivación}
+
+\begin{frame}{¿Vale la pena estudiar la marcha?}
+    Al caminar se requiere la acción coordinada de distintos sistemas y sentidos:
+    \begin{itemize}
+        \item Óseo.
+        \item Muscular.
+        \item Interior del oído.
+        \item Vista.
+        \item Presión en la planta de los pies.
+        \item Nervioso: periférico y central. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Importancia del estudio de la marcha}
+    Es una herramienta clínica para el diagnóstico y control.
+    \begin{itemize}
+        \item Enfermedades degenerativas: esclerosis, Alzheimer, reumatismo, Parkinson. 
+        \item Daños en ligamentos y músculos.
+        \item Hemofilia.
+        \item Parálisis cerebral. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Sistemas disponibles}
+    \begin{block}{}
+        Para complementar las observaciones del especialista, se han desarrollado sistemas computacionales para analizar la marcha, con el fin de formar un criterio más preciso. 
+    \end{block}
+    \begin{columns}
+        \column{0.5\textwidth}
+        Hardware de captura:
+        \begin{itemize}
+            \item Procesamiento de imagen.
+            \item Sensores de presión y fuerza.
+            \item Sensores de inercia.
+            \item Electromiografía.
+        \end{itemize}
+        \column{0.5\textwidth}
+        Software de análisis:
+        \begin{itemize}
+            \item Matlab + suit de estadística.
+            \item nMotion Musculous.
+            \item EliteClinic System.
+            \item TEMPLO Contemplas.
+            \item Medital Motion Pro-Trainer
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Requerimientos}
+    \begin{itemize}
+        \item Sistema abierto.
+        \item Permite implementar nuevas funcionalidades.
+        \item Compatibilidad con formato BVH y CSV.
+        \item Desarrollo rápido de código de propósito específico.
+        \item Flujo de trabajo completo: desde los datos hasta las conclusiones. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Variables cinemáticas}
+    \begin{block}{Definición}
+        Cantidad física: posición, velocidad o aceleración, que describe el movimiento de los segmentos del cuerpo.
+    \end{block}
+\begin{table}
+    \centering
+    \caption{Funciones sobre variables cinemáticas}
+    \label{tab:kinematics}
+    \scriptsize
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{derivate} & Deriva un \mono{time\_series}. \\
+        \mono{integrate} & Integra un \mono{time\_series}. \\
+        \mono{std\_planes\_calculate} & Calcula los planes de simetría estándar. \\
+        \mono{transform\_egocentric} & Transforma todos los puntos al sistema egocéntrico \\ & definido por los planos estándar. \\
+        \mono{vector\_project\_plane} & Proyecta un vector sobre un plano. \\
+        \mono{vector\_calculate\_angle} & Calcula el ángulo entre dos vectores, opcionalmente \\ & los proyecta primero sobre un plano. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Variables espacio-temporales}
+    \begin{block}{Definición}
+        Cantidad física que describe el movimiento del cuerpo como un todo. 
+    \end{block}
+\begin{table}
+    \centering
+    \caption{Funciones sobre variables espacio-temporales}
+    \label{tab:space-tmp}
+    \scriptsize
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{linear\_fit} & Calcula una recta de tendencia de la forma $y = mx + b$. \\
+        \mono{detect\_peaks} & Identifica los valles en una señal unidimensional. \\
+        \mono{detect\_steps} & Identifica los pasos en un componente de un time-series. \\
+        \mono{cadence} & Calcula la cadencia. \\
+        \mono{distance} & Calcula la distancia tridimensional recorrida. \\
+        \mono{step\_length} & Calcula la distancia de cada paso. \\
+        \mono{step\_time} & Calcula la duración de cada paso. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Técnicas de análisis}
+\begin{table}
+    \centering
+    \caption{Funciones para analizar las variables}
+    \label{tab:analytics}
+    \scriptsize
+    \begin{tabular}{ll}
+        \toprule
+        Nombre & Descripción \\
+        \midrule
+        \mono{calc\_mean\_std\_dev} & Calcula la media y desviación estándar de un vector de valores reales. \\
+        \mono{rms\_error} & Calcula el valor RMS de una señal o el error RMS entre dos señales. \\
+        \mono{fourier\_transform} & Calcula la transformada de Fourier. \\
+        \midrule
+        \mono{armonic\_ratio} & Calcula la razón armónica de la marcha. \\
+        \mono{gait\_ratio} & Razón de la longitud media del paso entre la cadencia. \\
+        \midrule
+        \mono{t\_test\_one\_sample} & Calcula la significancia de que la media de una secuencia de valores \\ &  sea un valor en particular. \\
+        \mono{t\_test\_two\_samples} & Calcula que la significancia de que media de dos secuencias de \\ & valores sea igual. \\
+        \mono{t\_test\_Welcth} & Igual a la anterior pero sin asumir que la secuencia tiene la misma \\ & desviación estándar. \\
+        \mono{anova\_one\_way} & Calcula el impacto de un factor sobre varios niveles. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Ejemplo}
+    Se tiene dos directorios con filmaciones en formato BVH.
+    \begin{block}{Hipótesis}
+        El ángulo promedio que hace la rodilla al caminar es igual para ambos grupos de personas.         
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo}  
+\begin{verbatim}
+#include <mas.h>
+#include <stdio.h>
+int main(int argc, char * argv[]){
+    motion_vector one, two;
+    motion_vector_itr m;
+    unidimentional_series ang1, ang2;
+    unidimentional_series tmp_ang;
+    double mean, std;
+    unidimentional_series_init( &ang1, 20 );
+    unidimentional_series_init( &ang2, 20 );
+    unidimentional_series_init( &tmp_ang, 100 );
+
+    bvh_load_directory( argv[1], &one );
+    bvh_load_directory( argv[2], &two );
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo}
+    \begin{verbatim}
+    for(m = one.begin; m != one.end; ++m){
+        vector_calculate_angle( 
+            (*m)->data.get((*m)->data_ptr, "RightLeg"), 
+            (*m)->data.get((*m)->data_ptr, "RightUpLeg"),
+            (*m)->data.get((*m)->data_ptr, "RightFoot"),
+            NULL,
+            &tmp_ang
+        );
+        calc_mean_std_dev( &tmp_ang, &mean, &std, 0);
+        ang1.append( &ang1, mean);
+    }
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo}
+\begin{verbatim}
+     for(m = two.begin; m != two.end; ++m){
+        vector_calculate_angle( 
+            (*m)->data.get((*m)->data_ptr, "RightLeg"), 
+            (*m)->data.get((*m)->data_ptr, "RightUpLeg"),
+            (*m)->data.get((*m)->data_ptr, "RightFoot"),
+            NULL,
+            &tmp_ang
+        );
+        calc_mean_std_dev( &tmp_ang, &mean, &std, 0);
+        ang2.append( &ang2, mean);
+    }
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo}
+\begin{verbatim}
+    printf("Significancia estadística %lf\n", 
+                    t_test_Welch(&ang1, &ang2 ));
+
+    bvh_unload_directory( &one );
+    bvh_unload_directory( &two );
+    ang1.destroy( &ang1 );
+    ang2.destroy( &ang2 );
+    tmp_ang.destroy( &tmp_ang );
+}
+\end{verbatim}
+\begin{block}{}
+    Se recrearon experimentos científicos publicados, en general se necesitan alrededor de 100 líneas de ćodigo por experimento. 
+\end{block}
+\end{frame}
+
+\begin{frame}{Conclusión}
+    Ahora el PRIS-Lab cuenta con una plataforma de software para plantear nuevos estudios de la marcha, proponer nuevas técnicas de análisis y descubrir relaciones importantes entre las variables cinemáticas y espacio-temporales y la condición bajo estudio.  
+\end{frame}
+
+\begin{frame}{Trabajo futuro}
+    \begin{itemize}
+        \item Plantear los requerimientos para el desarrollo de un sistema computacional para el estudio del movimiento humanoide. 
+        \item Identificar técnicas de análisis más avanzadas aplicables al estudio de la marcha. 
+        \item Explorar criterios novedosos para la comprobación de hipótesis en el área de movimiento humanoide. 
+    \end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------
+\fullbackground{images/ending.png}
+
+\begin{frame}
+\end{frame}
+
+%----------------------------------------------------------------
+\fullbackground{images/slide.png}
+
+\begin{frame}{Algoritmo de detección de pasos}
+    \input{../report/imagenes/step.tex}
+\end{frame}
+
+\begin{frame}{Algoritmo propuesto}
+    \begin{itemize}
+        \item Inspirado en el algoritmo AMPD de Scholkmann (2012), supera la restricción $f_{max} < 4 f_{min}$.
+        \item Un solo parámetro (Fácil de estimar).
+        \item Es un proceso de orden $O(N^2)$ en tiempo de computación y $N$ en memoria. 
+        \item Hipótesis: si se tiene el tamaño óptimo de ventana, se pueden encontrar los picos o valles de una señal cuasiperiódica.
+        \item Intenta responder la pregunta ¿Cual es el tamaño de ventana óptima que permite encontrar los máximos o mínimos de una señal cuasiperiódica?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Mínimos en función del tamaño de ventana}
+    \input{../report/imagenes/ventana.tex}
+\end{frame}
+
+\begin{frame}{Frecuencia relativa de la cantidad de mínimos}
+    \input{../report/imagenes/histograma.tex}
+\end{frame}
+
+\begin{frame}{Cálculo del parámetro}
+    Parámetro del algoritmo:
+    \begin{equation}\label{ancho_b}
+         A_b\ =\ \left\lceil \cfrac{N f_m}{10 f_p} \right\rceil
+    \end{equation}
+$A_b$ es el ancho del bin. \\    
+$N$ es la longitud de la muestra (cantidad de frames) \\
+$f_m$ es la frecuencia de muestreo (frame time) \\
+$f_p$ es la frecuencia de pasos, se puede estimar al graficar la señal. 
+\end{frame}
+
+\begin{frame}{Resultado del algoritmo de detección de pasos}
+    \input{../report/imagenes/detected_steps.tex}
+\end{frame}
+
+\begin{frame}[fragile]{Formato BVH: hierarchy}
+    \begin{columns}
+        \column{0.5\textwidth}
+    \includegraphics[height = 0.70\textwidth]{../report/imagenes/palitos}
+%    \captionof{figure}{Cuerpo rígido de ejemplo. Nodo root en verde, nodos en azul y nodos terminales en rojo. A la derecha, ejemplo de como se describe la jerarquía.}
+        \column{0.5\textwidth}
+    {\tiny
+    \begin{verbatim}
+ROOT Cadera{
+    JOINT PiernaDerecha{
+        END PiernaDerecha{
+        }
+    }
+    JOINT PiernaIzquierda{
+        END PiernaIzquierda{
+        }
+    }
+    JOINT Pecho{
+        JOINT BrazoDerecho{
+            END BrazoDerecho{
+            }
+        }
+        JOINT BrazoIzquierdo{
+            END Brazo Izquierdo{
+            }
+        }
+        JOINT Cabeza{
+            END Cabeza{
+            }
+        }
+    }
+}
+    \end{verbatim}    
+    }
+    \end{columns}
+    Cuerpo rígido de ejemplo. Nodo root en verde y nodos terminales en rojo. 
+\end{frame}
+
+\begin{frame}{Formato BVH: Motion}
+    Cada Joint tiene una matriz global y una local. \\
+    Local respecto al marco de referencia del padre. \\
+    Global respecto a marco de referencia global. \vspace{0.5cm}
+\begin{equation}\label{matriz_general}\nonumber
+M = 
+    \begin{pmatrix}
+    r_{xx} & r_{xy} & r_{xz} & t_x \\
+    r_{yx} & r_{yy} & r_{yz} & t_y \\
+    r_{zx} & r_{zy} & r_{zz} & t_z \\
+    0      & 0      & 0      & 1 
+    \end{pmatrix}
+\end{equation}
+\vspace{0.5cm}
+\begin{equation}\label{matriz_recursiva}\nonumber
+    M_{\text{global}} = M_{\text{local}} M_{\text{global\_padre}} M_{\text{global\_abuelo}} ... M_{\text{global\_root}}
+\end{equation}
+\end{frame}
+
+\end{document}
+
+
