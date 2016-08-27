@@ -68,6 +68,8 @@ int motion_alloc( motion * m);
 
 void motion_free( motion * m );
 
+// Toma un joint y retorna un componente de cada vector en el tiempo. El componentente puede ser 'x',  'y' ó 'z'.  
+
 void get_component( time_series * joint,
                     unidimentional_series * component,
                     char select
