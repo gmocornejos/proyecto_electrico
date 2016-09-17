@@ -38,7 +38,7 @@ double rms_error( unidimentional_series * data1,
                   unidimentional_series * data2
                 );
 
-//@ function The Gait ratio represents how many steps do you achieve with a given cadence (step frequency). It is known that for elderly people, this number is smaller than young people, because taking small steps gives you more stability. 
+//@ function The Gait ratio represents how many steps do you achieve with a given cadence (step frequency). It is known that for elderly people, this number is smaller than young people, because taking small steps gives you more stability. Step index time-series can be calculated with detect_peaks or detect_steps functions, located at include/space_temporal.h
 
 double gait_ratio( time_series * joint,
                    unidimentional_series * steps,
@@ -50,22 +50,30 @@ double gait_ratio( time_series * joint,
 void fourier_transform( unidimentional_series * signal,
                         unidimentional_series * output
                       );
+//@ function Menz et al (2008) says that if the fourier transformation of a gait signal is calculated, the even components will contain the "power" used to produce the motion, while the odd components represents the irregularities in the gait pattern. The ratio between even and odd components could then describe the regularity of gait motion. 
 
 double armonic_ratio( unidimentional_series * signal );
 
+//@ function Makes a T-test for time series sample i.e. test how likely is that the real mean value of population unidimentional_series * sample is double mean. Returns the p-value of the test.
 
 double t_test_one_sample( unidimentional_series * sample,
                           double mean
                         );
 
+//@ function Makes a T-test for two population samples, i.e test how likely is that the mean value of both samples is the same. The result is only meaningful if both populations has the same variance, other ways, you should use a Welch test. Returns the p-value of the test.
+
 double t_test_two_samples( unidimentional_series * sample1,
                            unidimentional_series * sample2
                          );
+
+//@ function Makes a Welch test for two populations samples, i.e. test how likely is that the mean value of both samples is the same. This test should be used when it is not for sure that both populations has the same variance. 
 
 double t_test_Welch( unidimentional_series * sample1,
                      unidimentional_series * sample2
                    );
 
-double anova_one_way( int n_levels, ... );
+//@ function Makes an Anova test for ONE factor (this is implicit) and int n_levels. Returns the p-value. The functions expects n unidimentional_series * data. This is similar to printf function, in which the number of parameters is unknown. 
+
+double anova_one_way( int n_levels, ... );   
 
 #endif
